@@ -1,0 +1,8 @@
+set noloadplugins
+syntax enable
+setfiletype sh "should only kick in if unknown file or piping, yeah?
+" set bg=light
+
+"if !exists('g:syntax_on')
+" au BufRead,BufNewFile *.* setfiletype sh
+"endif

@@ -1,0 +1,6 @@
+" if exists("loaded_nerd_tree")
+  " echo "NERDTREE YOU NERD OU"
+  autocmd VimEnter * if !argc()
+    NERDTree
+    " wincmd p
+" endif
