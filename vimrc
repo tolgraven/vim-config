@@ -16,12 +16,10 @@ Plug 'mbbill/undotree' ", {'on': 'UndotreeToggle'}
 
 "{{{2 --- COLORS N SHIT
 Plug 'morhetz/gruvbox' 													"best theme only cunts disagree c/d??
-Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
-" Plug 'edkolev/tmuxline.vim' 										"mirror airline look in tmux statusline
+Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes' "| Plug 'edkolev/tmuxline.vim' mirror airline look in tmux statusline
+Plug 'mhinz/vim-startify'  											" nice lil start page/session manager
 Plug 'ryanoasis/vim-devicons' 									"emoji bullshit for adult idiots. very pretty
-" Plug 'tiagofumo/vim-nerdtree-syntax-highlight' 	"colored devicons - better than script below?
-Plug '~/.config/nvim/scripts/ColDevicons' 			"colored devicons in nerdtree
-Plug 'mhinz/vim-startify' ", 	{'on': 'Startify'} 	"nice lil start page/session manager
+" Plug 'tiagofumo/vim-nerdtree-syntax-highlight' 	"colored devicons - better than other script?
 
 "{{{2--- SYNTAX B REAL 
 "{{{ HONEST HARDWORKING MURICAN SYNTAXES OUT OF A JOB BC POLYGLOT IMGRANTS???
@@ -33,47 +31,46 @@ Plug 'sheerun/vim-polyglot' 										"shit ton of different languages
 Plug 'cyberkov/openhab-vim' 										"openhab syntax
 " Plug 'vimperator/vimperator.vim'
 " LANG UTILS 
-Plug 'Shougo/vinarise.vim' 											"hex viewer
-Plug 'stevearc/vim-arduino', 	{'for': 'arduino'} | Plug 'sudar/vim-arduino-snippets' "arduino upload etc, overlaps platformio i guess, do i need?
+Plug 'Shougo/vinarise.vim', 			{'on': 'Vinarise'}	"hex viewer
+Plug 'stevearc/vim-arduino', 			{'for': 'arduino'} | Plug 'sudar/vim-arduino-snippets', 	{'for': 'arduino'} "arduino upload etc, overlaps platformio i guess, do i need?
+Plug 'othree/yajs.vim',						{'for': 'javascript'} | Plug 'othree/es.next.syntax.vim', {'for': 'javascript'} "better javascript syntax inkl ES6+ES7
 
-Plug 'tpope/vim-fireplace', 			{'for': 'clojure'} | Plug 'clojure-vim/vim-cider' | Plug 'tpope/vim-salve'
-Plug 'tpope/vim-classpath', 			{'for': ['clojure', 'java']} 		"auto clojure/java classpath
-Plug 'guns/vim-clojure-highlight',{'for': 'clojure'} | Plug 'clojure-vim/async-clj-omni'
-Plug 'venantius/vim-eastwood', 		{'for': 'clojure'} | Plug 'venantius/vim-cljfmt'	"clojure linter + formatter
-Plug 'junegunn/rainbow_parentheses.vim', {'on': 'RainbowParentheses'} "active fork of kien/rainbow_parentheses.vim 	{'for': 'clojure'} 
-" Plug 'guns/vim-sexp' | Plug 'tpope/vim-sexp-mappings-for-regular-people'
+Plug 'tpope/vim-fireplace', 			{'for': 'clojure'} | Plug 'clojure-vim/vim-cider', 				{'for': 'clojure'}
+Plug 'tpope/vim-classpath', 			{'for': ['clojure', 'java']} 	| Plug 'tpope/vim-salve', 	{'for': 'clojure'}	"auto clojure/java classpath
+Plug 'guns/vim-clojure-highlight',{'for': 'clojure'} | Plug 'clojure-vim/async-clj-omni', 	{'for': 'clojure'}
+Plug 'venantius/vim-eastwood', 		{'for': 'clojure'} | Plug 'venantius/vim-cljfmt', 				{'for': 'clojure'}	"clojure linter + formatter
+" Plug 'guns/vim-sexp', {'for': 'clojure'} | Plug 'tpope/vim-sexp-mappings-for-regular-people', {'for': 'clojure'}
+Plug 'junegunn/rainbow_parentheses.vim', {'on': 'RainbowParentheses'} "active fork of kien/rainbow_parentheses.vim
 
-" Plug 'ynkdir/vim-vimlparser' | Plug 'syngan/vim-vimlint' 				"use Vint instead, pip install vim-vint
-Plug 'klen/python-mode' 
+" Plug 'klen/python-mode', 				{'for': 'python'}
 
-Plug '~/Documents/CODE/VIM/semantic-highlight.vim', {'on': 'SemanticHighlightToggle'} "incl patch for guicolors 'jaxbot/semantic-highlight.vim'
-Plug 'chrisbra/Colorizer', 	{'on': 'ColorToggle'} 	"highlight color names/hex w their actual color. mad slow
+Plug 'chrisbra/Colorizer', 				{'on': 'ColorToggle'} 	"highlight color names/hex w their actual color. mad slow
 
 "{{{2--- COME PLEASED
 Plug 'ervandew/supertab'
-" Plug 'SirVer/ultisnips' 
-Plug 'Shougo/neosnippet' | Plug 'Shougo/neosnippet-snippets'
 Plug 'honza/vim-snippets'
-" Plug 'scrooloose/syntastic'
-Plug 'w0rp/ale' 						"neovim lint
-Plug 'neomake/neomake' | Plug 'coddingtonbear/neomake-platformio', {'do': ':UpdateRemotePlugins'}
-" Plug 'Valloric/YouCompleteMe' "| Plug 'rdnetto/YCM-Generator'
-Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'} | Plug 'zchee/deoplete-clang' | Plug 'Shougo/neco-vim'
-Plug 'zchee/deoplete-jedi', {'for': 'python'} 
-" Plug 'zchee/deoplete-go', {'for': 'go', 'do': 'make'} "breaking ale lol? 
-Plug 'mitsuse/autocomplete-swift', {'for': 'swift'}
+Plug 'Shougo/neosnippet' | Plug 'Shougo/neosnippet-snippets'
+Plug 'w0rp/ale' 											"neovim lint
+Plug 'Shougo/deoplete.nvim', 					{'do': ':UpdateRemotePlugins'} 
+Plug 'zchee/deoplete-clang', 					{'for': ['C', 'C++']}
+Plug 'zchee/deoplete-jedi', 					{'for': 'python'} 
+" Plug 'zchee/deoplete-go', 					{'for': 'go', 'do': 'make'} "breaking ale lol? 
+Plug 'mitsuse/autocomplete-swift', 		{'for': 'swift'}
 Plug 'artur-shaik/vim-javacomplete2', {'for': 'java'}  "more moderny than 'cilquirm/javacomplete'
+Plug 'carlitux/deoplete-ternjs', 		  {'for': ['javascript', 'javascript.jsx']}
+Plug 'ternjs/tern_for_vim',						{'for': ['javascript', 'javascript.jsx'], 'do': 'npm install'}
+Plug 'othree/jspc.vim', 							{'for': ['javascript', 'javascript.jsx']}
 
-Plug 'ternjs/tern_for_vim',	{'for': ['javascript', 'javascript.jsx'], 'do': 'npm install'} | Plug 'carlitux/deoplete-ternjs'
-Plug 'othree/jspc.vim', 		{'for': ['javascript', 'javascript.jsx'] }
-
-Plug 'ponko2/deoplete-fish' | Plug 'zchee/deoplete-zsh' | Plug 'wellle/tmux-complete.vim'
-Plug 'SevereOverfl0w/deoplete-github' | Plug 'thalesmello/webcomplete.vim'
-
-Plug 'Shougo/context_filetype.vim'
-Plug 'Shougo/neoinclude.vim' 			"complete from included files?
+ Plug 'ponko2/deoplete-fish',	{'for': 'fish'} | Plug 'Shougo/neco-vim', {'for': 'vim'} | Plug 'zchee/deoplete-zsh', {'for': 'zsh'}
+Plug 'SevereOverfl0w/deoplete-github' 				| Plug 'thalesmello/webcomplete.vim' 		 | Plug 'wellle/tmux-complete.vim'
+Plug 'Shougo/context_filetype.vim' | Plug 'Shougo/neoinclude.vim' 	"complete from included files?
 " Plug 'Shougo/neopairs.vim'      "autopairs from shuogo?
 
+
+" Plug 'SirVer/ultisnips' 
+" Plug 'scrooloose/syntastic' 		"linting
+" Plug 'Valloric/YouCompleteMe' "| Plug 'rdnetto/YCM-Generator'
+" Plug 'neomake/neomake' | Plug 'coddingtonbear/neomake-platformio', {'do': ':UpdateRemotePlugins'}  "koar linting
 
 "{{{2  --- UTILNTTY 
 Plug 'tomtom/tcomment_vim', {'on': 'TComment'} 	"toggle comments better
@@ -91,33 +88,33 @@ Plug 'vim-utils/vim-husk' 											"less aggro readline bindings?
 Plug 'godlygeek/tabular', 	{'on': 'Tabularize'} 	"align text
 Plug '907th/vim-auto-save', {'for': 'text'} 		"autosave, for my note popup term
 Plug 'MarcWeber/vim-addon-local-vimrc', {'for': 'text'} 	"per folder .localvimrc
-Plug '~/Documents/CODE/VIM/vim-numbertoggle' "forked 'jeffkreeftmeijer/vim-numbertoggle' auto switch on rel numbers for normal and visual?
+
 Plug 'tpope/vim-tbone' 													"tmux stuff
 Plug 'tpope/vim-eunuch' 												"shell tool unix stuff
-Plug 'tpope/vim-dispatch', 	{'on': 'Dispatch'} 	"async shell jobs etc
-Plug 'lacombar/vim-mpage', 	{'on': 'MPageToggle'} "multipage. view buffer over multiple windows, like a book
-Plug 'rizzatti/dash.vim', 	{'on': 'Dash'} 			"dash integration
+Plug 'tpope/vim-dispatch', {'on': 'Dispatch'} 	"async shell jobs etc
+Plug 'lacombar/vim-mpage', {'on': 'MPageToggle'} "multipage. view buffer over multiple windows, like a book
+Plug 'terryma/vim-multiple-cursors' 						"why is this slow as balls?
+Plug 'tpope/vim-scriptease' 										"do debug a scriptz (+ :Verbose = auto redir to preview window, hell yeah)
 " Plug 'vim-scripts/marvim' 										"save macros and shit, maybe when im better with those
-" Plug 'terryma/vim-multiple-cursors' 					"why is this slow as balls?
-" Plug 'tpope/vim-scriptease' 									"do debug a scriptz
-" Plug 'vim-scripts/repeatable-motions.vim' 		"repeat movements/motions
+" Plug 'vim-scripts/repeatable-motions.vim' 			"repeat movements/motions
 " Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'kopischke/vim-stay'
 " Plug 'lambdalisue/pinkyless.vim' 							"maybe good w a different config
+" Plug 'rizzatti/dash.vim', 	{'on': 'Dash'} 			"dash integration
 
 "{{{2--- SATNAV YOU A GLONASS
-Plug 'easymotion/vim-easymotion' 						"jump to text fast
-Plug 'haya14busa/incsearch.vim' | Plug 'haya14busa/incsearch-easymotion.vim' | Plug 'haya14busa/incsearch-fuzzy.vim'
-Plug 'goldfeld/vim-seek' 										"easymotion inna line
+Plug 'goldfeld/vim-seek'	 											"easymotion inna line
+Plug 'easymotion/vim-easymotion' | Plug 'haya14busa/incsearch-easymotion.vim' "jump to text fast + incsearch integration
+Plug 'haya14busa/incsearch.vim'  | Plug 'haya14busa/incsearch-fuzzy.vim' 			"more fancy incsearch than vim's built-in
 " Plug 'tpope/vim-unimpaired' 								"shortcuts for stuff via [], would need to rebind
 Plug 'szw/vim-maximizer', 			{'on': 'MaximizerToggle'}	"maximize/restore split
+Plug 'zhaocai/GoldenView.Vim', 	{'on': 'ToggleGoldenViewAutoResize'}
 Plug 'christoomey/vim-tmux-navigator' 			"navigate vim splits and tmux splits with same keys
 Plug 'wesQ3/vim-windowswap'
-Plug 'zhaocai/GoldenView.Vim', 	{'on': 'ToggleGoldenViewAutoResize'}
 Plug 'Shougo/denite.nvim' | Plug 'Shougo/neomru.vim', {'on': 'Denite'} | Plug 'Shougo/unite.vim' "cant have denite load on-demand bc calling its functions to set up keybinds etc
 Plug 'tpope/vim-vinegar' 										"something about file browsing
 " Plug 'airblade/vim-rooter' 									"auto change dir to proj base.  startify can handle?
-Plug '~/Documents/CODE/VIM/lista.nvim', {'on': ['Lista', 'ListaCursorWord']} "my fork of 'lambdalisue/lista.nvim'
+
 
 "{{{2--- B THE DIFFERENCED & ASSORTED LALL
 Plug 'airblade/vim-gitgutter'
@@ -126,51 +123,61 @@ Plug 'jreybert/vimagit'
 " Plug 'jaxbot/github-issues.vim' 
 Plug 'brettanomyces/nvim-terminus', {'on': 'TerminusOpen'} 	"something something term
 Plug 'kassio/neoterm', 							{'on': 'Tnew'} 					"the neovim terminal
+
 " Plug 'rhysd/nyaovim-popup-tooltip'
+"{{{2 ---FANCY JOAN FREGERT's FORKS BECAUSE AM BETTZER THAN ZU CONTRIBUTE, HUH
+Plug '~/Documents/CODE/VIM/lista.nvim', 						{'on': ['Lista', 'ListaCursorWord']}  "my fork of 'lambdalisue/lista.nvim'
+Plug '~/Documents/CODE/VIM/semantic-highlight.vim', {'on': 'SemanticHighlightToggle'} 		"incl patch for guicolors 'jaxbot/semantic-highlight.vim'
+Plug '~/.config/nvim/scripts/ColDevicons' 			"colored devicons in nerdtree, even prettier
+Plug '~/Documents/CODE/VIM/vim-numbertoggle' 		"forked 'jeffkreeftmeijer/vim-numbertoggle' auto switch on rel numbers for normal and visual?
 "}}}
 call plug#end() "{{{
 set runtimepath+=~/.vim/bundle/deoplete.nvim
 let g:plug_threads 					=96 				"more simult instances when updating plugs
-"auto install missing on start
-autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall --sync | q | endif
+
+augroup VimPlug "auto install missing plugins on start
+	autocmd!
+	autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall --sync | q | endif
+augroup END
 "}}} }}}
 " ----------------------------------------
 
 " ----------------------------------------
 " {{{1 SETTINGS
-if has('syntax') && !exists('g:syntax_on') "{{{
-	set foldmethod=syntax
-endif "}}}
 
 if has('nvim') " {{{2
-let g:airline_theme 			='bubblegum' "better contrast than gruvbox, looks good but tweak later
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+	let g:airline_theme 			='bubblegum' "better contrast than gruvbox, looks good but tweak later
+	let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
-if $TERM_PROGRAM =~? 'iTerm.app'									"some are already handled by NVIM var above
-	set termguicolors 														"24 bit color
-	let &t_te.="\<Esc>]1337;CursorShape=1\x7" 		"reset cursor on exit (or use autocmd VimLeave)
-	" let &t_SI = "\<Esc>]1337;CursorShape=1\x7" " Vertical bar in insert mode
-	" let &t_EI = "\<Esc>]1337;CursorShape=0\x7" " Block in normal mode
-	" let &t_SR = "\<Esc>]1337;CursorShape=2\x7" " Underline in replace mode
-	" t_ti = vim starts, t_te = vim exits
-else
-	let g:webdevicons_enable =0 							"disable devicons on mobile etc
-endif
-augroup nvimrc_aucmd
-	autocmd!
-	" autocmd CursorHold * rshada|wshada
-	" autocmd BufWritePost * Neomake
+	if $TERM_PROGRAM =~? 'iTerm.app'								"some are already handled by NVIM var above
+		set termguicolors 														"24 bit color
+		let &t_te 	= "\<Esc>]1337;CursorShape=1\x7" 	"reset cursor on exit (or use autocmd VimLeave)
+		" let &t_SI = "\<Esc>]1337;CursorShape=1\x7" " Vertical bar in insert mode
+		" let &t_EI = "\<Esc>]1337;CursorShape=0\x7" " Block in normal mode
+		" let &t_SR = "\<Esc>]1337;CursorShape=2\x7" " Underline in replace mode
+		" t_ti = vim starts, t_te = vim exits
+	else
+		let g:webdevicons_enable 			=0 							"disable devicons on mobile etc
+	endif
+	augroup nvimrc_aucmd
+		autocmd!
+		" autocmd CursorHold * rshada|wshada
+		" autocmd BufWritePost * Neomake 							"getting in the way of ALE
 augroup END 
 else "{{{2 REGULAR VIM
+	if has('syntax') && !exists('g:syntax_on') "{{{
+		syntax enable
+	endif "}}}
 	if has('autocmd') | filetype plugin indent on | endif
-	syntax enable
+
 	set encoding 							=utf-8
-	set undodir								=~/.vim/undo 										"nvim = XDG_DATA_HOME used otherwise which is better anyways
+	set undodir								=~/.vim/undo 				"nvim = XDG_DATA_HOME used otherwise which is better anyways
 	set backupdir							=~/.vim/backup
-	set autoread 																				" auto reload changed file
+	set dir 									=~/.vim/swap
+	set autoread 																	" auto reload changed file
 	set wildmenu 
 	set mouse 								=a
-	set laststatus						=2 											"2 = statusline even if just one pane/window
+	set laststatus						=2 									"2 = statusline even if just one pane/window
 
 endif " }}}
 
@@ -182,68 +189,71 @@ augroup END "}}}
 " set showmode
 " set complete               -=i 									" i (scan current and included files) isnt in defaults anad seems p good anyways, dont get this  }}} 
 
-
 "{{{2 LOOK
-colorscheme 								gruvbox 	"let g:tol_gruvbox_fork ='bruvbox' --haha yesss
 set background 							=dark
-set number 																					"show line numbers
-set showmatch matchtime 		=3											"quickly jump to highlighted matching bracket, 0.2s
-set cursorline 																			"hmm maybe turn off since iterm already has line? apparently slows
-" set ruler 																					"show position in file, does airline use or redundant?
-" set showcmd 																				"show cmds as they are entered? + visual mode selection. apparently can cause flaky performance..
-set showtabline 						=2 											"2 = tabline always. 1 = if multiple
+set number 																			"show line numbers
+set showmatch matchtime 		=3									"quickly jump to highlighted matching bracket, 3 = 0.2s?
+set cursorline 																	"hmm maybe turn off since iterm already has line? apparently slows
+" set ruler 																			"show position in file, does airline use or redundant?
+" set showcmd 																		"show cmds as they are entered? + visual mode selection. apparently can cause flaky performance..
+" set cmdheight               =2 									" more space for cmdline
+set showtabline 						=2 									"2 = tabline always. 1 = if multiple
+set noshowmode 																	"dont show normal/insert etc, cause airline does
+set shortmess               =atT 								"shorten cmdline messages
+set shortmess 						 	+=c 								"no what-type-of-completion messages in cmdline
+set fillchars 							+=fold:\ 						" blank space instead of dashes to fill out folds
+set fillchars 							+=vert:│ 						" default is regular|pipe which leaves spaces tween each line and looks like shit
 set listchars 							=tab:░░,trail:▓
-" set list 																					"show tabs and trails. nah, annoying, autocleanup instead }}}
+" set list 																			"show tabs and trails. nah, annoying, autocleanup instead 
+set foldmethod=syntax "}}}
 
-set ttimeout ttimeoutlen 		=50											"timeout for keycode sequence
-set timeoutlen           		=300 										"timeout for mapped sequences
-set updatetime							=250 										"time idle before bg shit runs?
+set ttimeout 		ttimeoutlen	=50									"timeout for keycode sequence
+set timeoutlen           		=300 								"timeout for mapped sequences
+set updatetime							=250 								"time idle before bg shit runs?
 
 set shiftround
 set tabstop=2 shiftwidth=2
-" set expandtab smarttab														"converts tabs to spaces/inserts spaces instead of tabs at SOL
+" set expandtab smarttab												"converts tabs to spaces/inserts spaces instead of tabs at SOL
 
-set whichwrap              	=<,>,[,],b,s 						"which keys also move past eol. now arrow, b, w etc
-set linebreak 																			"wraps a bit smarter
-set wrapscan 																				" Wrap search at end
+set whichwrap              	=<,>,[,],b,s 				"which keys also move past eol. now arrow, b, w etc
+set linebreak 																	"wraps a bit smarter
+set wrapscan 								 										" Wrap search at end
 set ignorecase
-set smartcase 																			" screws with my autocompletion i think
-set nostartofline 																	" keep cursor on same column even on larger jumps
+set smartcase 																	" screws with my autocompletion i think
+set nostartofline 															" keep cursor on same column even on larger jumps
 
 set sessionoptions 				 +=globals,localoptions
-"above=blank,buffers,curdir,folds,help,tabpages,winsize,globals,localoptions
+"above + default == blank,buffers,curdir,foldsmap,help,tabpages,winsize,globals,localoptions
 " set sessionoptions=blank,curdir,folds,help,tabpages,winpos "recommended by startify
 set undofile 
-set noswapfile
-set fileformats 						=unix,dos,mac 					" default is mac first, so sort
-set hidden 																					" hide buffers instead of unloading them, so can open more
-
-set fillchars           		="" 										" no fill chars in window split divider 
-set splitbelow splitright 													" splits for help etc go below and right...
-set switchbuf 							=usetab 								" open prev/next buffer in split if not already visible somewhere?
-set scrolloff=5 sidescrolloff=2 										" autoscrolls before hits end
-set sidescroll 							=1 											" dont jump a zillion columns when scrolling sideways. HOW not the default??
-" set winminheight 						=3 											" so still see some when maximizing
-set winminheight 						=0 											" fully minimize windowslet g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:10'
+" set noswapfile 																" what no ofc we want a swap file duh, as long as dir is set
+set fileformats 						=unix,dos,mac 			" default is mac first, so sort
 set viewoptions 						=cursor,folds,slash,unix
+set hidden 																			" hide buffers instead of unloading them, so can open more
+
+set splitbelow splitright 											" splits for help etc go below and right...
+set switchbuf 							=usetab 						" open prev/next buffer in split if not already visible somewhere?
+set scrolloff=5 sidescrolloff=2 								" autoscrolls before hits end
+set sidescroll 							=1 									" dont jump a zillion columns when scrolling sideways. HOW not the default??
+" set winminheight 						
+set winminheight 						=0 									" fully minimize windows 			=3 "so still see some when maximizing
+set previewheight 					=25 								"regular height of preview window unless otherwise specified
+set noequalalways 						 									"dont fuck with window sizes when I open and close others
+" set eadirection 						='ver' 	"or 'hor', default 'both'. tells when equalalways should apply
 
 "{{{2 COMPLETELY WILD
-set completeopt 						=longest,menuone,preview "tested:   menu,longest,preview   longest,menuone
+set completeopt 						=longest,menuone,preview "tested:   menu,longest,preview   longest,menuonemap
 set completeopt 						+=noinsert,noselect
 set wildmode    						=list:longest,full "tested: longest,full  longest:full  list:longest
 set wildignorecase
 set wildignore+=*.o,*.obj,*.pyc,*.so,*.swp,*.pdf,*/.git/*,*/.hg/*,*/.svn/*,bower_components,LICENSE,LICEN*E.*,.DS_Store,.localized,*.zip,*/tmp/*,*/undo/*
 
-set noshowmode 																			"dont show normal/insert etc, cause airline does
-set shortmess               =atT 										" shorten cmdline messages
-set shortmess 						 +=c 											"no what-type-of-completion messages in cmdline
-" set cmdheight               =2 											" more space for cmdline
 "}}}
 
 " ----------------------------------------
 " {{{1 SETTINGS FOR PLUGINS
 " ###FUN IDEA###: export colorscheme and run statusline etc in lights :D no mistaking the mode
-let w:tol_sidebarWidth 												=22
+let w:tol_sidebarWidth 												=20
 
 "CTRL-P "{{{2
 let g:ctrlp_show_hidden 											=1
@@ -251,7 +261,7 @@ let g:ctrlp_by_filename 											=0
 let g:ctrlp_follow_symlinks 									=0
 let g:ctrlp_default_input 										=0
 let g:ctrlp_max_files 												=20000
-let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:30,results:30' "results: 0 = no limit. good?
+let g:ctrlp_match_window ='bottom,order:btt,min:1,max:30,results:30' "results 0 == no limit
 let g:ctrlp_working_path_mode 								='rw'
 let g:ctrlp_clear_cache_on_exit 							=0 										"share cache
 let g:ctrlp_cache_dir 												=$HOME.'/.cache/ctrlp'
@@ -294,47 +304,47 @@ let NERDTreeCascadeOpenSingleChildDir 				=1 		"open multi dirs if just one insi
 let NERDTreeAutoDeleteBuffer 									=1
 " let NERDTreeCreatePrefix 											='silent keepjumps'
 
-" let NERDTreeShowLineNumbers 									=0 		"actually default but sometimes bugs out?
-let NERDTreeExtensionHighlightColor 					='green'
+" let NERDTreeExtensionHighlightColor 					='green' "is what? does nada
 
-
-let g:NERDTreeDirArrowExpandable 							='▸'
-let g:NERDTreeDirArrowCollapsible 						='▾'
+let g:NERDTreeDirArrowExpandable 							='' "'▸'   
+let g:NERDTreeDirArrowCollapsible 						='' "'▾'   
 augroup NERDstart
 	autocmd!
 	autocmd VimEnter,BufRead * call ColDevicons_init()     "init colored devicons script
 
 	autocmd StdinReadPre * let s:std_in=1 "opens nerdtree if vim started bare + ensure startify loads as normal
-	autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | Startify | NERDTree | wincmd w | endif 
+	autocmd VimEnter * if argc() == 0 && !exists("s:std_in") |
+				\ Startify | NERDTree | wincmd w | endif 
 	autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") |
-				\ exe 'NERDTree' argv()[0] | wincmd p | ene | endif "opens nerd if vim started with dir
-	
+				\ exe 'NERDTree' argv()[0] | wincmd p | enew | endif "opens nerd if vim started with dir
 augroup END
 
-let s:gui08 = 'ab4642'  "red
-let s:gui0D = '7cafc2'  "blue
-let s:cterm08 = '01'
-let s:cterm0D = '04'
-exec 'highlight NERDTreeDir         ctermfg='. s:cterm0D .' ctermbg=NONE guifg=#'. s:gui0D .' guibg=NONE'
-exec 'highlight NERDTreeOpenable    ctermfg='. s:cterm0D .' ctermbg=NONE guifg=#'. s:gui0D .' guibg=NONE'
-exec 'highlight NERDTreeClosable    ctermfg='. s:cterm08 .' ctermbg=NONE guifg=#'. s:gui08 .' guibg=NONE'
-hi! link  NERDTreeLinkTarget			Comment			"	Type         symlinks
-hi! link  NERDTreeLinkFile				GruvboxFg3		"	Macro
-hi! link  NERDTreeLinkDir				GruvboxAqua		"	Macro
-hi! link  NERDTreeDirSlash				Question				"	Identifier
-hi! link  NERDTreeCWD						Question					"	Statement
-hi! link  NERDTreeCurrentNode		foldHelp		"	Search
-" hi  def link 			NERDTreeBookmarkName 		Special							"Identifier
-" hi def link NERDTreeFlags Number 		"? what is
-" hi def link NERDTreeUp Directory
 
 "DEVICONS
-let g:WebDevIconsUnicodeDecorateFolderNodes 	=1
-" let g:DevIconsEnableFoldersOpenClose 					=1  "pretty but buggy offsets
+let g:WebDevIconsUnicodeDecorateFolderNodes 	=1 	"icons for folders
+let g:DevIconsEnableFoldersOpenClose 					=1  "pretty but buggy offsets
+let g:DevIconsEnableFolderExtensionPatternMatching =1 "whatever that means
 let g:WebDevIconsUnicodeGlyphDoubleWidth 			=1 "double/single padding, no effect on terminal or guifont font
 let g:WebDevIconsNerdTreeAfterGlyphPadding 		='' 	"amount of space after the glyph
-let g:WebDevIconsNerdTreeGitPluginForceVAlign =1 	"Just fucks up spacing unless git symbol plug is active. Supposed to force extra padding so filetype icons line up vertically 
-" if exists("g:loaded_webdevicons") | call webdevicons#refresh() | endif "apparently can fix reload issues
+"Just fucks up spacing unless git symbol plug is active. 
+" should make auto toggle on/off depending on whether in git dir?
+let g:WebDevIconsNerdTreeGitPluginForceVAlign =0 	"1 is supposed to force extra padding so filetype icons line up vertically 
+
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols ={} " needed
+" let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.*jquery.*\.js$'] = 'ƛ'
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.*rc'] 		=''
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.*node'] 	='' "  
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.*npm'] 		=''
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.*python'] =''
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.*pip'] 		=''
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.*vim'] 		=''
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.*Google'] =''
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.*Trash'] 	=''
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.*docker'] =''
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.local'] 	=''
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.config'] 	=''
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.cache'] 	=''
+
 
 "COLORS from addon"{{{3
 " let g:NERDTreeFileExtensionHighlightFullName 	=1
@@ -404,7 +414,7 @@ highlight! StartifyFile guifg=lightBlue
 
 "{{{2 AIRLINE
 let g:airline_powerline_fonts 										=1 
-let g:airline_skip_empty_sections 								=1   "buggy lol
+let g:airline_skip_empty_sections 								=0   "buggy lol
 let g:airline#extensions#tmuxline#enabled 				=0 "0 to set theme manually
 let g:airline#extensions#whitespace#enabled 			=0
 let g:airline#extensions#whitespace#show_message 	=0
@@ -414,11 +424,11 @@ let g:airline#extensions#tabline#enabled 					=1
 let g:airline#extensions#tabline#buffer_nr_show 	=1
 let g:airline#extensions#tabline#exclude_preview 	=1
 let g:airline#extensions#tabline#tabs_label 			=' '	"'T'
-let g:airline#extensions#tabline#buffers_label 		=' ' 	"'B'
+let g:airline#extensions#tabline#buffers_label 		=' ' 	"'B' 
 " let g:airline#extensions#tabline#fnamecollapse 		=1
 let g:airline#extensions#tabline#show_close_button =0
 let g:airline#extensions#tabline#middle_click_preserves_windows =1
-let g:airline#extensions#tabline#fnamemod 				=':t' 		"Just buf/filename no path in tabs
+let g:airline#extensions#tabline#fnamemod 				=':t' 	"Just buf/filename no path in tabs
 let g:airline#extensions#tabline#buffer_idx_mode 	=1 			"something about switching buffers not tabs
 let g:airline#extensions#tabline#ignore_bufadd_pat =
 \'\c\vgundo|undotree|vimfiler|tagbar|nerd_tree|nerdtree|buffergator|ctrlp|fzf|vimplug|preview|previewwindow' "avoids unnessesary redraw
@@ -441,16 +451,15 @@ let g:airline#extensions#default#section_truncate_width = {
 ":p full path :h head last component removed, :t tail last only, :r root one ext rm, :e extension only
 
 let g:airline#extensions#tabline#left_sep 				=' '
-let g:airline#extensions#tabline#left_alt_sep 		=''
+let g:airline#extensions#tabline#left_alt_sep 		='│' 			"''
 let g:airline#extensions#tabline#right_sep 				=' '
-let g:airline#extensions#tabline#right_alt_sep 		=''
+let g:airline#extensions#tabline#right_alt_sep 		='│' 			"''
 
-"      
-" 
+"           –-
 let g:airline_left_sep 														='' "'' '' 
-let g:airline_left_alt_sep 												='' "'' ''
+let g:airline_left_alt_sep 												='│' 	"'' '' ''
 let g:airline_right_sep 													='' "'' ''
-let g:airline_right_alt_sep 											='' "'' ''
+let g:airline_right_alt_sep 											='│' 	"'' '' ''
 
 if !exists('g:airline_symbols') | let g:airline_symbols = {} | endif
 let g:airline_symbols.linenr 				=''    "''  	''  	''
@@ -537,7 +546,6 @@ let g:undotree_TreeNodeShape 									=''  "'▮' '∞'
 let g:undotree_RelativeTimestamp 							=1
 let g:undotree_ShortIndicators 								=1
 let g:undotree_WindowLayout 									=2
-" let g:
 " let g:undotree_HighlightSyntaxAdd 						=DiffAdd
 let g:undotree_HighlightSyntaxChange   				='UndotreeChange'
 "LastChangedLine "DiffChange
@@ -548,8 +556,6 @@ let g:gitgutter_sign_added 							='✚'
 let g:gitgutter_sign_modified 					='✹'
 " let g:gitgutter_sign_removed = '✖' "no change bc orig _ shows better that its the line below
 " let g:gitgutter_sign_modified_removed = '✗'
-let g:gitgutter_realtime 								=1
-let g:gitgutter_eager 									=1
 nmap <Leader>ggm :let g:gitgutter_diff_base = 'head' \| GitGutter<CR>
 nmap <Leader>ggi :let g:gitgutter_diff_base = '' \| GitGutter<CR>
 nmap <Leader>ggb :let g:gitgutter_diff_base = system("git merge-base master $(git rev-parse head)") \| GitGutter<CR>
@@ -583,7 +589,7 @@ let g:goldenview__enable_at_startup 					=0
 let g:goldenview__enable_default_mapping 			=0
 
 "{{{2 SEMANTIC HL OVERRIDES
-let g:semanticBlacklistOverride = { 
+let g:semanticBlacklistOverride={ 
 \ 'lua': [
 \   'function', 'hs', 'local', 'require', 'pairs',
 \   'while', 'for', 'if', 'else', 'elseif',  'then', 'end', 'return',
@@ -593,154 +599,185 @@ let g:semanticBlacklistOverride = {
 \ 	'set', 	'let', 	'Plug',	'augroup', 	'autocmd',	'highlight',
 \ 	'function', 'endfunc', 'return', 'if',	'else',	'endif', 'for',	'endfor',
 \ 	'execute','call','run','iun','redir','put','setfiletype',
-\ 	'source',	'echo',	'in',	'syntax',	'filetype',	'has', 'or','enable',
+\ 	'source',	'echo',	'in',	'syntax',	'filetype',	'has', 'or','enable','colorscheme',
 \ 	'END',
-\  ]  													 } 
-" let g:changes_fast														=1 		"plug diffs more often but might tax system, check"{{{2
-" let g:changes_fixed_sign_column 							=1 		"sign column always visible
-" let g:changes_respect_SignColumn 							=1    "play nicer with other shit in the sign column?
-" highlight ChangesSignTextAdd ctermbg=black ctermfg=green cterm=bold
-" highlight ChangesSignTextDel ctermbg=black ctermfg=red   cterm=bold
-" highlight ChangesSignTextCh  ctermbg=black ctermfg=yellow changes was causing the escape slowness fuckery. god damnit. tried unmapping [h and ]h but doesnt seem to work
-"undotree also fucks a fair bit hmm but only when open? "}}}
+\  ] } 
+""}}}
 " }}}
 " ----------------------------------------
 
-" ----------------------------------------let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:10'
+" ----------------------------------------
 "{{{1 INTERFACE FOR ALL-TEXT GUI INTERFACE INTERFACE
-let g:gruvbox_italic 				 						=1
+colorscheme 														gruvbox 	"let g:tol_gruvbox_fork ='bruvbox' mos def
+let g:gruvbox_italic 				 						=1 "bold, underline, undercurl already enabled by default
 let g:gruvbox_improved_warnings 				=1
-let g:gruvbox_sign_column 							='bg4'
+let g:gruvbox_sign_column 							='None' "default 'bg1'
+" let g:gruvbox_color_column 							='bg1' 		"is default
+let g:gruvbox_number_column 						='bg1' 		"None defaultmap  
+let g:gruvbox_hls_cursor 								='orange' "default
 
 augroup PluginUserEvents
 	" autocmd User Gitgutter 
 	" autocmd User Startified
 augroup END
 
-let &colorcolumn 												=join(range(100,300),',') "fade bg slightly past 100 cols
+let &colorcolumn 												=join(range(100,300),',') "fade bg slightly past 100 cols bc fuck yall
 " let &colorcolumn 												="80,".join(range(400,999),",") "just a line. nah.
 
 
-
 " HIGHLIGHT GROUPS "{{{2
-
 " function! SetupHighlighting() "build something less messy like this
 " 	for line in defs
-" 		highlight '. a:group .' cterm='. a:cterm .'  ctermbg='. a:bg .' ctermfg='. a:fg .' 
-" 												\ gui='. a:gui .' guibg='. a:guibg .' guifg='. a:guifg '
+" 		highlight '. a:group .' cterm='. a:cterm .'  ctermbg='. a:bg .' 		ctermfg='. a:fg .' 
+" 												\ 		gui='. a:gui .' 		 guibg='. a:guibg .' 		guifg='. a:guifg '
 " 	endfor	
 " endfunction
-
 "
-" NOTE: generally need ! when linking or it will fuck up when reloading vimrc etc, because plugs
+" NOTE: generally need ! when linking? or it will fuck up when reloading vimrc etc, because plugs
 " (or at least colorscheme?) doesnt 'see' links and back off like it does with explicit definitions?
 "
+"BRUVBOX:
+" 			 	bg				red 			green 		yellow 		blue 			purple 		aqua 			gray 		orange
+"normal 	#393939 	#a4ad49 	#939233 	#c6943a 	#4d8487 	#a56784 	#6b976e 					#c5632c
+"bright 						#cb5d4e 	#aaae4a 	#d8ac67 	#829d93 	#c38495 	#8bb47d 					#d68035
+"gruvbox:
+" 			 	bg				red 			green 		yellow 		blue 			purple 		aqua 			gray 		orange
+"normal 	#282828 	#cc241d
+"bright 		
 
-highlight! link SignColumn 		ColorColumn
-highlight! link MoreMsg 			GruvboxFg4	
+" highlight! link SignColumn 		ColorColumn
+" highlight! link SignColumn 		LineNr
+" highlight! link VertSplit 		GruvboxBlueSign
+" highlight! link VertSplit 		airline_tabfill_to_airline_tabfill_bomapld
+highlight! link StatusLine 		ColorColumn
+highlight! link MoreMsg 			GruvboxFg4
 highlight! link WildMenu 			airline_tabmod
 highlight! link PmenuSel 			airline_tabmod
-highlight! link Pmenu 					airline_x_inactive
-highlight NonText 																							guibg=None 	guifg=#111111
+highlight! link Pmenu 				airline_x_inactive
+highlight! link Todo 					GruvboxPurple 				"I like it. Normally white
+" 
+
+highlight! link ALEErrorSign 	GruvboxRed
+" highlight! link ALEWarningSign GruvboxYellow
 
 
-highlight BufTabLineCurrent 																		guifg=None			guibg=None
-" highlight! link VertSplit 			coldeviconsDarkblue
-highlight VertSplit 																						guibg=None
-highlight Folded    									
-\ 						ctermfg=238 	ctermbg=110 					gui=bold 			guifg=#DEDDDE		guibg=#607EB3    "#87afd7
-highlight FoldColumn 
-\							ctermfg=black	ctermbg=darkblue 			gui=italic		guifg=#7777DD 			guibg=#607EB3  "GruvboxFg1 would be nice
-highlight MatchParen 			
-\ cterm=bold 								ctermbg=lightRed			gui=reverse
-" \	cterm=bold 								ctermbg=lightRed			gui=bold 		guifg=bg					guibg=fg
-highlight IncSearch  	
-\	cterm=bold 								ctermbg=green 				gui=bold 			guifg=snow			guibg=green
-highlight TermCursor 	
-\ cterm=bold 	ctermfg=red 												gui=bold 			guifg=bg 				guibg=fg
+highlight NonText 													guifg=#282828 	guibg=None 	"still shows a bit due to iterm dynamic contrast
+highlight BufTabLineCurrent 								guifg=None			guibg=None
 
-highlight foldHelp 	
-\							ctermfg=238 	ctermbg=110 			 		       				guifg=#444444 	guibg=#607EB3
-highlight vimrcHashSep   
-\							ctermfg=white 																		guifg=white
+highlight Folded    											ctermfg=238 		ctermbg=110 					
+highlight Folded 							gui=bold 			guifg=#84a8cd 							"#444444 	"#cecdce	
+" highlight Folded 																						guibg=#84a8cd "#607eb3 "(usual blue) "#87afd7 #81a5a5 #076678 #83a598 #4d8487 #458588 
+highlight FoldColumn 											ctermfg=black		ctermbg=darkblue 					
+highlight FoldColumn												guifg=#7777dd 	guibg=#84a8cd "#607eb3
+highlight foldHelp 												ctermfg=238 		ctermbg=110
+highlight foldHelp 													guifg=#444444 	guibg=#607eb3
+" highlight foldOpenedLine 										guibg
+highlight! link foldOpenedLine 	GruvboxBg1
+" highlight MatchParen 			 	cterm=bold 										ctermbg=lightRed			
+highlight MatchParen				cterm=reverse
+highlight MatchParen					gui=reverse
+highlight IncSearch  				cterm=bold 										ctermbg=green 				
+highlight IncSearch						gui=bold 			guifg=snow			guibg=green
+highlight TermCursor 	 			cterm=bold 		ctermfg=red 		
+" highlight TermCursor 	 				gui=bold 			guifg=bg 				guibg=fg
+highlight TermCursor 	 				gui=bold,reverse
+highlight vimrcHashSep   									ctermfg=White
+highlight vimrcHashSep   										guifg=White
 
-highlight UndotreeAdd 		
-\							ctermfg=None	ctermbg=green 				gui=bold			guifg=None			guibg=green
-highlight UndotreeChange 
-\	cterm=bold 	ctermfg=None	ctermbg=darkyellow 		gui=bold 			guifg=None 			guibg=orange
+highlight UndotreeAdd 										ctermfg=None		ctermbg=green 				
+highlight UndotreeAdd 				        			guifg=None			guibg=darkgreen
+highlight UndotreeChange 		cterm=bold 		ctermfg=None		ctermbg=darkyellow
+highlight UndotreeChange 			gui=bold 			guifg=None 			guibg=darkblue
+"test"
+highlight LastChangedLine 	cterm=bold 		ctermfg=bg 			ctermbg=fg 						
+highlight LastChangedLine 		gui=bold,reverse
+"cool colors #6D7833 #7f9d4a
+" highlight DiffAdd   				cterm=reverse		 			       	ctermbg=235
+highlight DiffAdd   					gui=reverse
+highlight DiffChange 					gui=reverse 	guifg=None 			guibg=#df5f00 "#8ec07c #282828
+" highlight DiffDelete   			cterm=reverse			            ctermbg=235 			
+" highlight DiffDelete   				gui=reverse
 
-highlight LastChangedLine 
-\ cterm=bold 	ctermfg=bg 		ctermbg=fg 						gui=bold 			guifg=bg 				guibg=fg
-
-" highlight DiffAdd  
-" \ cterm=reverse		        	ctermbg=235 					gui=reverse
-highlight DiffChange 
-\																									gui=reverse 	guifg=None 			guibg=#df5f00 "orange #8ec07c #282828
-" highlight DiffDelete  
-" \ cterm=reverse		            ctermbg=235 			gui=reverse
-
-" highlight CursorLine  cterm=reverse
-" highlight CursorLine guibg=darkgreen  gui=bold
+" highlight CursorLine  			cterm=reverse
+highlight CursorLine 					         			guifg=None 			guibg=#454440
+" highlight CursorLine 					gui=bold 											guibg=darkgreen  
 " autocmd InsertEnter * highlight  CursorLine ctermbg=darkblue ctermfg=None guibg=darkblue ::Rfg=None
 " autocmd InsertLeave * highlight  CursorLine ctermbg=darkgreen ctermfg=None guibg=darkgreen guifg=None
 
 " syntax match nonascii "[^\x00-\x7F]" containedin=cComment,vimLineComment "some example
 
+
+
+highlight! link NERDTreeDir GruvboxBlue
+highlight! NERDTreeOpenable    								guifg=lightblue "#7cafc2
+highlight! NERDTreeClosable    								guifg=orange "#ab4642
+highlight! link  NERDTreeLinkTarget			Comment				"	Type
+highlight! link  NERDTreeLinkFile				GruvboxFg4		"	Macro
+highlight! link  NERDTreeLinkDir				GruvboxAqua		"	Macro
+highlight! link  NERDTreeDirSlash				Question			"	Identifier
+highlight! link  NERDTreeCWD						Question			"	Statement
+highlight! link  NERDTreeCurrentNode		foldHelp			"	Search
+" highlight! link	NERDTreeBookmarkName 		Special				"Identifier
+" highlight! link NERDTreeFlags Number 		"? what is
+" highlight! link NERDTreeUp Directory
+
 "{{{2 PER FILETYPE
 
 augroup fileTypeSpecific 
-autocmd! 
-autocmd FileType 	* 				set foldcolumn =0
-autocmd FileType 	java 			setlocal omnifunc=javacomplete#Complete
-autocmd FileType 	lisp,clojure,scheme RainbowParentheses
-autocmd Filetype 	clojure 	nmap <Leader>r :write<CR>:Require<CR>| 		"reload clojure in REPL
-"NOTE: some silly vim bug means I need to manually add 'loadview' at end of vimrc session file if updating it again, or all folds are closed in left window when opening session... 
-"
-" autocmd BufNewFile,BufRead 	*.applescript 	set filetype 	=applescript "gets loaded as sh??
-autocmd BufNewFile,BufRead 	*.fish 	set filetype=fish 			 "same
+	autocmd! 
+	autocmd FileType 	* 				set foldcolumn =0
+	autocmd FileType 	java 			setlocal omnifunc=javacomplete#Complete
+	autocmd FileType 	lisp,clojure,scheme RainbowParentheses
+	autocmd Filetype 	clojure 	nmap <Leader>r :write<CR>:Require<CR>| 		"reload clojure in REPL
+	"NOTE: some silly vim bug means I need to manually add 'loadview' at end of vimrc session file if updating it again, or all folds are closed in left window when opening session... 
+	"
+	" autocmd BufNewFile,BufRead 	*.applescript 	set filetype 	=applescript "gets loaded as sh??
+	autocmd BufNewFile,BufRead 	*.fish 	set filetype=fish 			 "same
 
 
-autocmd FileType vim,lua 	 set foldmethod=marker | set foldcolumn=1
-autocmd FileType vim,lua 	 let w:m1=matchadd('foldHelp', ' ----------------------------------------')
-autocmd FileType vim,lua 	 let w:m2=matchadd('foldHelp', '{{{') | let w:m3=matchadd('foldHelp', '}}}')
-autocmd FileType vim 		 	 let w:m4=matchadd('vimrcHashSep', '#')
-autocmd BufReadPost .vimrc let w:m5=matchadd('Comment', '|\s*".*')	"HL post-pipe comments in vimrc
+	autocmd FileType vim,lua 	 	set foldmethod=marker | set foldcolumn=1
+	autocmd FileType vim,lua 	 	let w:matchdashes 			=matchadd('foldHelp', ' ----------------------------------------')
+	autocmd FileType vim,lua		let w:matchrightbraces 	=matchadd('foldHelp', '}}}'
+	autocmd FileType vim,lua		let w:matchleftbraces 	=matchadd('foldHelp', '{{{')
+	" autocmd FileType vim,lua		let w:matchfoldline 		=matchadd('foldOpenedLine', '\s*{{{.*')
+	autocmd FileType vim 		 	 	let w:matchhash 				=matchadd('vimrcHashSep', '#')
+	autocmd BufReadPost .vimrc 	let w:matchmapComment		=matchadd('Comment', '|\s*".*')	"HL post-pipe comments in vimrc
 
-autocmd Filetype vim let b:AutoPairs={'(':')', '[':']', '{':'}',"'":"'", '`':'`'} "fix comment behavior
+	autocmd Filetype vim 		let b:AutoPairs={'(':')', '[':']', '{':'}',"'":"'", '`':'`'} "fix comment behavior
 
 augroup END 
 
 " }}}
 
 "NERDTree-syntax-highlight custom"{{{
-" let s:brown = "905532"
-" let s:aqua =  "3AFFDB"
-" let s:blue = "689FB6"
-" let s:darkBlue = "44788E"
-" let s:purple = "834F79"
-" let s:lightPurple = "834F79"
-" let s:red = "AE403F"
-" let s:beige = "F5C06F"
-" let s:yellow = "F09F17"
-" let s:orange = "D4843E"
-" let s:darkOrange = "F16529"
-" let s:pink = "CB6F6F"
-" let s:salmon = "EE6E73"
-" let s:green = "8FAA54"
-" let s:lightGreen = "31B53E"
-" let s:white = "FFFFFF"
-" let s:rspec_red = 'FE405F'
-" let s:git_orange = 'F54D27'
+let s:brown = '905532'
+let s:aqua =  '3AFFDB'
+let s:blue = '689FB6'
+let s:darkBlue = '44788E'
+let s:purple = '834F79'
+let s:lightPurple = '834F79'
+let s:red = 'AE403F'
+let s:beige = 'F5C06F'
+let s:yellow = 'F09F17'
+let s:orange = 'D4843E'
+let s:darkOrange = 'F16529'
+let s:pink = 'CB6F6F'
+let s:salmon = 'EE6E73'
+let s:green = '8FAA54'
+let s:lightGreen = '31B53E'
+let s:white = 'FFFFFF'
+let s:rspec_red = 'FE405F'
+let s:git_orange = 'F54D27'
+
+" let g:NERDTreeExtensionHighlightColor 								={} "init, else errors
+" let g:NERDTreeExtensionHighlightColor['fish'] 				=s:blue "ext color
 "
-" let g:NERDTreeExtensionHighlightColor 				={} "init, else errors
-" let g:NERDTreeExtensionHighlightColor['fish'] =s:blue "ext color
-"
-" let g:NERDTreeExactMatchHighlightColor 				={} 	"full match
-" let g:NERDTreeExactMatchHighlightColor['.gitignore'] =s:git_orange 
-" " let g:NERDTreeExactMatchHighlightColor['.'] 	=s:git_orange
-" let g:NERDTreePatternMatchHighlightColor 			={}
-" let g:NERDTreePatternMatchHighlightColor['.*rc'] =s:rspec_red
-" let g:NERDTreePatternMatchHighlightColor['.*git*'] =s:git_orange 
+" let g:NERDTreeExactMatchHighlightColor 								={} 	"full match
+" let g:NERDTreeExactMatchHighlightColor['.gitignore'] 	=s:git_orange 
+" " let g:NERDTreeExactMatchHighlightColor['.'] 					=s:git_orange
+" let g:NERDTreePatternMatchHighlightColor 							={}
+" let g:NERDTreePatternMatchHighlightColor['.*rc'] 			=s:rspec_red
+" let g:NERDTreePatternMatchHighlightColor['.*git*'] 		=s:git_orange 
 " " "pattern color
 
 
@@ -750,7 +787,7 @@ augroup END
 "   let entry_format .= ". WebDevIconsGetFileTypeSymbol(entry_path) .' '.  entry_path"
 " else | let entry_format .= '. entry_path' | endif
 "}}}
-" " NERDTree File highlighting {{{
+" " NERDTree File highlighting, manual {{{
 " function! NERDTreeHighlightBetter(extension, fg, bg, guifg, guibg)
 " 	exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
 " 	exec 'autocmd filetype NERDTree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
@@ -820,27 +857,21 @@ let g:neosnippet#enable_snipmate_compatibility=1
 let g:neosnippet#enable_completed_snippet 		=1
 
 "FINALLY SANITY GODDAMN. cancels comp incl removing anything already inserted, but stays in normal mode! 
-inoremap <expr> <Esc>  pumvisible() ? "\<C-e>" : "\<Esc>"| "works even though ive rebound C-E, thanks to inoremap...
+inoremap <expr><Esc> pumvisible() ? "\<C-e>" : "\<Esc>"| "works even though ive rebound C-E, thanks to inoremap...
 
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <expr><CR> pumvisible() ? "\<C-Y>" : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
+"\<Plug>AutoPairsReturn" \<CR>"
+smap <expr><CR> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
+
+
+" Note: It must be "imap" and "smap".
+" 
 imap <C-J>     <Plug>(neosnippet_expand_or_jump)
 smap <C-J>     <Plug>(neosnippet_expand_or_jump)
 " xmap <C-J>     <Plug>(neosnippet_expand_target)
 
-" SuperTab like snippets behavior.  Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-" imap <expr><TAB> pumvisible() ? "\<C-n>" :
-" \ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-imap <expr><CR> pumvisible() ? "\<C-Y>" : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
-" imap <expr><CR> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
-"\<Plug>AutoPairsReturn" \<CR>"
-
-smap <expr><CR> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
-"welp 'dont use <expr> with <CR>' bc can get overwritten by plugs...
-
 
 augroup PerFiletypeCompletions
-
 " autocmd FileType javascript let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
 	autocmd FileType javascript nnoremap <silent> <buffer> gb :TernDef<CR>
 augroup END
@@ -902,7 +933,6 @@ let g:ycm_autoclose_preview_window_after_insertion 		=1
 " "{{{2 RELOAD VIMRC
 augroup reload_vimrc
     autocmd!
-    " autocmd BufWritePost .vimrc source $MYVIMRC | call RefreshUI()
     autocmd BufWritePost .vimrc source $MYVIMRC | call RefreshUI() | set foldmethod=marker | syntax sync fromstart
 		autocmd BufReadPost .vimrc call ColDevicons_init()
 augroup END 
@@ -910,6 +940,7 @@ function! RefreshUI()
   if exists(':AirlineRefresh') | AirlineRefresh
 	else | redraw! | redrawstatus! | endif
 	call ColDevicons_init()
+	if exists('g:loaded_webdevicons') | call webdevicons#softRefresh() | endif "helps fix NERDTree window when it shows line numbers and shit post-reload
 endfunction " was airline wrecking reload. had to refresh it+reload syntax stuf. now works without? cant remember why
 "{{{2 RESIZE WINDOW
 function! ResizeWindow(sign, amount) "resize window by direction instead of +- etc
@@ -1147,14 +1178,14 @@ noremap ö								p`[| 			"paste without moving cursor
 noremap Ö 							P`[j| 		"paste prepend, cursor stay, move down line 
 
 "US layout(ish) for åäö normal "{{{2
-" nmap å                  [| 				"åh
-" nmap Å                  ] 
+nmap å                  [| 				"åh
+" nmap Å                  ] 							
 nmap ä 									/|				"search, and works recydled in other binds bc nmap
-nmap ¨ 									^
+" nmap ¨ 								^| 				"now via ukelele, ^ on shift-thatbutton, ~ instead of ¨ on reg press
 imap Å 									{
 imap Ä 									/
-imap Ö 									/
-"}}}
+imap Ö 									\
+"}}} ARRRRRR
 
 nnoremap <Leader>J 			:m-2<BAR>j<CR>| "like J but join line ABOVE after current. glitches...
 map Q               		:q<CR>| "gq|    "unmap ex mode, gq is "format", use quit instead atm
@@ -1253,51 +1284,51 @@ nnoremap <Leader>mn 		:call Rotate()<CR>
 "}}}
 " ----------------------------------------
 " {{{1 KEY BINDINGS - LEADER/MACROS
-let mapleader				=','
-map <Space> 				<Leader>| 							"space as leader with showcmd retained...
-" map <Space><Space> 	<Leader><Leader>| 		"preserve leader-leader functionality? dun work
-map <Leader>y 			ysiW| 									"add surround word shortcut, '"( etc
+let mapleader					=','
+map <Space> 					<Leader>| 						"space as leader with showcmd retained...
+" map <Space><Space> 	<Leader><Leader>| 			"preserve leader-leader functionality? dun work
+map <Leader>y 				ysiW| 								"add surround word shortcut, '"( etc
 " nnoremap <Leader>c2 <Plug>surroundblabl	|		"cs'"
 " nnoremap <Leader>c1 			cs"'
-nnoremap <Leader>wf :set nowrap<CR>| 				"wrap off
-nnoremap <Leader>wn :set wrap<CR>
-nnoremap <Leader>WF :windo set nowrap<CR>| 	"wrap all off
-nnoremap <Leader>WN :windo set wrap<CR>
+nnoremap <Leader>wf 	:set nowrap<CR>| 			"wrap off
+nnoremap <Leader>wn 	:set wrap<CR>
+nnoremap <Leader>WF 	:windo set nowrap<CR>|"wrap all off
+nnoremap <Leader>WN 	:windo set wrap<CR>
 
-"{{{2 S inoremap <silent> z     PLIT AND MAXIMIZE
-nnoremap <Leader>m  :wincmd _<CR>| 							"
-nnoremap <M-m><M-k> :wincmd k<CR>:wincmd _<CR>| "maximize window above
-nnoremap <M-m><M-j> :wincmd j<CR>:wincmd _<CR>| "maximize window below
-nmap <leader>sH  		:topleft   	vsp<CR>
-nmap <leader>sL 		:botright  	vsp<CR>
-nmap <leader>sK   	:topleft  	 sp<CR>
-nmap <leader>sJ  		:botright 	 sp<CR>
-nmap <leader>sh   	:leftabove  vsp<CR>
-nmap <leader>sl  		:rightbelow vsp<CR>
-nmap <leader>sk     :leftabove   sp<CR>
-nmap <leader>sj   	:rightbelow  sp<CR>
+"{{{2 SPLIT AND MAXIMIZE
+nnoremap <Leader>m  	:wincmd _<CR>| 							"
+nnoremap <M-m><M-k> 	:wincmd k<CR>:wincmd _<CR>| "maximize window above
+nnoremap <M-m><M-j>		:wincmd j<CR>:wincmd _<CR>| "maximize window below
+nmap <leader>sH 			:topleft   	vsp<CR>
+nmap <leader>sL				:botright  	vsp<CR>
+nmap <leader>sK  		 	:topleft  	 sp<CR>
+nmap <leader>sJ  			:botright 	 sp<CR>
+nmap <leader>sh  		 	:leftabove  vsp<CR>
+nmap <leader>sl  			:rightbelow vsp<CR>
+nmap <leader>sk 			:leftabove   sp<CR>
+nmap <leader>sj   		:rightbelow  sp<CR>
 "}}}
-nnoremap <Leader>x 		:Sayonara!<CR>| 			"same as above, via plug
 " nmap <MiddleMouse> 	:echo FART FART FART
 
-cmap w!!            SudoWrite<CR>| 					"aka sudo tee %, via vim.eunuch 
-cmap hg 						helpgrep
-nnoremap <Leader>ä 	:nohlsearch<CR>| 				"leader+ä (mapped to /, search) clears hl from search
-nnoremap <Leader>7 	:nohlsearch<CR>| 				"and similar leader-7 (/ key) also clears hl
-nnoremap <Leader>hil `[v`]| 								"highlight last inserted text
-nnoremap <Leader>hl	:if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>| "autohl word under cursor
-nnoremap <Leader>v  V`]| 										"Select pasted text
-map <Leader>gg      :vimgrep // **/*.<left><left><left><left><left><left><left>| "grep globbed
-map <Leader>g 			:vimgrep // <C-R>%<C-A><right><right><right><right><right><right><right><right><right>| "current file
-map <Leader>cc      :botright cope<cr>| 		"vimgrep results in quickfix window
-cnoremap $m         <CR>:m''<CR>| 					"move the found line
-cnoremap $d         <CR>:d<CR>``| 					"delete the found line
-
-nnoremap <silent> <Leader>bh  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
-nnoremap <silent> <Leader>bl 	:if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
+cmap w!!            	SudoWrite<CR>| 				"aka sudo tee %, via vim.eunuch 
+cmap hg 							helpgrep
+nnoremap <Leader>ä 		:nohlsearch<CR>| 			"leader+ä (mapped to /, search) clears hl from search
+nnoremap <Leader>7 		:nohlsearch<CR>| 			"and similar leader-7 (/ key) also clears hl
+nnoremap <Leader>hil	`[v`]| 								"highlight last inserted text
+nnoremap <Leader>hl		:if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>| "autohl word under cursor
+nnoremap <Leader>v  	V`]| 									"Select pasted text
+map <Leader>gg      	:vimgrep // **/*.<left><left><left><left><left><left><left>| "grep globbed
+map <Leader>g 				:vimgrep // <C-R>%<C-A><right><right><right><right><right><right><right><right><right>| "current file
+map <Leader>cc      	:botright cope<cr>| 	"vimgrep results in quickfix window
+cnoremap $m       <CR>:m''<CR>| 						"move the found line
+cnoremap $d       <CR>:d<CR>``| 						"delete the found line
+ 
+nnoremap <silent><Leader>bh  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
+nnoremap <silent><Leader>bl 	:if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
 
 "close buffer, leave window/split. this is bugging out now though, creating extra windows...
-" nnoremap <expr> <silent> <Leader>x len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1 ? ':bd<CR>' : ':bp<CR>:bd #<CR>'
+" nnoremap <expr><silent> <Leader>x len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1 ? ':bd<CR>' : ':bp<CR>:bd #<CR>'
+nnoremap <Leader>x 		:Sayonara!<CR>| 			"same as above, via plug
 
 nmap <Leader>vc     	:sp $MYVIMRC<CR>| 		"open vimrc in a new split hmm
 nmap <Leader>vr 			:so $MYVIMRC<CR>| 		"manually reload vimrc
@@ -1307,14 +1338,14 @@ map <Leader>cdh      	:cd %:p:h<CR>:pwd<CR>|"go to home dir
 
 nnoremap <Leader>ws  	:%s/\s\+$//<cr>:let @/=''<CR>| "Strip EOL whitespace
 map <Leader>err      	:cp<cr>| 							"check for errors
-
+	
 
 nnoremap <Leader>cul 	:set cursorline!<CR>|  "toggle cursorline
 nnoremap <Leader>cuc 	:set cursorcolumn!<CR>|"toggle cursorcolumn
 nnoremap <Leader>ssh 	:setfiletype sh<CR>
 
 
-nnoremap <Leader>d 	:let g:saved_col=virtcol(".")<CR>YP:TComment<CR>j:call cursor(0, g:saved_col)<CR>| "comment+duplicate line, retain cursor pos
+nnoremap <Leader>d 		:let g:saved_col=virtcol(".")<CR>YP:TComment<CR>j:call cursor(0, g:saved_col)<CR>| "comment+duplicate line, retain cursor pos
 
 
 nnoremap <Leader>zx 	:set foldclose!<CR>| 	"toggle autofold, read up how to do...
@@ -1324,7 +1355,6 @@ nnoremap <Leader>zä 	:g//foldopen<CR>| 		"open all folds with search results..
 nnoremap <Leader>co 	:call CaptureOutput('')<left><left>|"yay very nice, show output from something in a new split...
 nnoremap <Leader>map 	:call CaptureOutput('map')<CR>| 		"get curr map in new split
 nnoremap <Leader>syn 	:call ShowSyntaxColors()<CR>
-nnoremap <Leader>color 	:call ShowNamedColors()<CR>
 nmap <Leader>ju 			:jumps<CR>| 					"list previous positions
 nmap <Leader>ch 			:changes<CR>
 nnoremap <Leader>' 		``| 									"go to previous position incl columnlet g:saved_col=virtcol(".")<
@@ -1333,12 +1363,14 @@ nnoremap <Leader>ico 	:call ColDevicons_init()<CR>| 	"when bugs out
 nnoremap <Leader>sss 	:syntax sync fromstart<CR>|			"fix when hl bugs out
 nnoremap <Leader>ms 	:mess<CR>
 
-vmap <C-r>		 	<Esc>:%s/<c-r>=GetVisual()<CR>//g<left><left>|"replace all instances of selected text (escape-safe)
-map <Leader>gd 		[I:let nr = input("Which one: ")<Bar>exe "normal! " . nr ."[\t"<CR>|"list definitions, then jump
+vmap <C-r>		 				<Esc>:%s/<c-r>=GetVisual()<CR>//g<left><left>|"replace all instances of selected text (escape-safe)
+map <Leader>gd 				[I:let nr = input("Which one: ")<Bar>exe "normal! " . nr ."[\t"<CR>|"list definitions, then jump
 
 nnoremap <Leader>M 	 	:make<CR>
 
-"dunno these...
+nnoremap <Leader>p1 	:set paste!<CR>| 			"kill paste mode when gets stuck there
+
+"dunno these...kkjjjjjjjjjjjjjjjjjjjjjjjj
 " map <Leader>tag  		:sp tags<CR>:%s/^\([^	:]*:\)\=\([^	]*\).*/syntax keyword Tag \2/<CR>:wq! tags.vim<CR>/^<CR><Leader>ugh<CR>
 " map <Leader>ugh  		:so tags.vim<CR>
 
@@ -1394,8 +1426,8 @@ map <Leader>n      	:NERDTreeToggle<CR>|					"
 map <Leader>N       :NERDTreeFocus<CR>| 					"
 map <Leader>nn      :NERDTreeClose<CR>|						"
 map <Leader>nf 			:NERDTreeFind<CR>
-let NERDTreeMapUpdirKeepOpen 						='..'
-" let NERDTreeMapActivateNode 						='<Space><Space>'  "['<Space><Space>', 'o']
+let NERDTreeMapUpdirKeepOpen 			='..'
+" let NERDTreeMapActivateNode 			='<Space><Space>'  "['<Space><Space>', 'o']
 
 map <Leader>pp 			:CtrlPBuffer<CR>|							"ctrlp buffer search
 map <Leader>p 			:CtrlPMixed<CR>|							"ctrlp mixed search
@@ -1408,46 +1440,49 @@ map <Leader>b  			:BuffergatorToggle<cr>| 			"View the entire list of buffers op
 " unmap ,T
 nmap <Leader>bj 		:BuffergatorMruCyclePrev<cr>|	"Go to the previous buffer open
 nmap <Leader>bk 		:BuffergatorMruCycleNext<cr>|	"Go to the next buffer open
-map <Leader>t 			:TagbarToggle<CR>
-map <Leader>T 			:TagbarTogglePause<CR>
+nmap <Leader>t 			:TagbarToggle<CR>
+nmap <Leader>T 			:TagbarTogglePause<CR>
 map <Leader>bt 			:BuffergatorTabsOpen<CR>
 map <Leader>bT 			:BuffergatorTabsClose<CR>
 
 nmap <Leader>st 		:Startify<CR>| 								"wah
 
-"{{{2 INCSEARCH
-map /              <Plug>(incsearch-forward)
-map ?              <Plug>(incsearch-backward)
-map g/             <Plug>(incsearch-stay)
-" noremap <silent><expr> /  incsearch#go(<SID>incsearch_config())
-" noremap <silent><expr> ?  incsearch#go(<SID>incsearch_config({'command': '?'}))
-" noremap <silent><expr> g/ incsearch#go(<SID>incsearch_config({'is_stay': 1}))
-noremap <silent><expr> <Leader>/ incsearch#go(<SID>config_easyfuzzymotion())
+"{{{2 INCSEARCH 
+map /              		<Plug>(incsearch-forward)
+map ?              		<Plug>(incsearch-backward)
+map g/             		<Plug>(incsearch-stay)
+" noremap <silent><expr> /  				incsearch#go(<SID>incsearch_config())
+" noremap <silent><expr> ?  				incsearch#go(<SID>incsearch_config({'command': '?'}))
+" noremap <silent><expr> g/ 				incsearch#go(<SID>incsearch_config({'is_stay': 1}))
+noremap <silent><expr> <Leader>/ 	incsearch#go(<SID>config_easyfuzzymotion())
 
-noremap <silent><expr> z/ incsearch#go(<SID>config_fuzzyall())
-noremap <silent><expr> z? incsearch#go(<SID>config_fuzzyall({'command': '?'}))
-noremap <silent><expr> zg? incsearch#go(<SID>config_fuzzyall({'is_stay': 1}))
+noremap <silent><expr> z/ 				incsearch#go(<SID>config_fuzzyall())
+noremap <silent><expr> z? 				incsearch#go(<SID>config_fuzzyall({'command': '?'}))
+noremap <silent><expr> zg? 				incsearch#go(<SID>config_fuzzyall({'is_stay': 1}))
 
 "{{{2 EASYMOTION
-map  <Leader>f 		<Plug>(easymotion-bd-f)| 				"one char, like f
-xmap <Leader>s    <Plug>(easymotion-s2)
-omap <Leader>s    <Plug>(easymotion-s2)
-" nmap <Leader>ss    <Plug>(easymotion-overwin-f2)|		"s{char}{char} to move to {char}{char}
-" nmap <Leader>s <Plug>(easymotion-sl)| 					"this is the vim-seeky one?
-nmap <Leader>s 		<Plug>(easymotion-s2)
-omap z            <Plug>(easymotion-sn)
-map <Leader>L 		<Plug>(easymotion-bd-jk)| 			"move to line
-map  <Leader>w 		<Plug>(easymotion-bd-w)| 				"move to word
+map  <Leader>f 				<Plug>(easymotion-bd-f)| 		"one char, like f
+xmap <Leader>s    		<Plug>(easymotion-s2)
+omap <Leader>s    		<Plug>(easymotion-s2)
+" nmap <Leader>ss    		<Plug>(easymotion-overwin-f2)|		"s{char}{char} to move to {char}{char}
+" nmap <Leader>s 				<Plug>(easymotion-sl)| 			"this is the vim-seeky one?
+nmap <Leader>s 				<Plug>(easymotion-s2)
+omap z            		<Plug>(easymotion-sn)
+map <Leader>L 				<Plug>(easymotion-bd-jk)| 	"move to line
+map  <Leader>w 				<Plug>(easymotion-bd-w)| 		"move to word
 
-map <Leader>gj 		<Plug>(easymotion-j)| 					"nive like 30j but with letters. doubtful
-map <Leader>gk 		<Plug>(easymotion-k)
+map <Leader>gj 				<Plug>(easymotion-j)| 			"nive like 30j but with letters. doubtful
+map <Leader>gk 				<Plug>(easymotion-k)
 "{{{2 TEXTMANIP
-xmap <C-h>        <Plug>(textmanip-move-left)
-xmap <C-j>        <Plug>(textmanip-move-down)
-xmap <C-k>        <Plug>(textmanip-move-up)
-xmap <C-l>        <Plug>(textmanip-move-right)
-nmap <Leader>o 		<Plug>(textmanip-blank-below)
-nmap <Leader>O 		<Plug>(textmanip-blank-above)
+xmap <C-h>        		<Plug>(textmanip-move-left)
+xmap <C-j>        		<Plug>(textmanip-move-down)
+xmap <C-k>       		 	<Plug>(textmanip-move-up)
+xmap <C-l>        		<Plug>(textmanip-move-right)
+nmap <Leader>o 				<Plug>(textmanip-blank-below)
+nmap <Leader>O 				<Plug>(textmanip-blank-above)
+"{{{2 MULTIPLE CURSORS
+nnoremap <silent> <M-n> :MultipleCursorsFind <C-R>/<CR>
+vnoremap <silent> <M-n> :MultipleCursorsFind <C-R>/<CR>
 "{{{2 REPEAT MOTION
 let g:repeatable_motions_default_mappings 	=0
 map <Leader>. 				<Plug>RepeatMostRecentMotion|"repeat motion
@@ -1468,65 +1503,64 @@ nmap <leader>t8				<Plug>AirlineSelectTab8
 nmap <leader>t9				<Plug>AirlineSelectTab9
 nmap <leader>t-				<Plug>AirlineSelectPrevTab
 nmap <leader>t+				<Plug>AirlineSelectNextTab
-nmap <Leader>tn				:tabnew<CR>
+nmap <Leader>tn							:tabnew<CR>
 "}}}
 
-nnoremap <Leader>shl :SemanticHighlightToggle<CR>|"toggle semantic highlight for vars..
-nnoremap <Leader>ggb 	:let g:gitgutter_diff_base=''<Left>| "gitgutter diff-against. list commits fzf to pick would be good
-nnoremap <silent> <leader>ct 	:silent Dispatch! ctags_gen<cr>| "noneed really cause tagbar handles auto
+nnoremap <Leader>shl 				:SemanticHighlightToggle<CR>| 			"toggle semantic highlight for vars..
+nnoremap <Leader>ggb 				:let g:gitgutter_diff_base=''<Left>|"gitgutter diff-against. list commits fzf to pick would be good
+nnoremap <silent><Leader>ct :silent Dispatch! ctags_gen<cr>| 		"noneed really cause tagbar handles auto
 
 map p               <Plug>(miniyank-autoput)| 		"miniyank replaces normal paste
 map P               <Plug>(miniyank-autoPut)| 		"(imap paste rebound in normal section)
 map <M-y>           <Plug>(miniyank-cycle)| 			"which works because reg map here not noremap
+nnoremap <M-p> 			<Plug>(miniyank-cycle)| 			"just a lil extra
 
-map <M-->           :TComment<CR>| 								"comment/uncomment curr line
-imap <M-->     <C-o>:TComment<CR>| 								"while in insert
-map + 						<Plug>(expand_region_expand)
-map - 						<Plug>(expand_region_shrink)
+map <M-->           			:TComment<CR>| 					"comment/uncomment curr line
+imap <M-->     			 <C-o>:TComment<CR>| 					"while in insert
+map + 							<Plug>(expand_region_expand)
+map - 							<Plug>(expand_region_shrink)
 let g:AutoPairsShortcutToggle 		='<Leader>ap' 	"clear autopairs default binds (to free up M-p)
-let g:AutoPairsShortcutFastWrap 	='<Leader>aw'
-let g:AutoPairsShortcutJump 			='<Leader>aj'
-let g:AutoPairsShortcutBackInsert ='<Leader>ai'
+let g:AutoPairsShortcutFastWrap 	='<Leader>apw'
+let g:AutoPairsShortcutJump 			='<Leader>apj'
+let g:AutoPairsShortcutBackInsert ='<Leader>api'
 
-let g:NumberToggleTrigger 	='<Leader>rn'
-nnoremap <Leader>rn0 				:call DisableRelativeNumbers()<CR>
+let g:NumberToggleTrigger	='<Leader>rn'
+nnoremap <Leader>rnf 			:call DisableRelativeNumbers()<CR>
 
-nnoremap <M-m> 					 :MaximizerToggle!<CR>| 	"maximize/restore window
+nnoremap <M-m> 					 	:MaximizerToggle!<CR>| 	"maximize/restore window
 " nmap <silent> <Leader>gv :ToggleGoldenViewAutoResize<CR>
 
-nmap <silent> <Leader>ek <Plug>(ale_previous_wrap)
-nmap <silent> <Leader>ej <Plug>(ale_next_wrap)
+nmap <silent> <Leader>ek 	<Plug>(ale_previous_wrap)
+nmap <silent> <Leader>ej 	<Plug>(ale_next_wrap)
 " nnoremap <Leader>pio 	:call SetupPlatformioEnvironment(expand("%:p:h"))<CR>
 
-nnoremap <Leader>de 		:Denite | "
-nnoremap # 							:Lista<CR>
-nnoremap w# 						:ListaCursorWord<CR>
-nnoremap <Leader>w# 		:sp<CR>:ListaCursorWord<CR>
+nnoremap <Leader>de 			:Denite | "
+nnoremap # 								:Lista<CR>
+nnoremap w# 							:ListaCursorWord<CR>
+nnoremap <Leader>w# 			:sp<CR>:ListaCursorWord<CR>
 
 
-function! MultiPage() 			"TODO: set some register to current line pos
-	sp | wincmd T 	"create split, move window to new tab
+function! MultiPage() "TODO: set some register to current line pos
+	sp | wincmd T "create split, move window to new tab
 	MPageToggle
 	windo set wrap! | call DisableRelativeNumbers()
 	10wincmd l 		"move to rightmost window bc scrolling only works from that end for some reason
 endfun
-nnoremap <Leader>mp 	:call MultiPage()<CR>
-nnoremap <Leader>MP 	:tabclose<CR>
+nnoremap <Leader>mp 			:call MultiPage()<CR>
+nnoremap <Leader>MP 			:tabclose<CR>
 
-nnoremap <Leader>color :ColorToggle<CR>:ColorSwapFgBg<CR>| 	"highlight color names/codes with their color
-nnoremap <Leader>nocolor :ColorClear<CR>| 									"off	
+nnoremap <Leader>color 		:ColorToggle<CR>:ColorSwapFgBg<CR>| 	"highlight color names/codes with their color
+nnoremap <Leader>nocolor 	:ColorClear<CR>| 									"off	
 
 
-nnoremap <Leader>PI 	:w<CR>:sleep<CR>:PlugUpgrade<CR>:sleep<CR>:PlugClean!<CR>:sleep<CR>:PlugInstall<CR>:3sleep<CR>:PlugUpdate<CR>| "vim-plug install+update+upgrade
-nnoremap <Leader>pi 	:w<CR>:sleep<CR>:PlugInstall<CR>
+nnoremap <Leader>PI 			:w<CR>:PlugUpgrade<CR>:sleep<CR>:PlugClean!<CR>:sleep<CR>:PlugInstall<CR>:3sleep<CR>:PlugUpdate<CR>| "vim-plug install+update+upgrade
+nnoremap <Leader>pi 			:w<CR>:PlugInstall<CR>
 "{{{2 VIM-PLUG EXTRAS
 
-" vimawesome.com
-function! VimAwesomeComplete() abort
+
+function! VimAwesomeComplete() abort 			"vimawesome.com
   let prefix = matchstr(strpart(getline('.'), 0, col('.') - 1), '[.a-zA-Z0-9_/-]*$')
-  echohl WarningMsg
-  echo 'Downloading plugin list from VimAwesome'
-  echohl None
+  echohl WarningMsg | echo 'Downloading plugin list from VimAwesome' | echohl None
 ruby << EOF
   require 'json'
   require 'open-uri'
@@ -1562,10 +1596,11 @@ endfunction
 
 augroup VimAwesomeComplete
   autocmd!
-  " autocmd FileType vim inoremap <c-x><c-v> <c-r>=VimAwesomeComplete()<cr>
-augroup END<Paste>
+  autocmd FileType vim inoremap <c-x><c-v> <c-r>=VimAwesomeComplete()<cr>
+augroup END
 
-function! s:plug_gx()
+
+function! s:plug_gx() "open plug under cursor in repo
   let line = getline('.')
   let sha  = matchstr(line, '^  \X*\zs\x\{7}\ze ')
   let name = empty(sha) ? matchstr(line, '^[-x+] \zs[^:]\+\ze:') : getline(search('^- .*:$', 'bn'))[2:-2]
@@ -1576,9 +1611,24 @@ function! s:plug_gx()
   call netrw#BrowseX(url, 0)
 endfunction
 
+function! s:vimrc_gx() "vimrc open plug under cursor
+  " let line = getline('.')
+	let line  	="Plug 'wesQ3/vim-windowswap'"
+
+  let sha  		=matchstr(line, 'Plug*')
+	echo sha
+  " let name = empty(sha) ? matchstr(line, '^[-x+] \zs[^:]\+\ze:') : getline(search('^- .*:$', 'bn'))[2:-2]
+  let uri  = 'github.com'
+  " let repo = matchstr(uri, '[^:/]*/'.name)
+  let url  		=empty(sha) ? 'https://github.com/'.repo : printf('https://github.com/%s/commit/%s', repo, sha)
+	echo url
+  " call netrw#BrowseX(url, 0)
+endfunction
+
 augroup PlugGx
   autocmd!
-  autocmd FileType vim-plug nnoremap <buffer> <silent> gx :call <sid>plug_gx()<cr>
+  autocmd FileType vim-plug  nnoremap <buffer><silent>gx :call <sid>plug_gx()<cr>
+	autocmd BufReadPost .vimrc nnoremap <buffer><silent>gx :call <sid>vimrc_gx()<cr>
 augroup END
 "}}}
 
@@ -1662,16 +1712,29 @@ augroup END
 
 "}}}
 " normal mode {  } = move to prev/next empty line
+"
 " [I list all lines containing word under cursor! remap to something?
+" or reimplement / find version that retains highlighting and actually highlights search
+"
 " C-o / C-i = go back to prev locations _including in other buffers_. NICE! so works for help etc..
-" q: q/ command window with list of prev cmds/searches etc
+"
+" q: and q/  	= highlighted command window with list of prev cmds/searches
 " <C-X><C-L> = complete entire lines, p cool!
-" gf open file under cursor (+ gd go to definition)
-" gp / gP = paste without moving cursor
-" gx = open url under cursor (not from plugin, is part of vim)
-" !!!!! tab and s-tab navigates matches while searching, without having to
-" press enter and 'commit'... not sure if vim or from some plug, but def awesome!
 
-" AHA!!!! explains weird '' "" differences:
-" use double-quotes and "\..." notation |expr-quote|. For example,
-" feedkeys("\<CR>") simulates pressing of the <Enter> key. But feedkeys('\<CR>') pushes 5 characters.
+" gf open file under cursor (+ gd go to definition)
+" gx = open url under cursor (not from plugin, is part of vim)
+"
+" gp / gP = paste without moving cursor
+"
+" !!!!! tab/s-tab navigates matches while searching, without having to press enter and 'commit'... 
+" not sure if vim or from some plug, but def awesome!
+
+" explains weird <expr> '' "" differences: 			use double-quotes and "\..." notation |expr-quote|
+" feedkeys("\<CR>") simulates pressing of the <Enter> key
+" feedkeys('\<CR>') pushes 5 characters.
+
+" Toggle case "HellO" to "hELLo"		g~	   then a movement.
+" Uppercase "HellO" to "HELLO" 			gU	   then a movement.
+" Lowercase "HellO" to "hello" 			gu	   then a movement.
+" Alternatively, you can visually select text then press 
+" ~ to toggle case, U uppercase, u lowercase.
