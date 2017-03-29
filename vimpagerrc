@@ -1,8 +1,176 @@
-set noloadplugins
-syntax enable
-setfiletype sh "should only kick in if unknown file or piping, yeah?
-" set bg=light
+scriptencoding utf-8
+filetype off
+call plug#begin('~/.vim/plugged') 
 
-"if !exists('g:syntax_on')
+
+Plug 'morhetz/gruvbox' 											"best theme only cunts disagree c/d??
+Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes' "| Plug 'edkolev/tmuxline.vim' mirror airline look in tmux statusline
+Plug 'ryanoasis/vim-devicons' 							"emoji bullshit for adult idiots. very pretty
+Plug 'christoomey/vim-tmux-navigator' 			"navigate vim splits and tmux splits with same keys
+
+call plug#end() 
+
+syntax enable "{{{
+set background 							=dark
+set number 																			"show line numbers
+set showmatch matchtime 		=3									"quickly jump to highlighted matching bracket, 3 = 0.2s?
+set cursorline 																	"hmm maybe turn off since iterm already has line? apparently slows
+set showtabline 						=1 									"2 = tabline always. 1 = if multiple
+set noshowmode 																	"dont show normal/insert etc, cause airline does
+set shortmess               =atT 								"shorten cmdline messages
+set shortmess 						 	+=c 								"no what-type-of-completion messages in cmdline
+set shortmess 							+=A 								"dont warn about existing swap files
+set fillchars 							+=fold:\ 						" blank space instead of dashes to fill out folds
+set foldminlines 						=2 									"dont fold < 3 lines. 1 is default = 2 lines
+set fillchars 							+=vert:│ 						" default is regular|pipe which leaves spaces tween each line and looks like shit
+
+set ttimeout 		ttimeoutlen	=50									"timeout for keycode sequence
+set timeoutlen           		=300 								"timeout for mapped sequences
+set updatetime							=250 								"time idle before bg shit runs?
+
+set shiftround
+set tabstop=2 shiftwidth=2
+
+set whichwrap              	=<,>,[,],b,s 				"which keys also move past eol. now arrow, b, w etc
+set linebreak 																	"wraps a bit smarter
+set wrapscan 								 										" Wrap search at end
+set ignorecase
+set smartcase 																	" screws with my autocompletion i think
+set nostartofline 															" keep cursor on same column even on larger jumps
+
+set splitbelow splitright 											" splits for help etc go below and right...
+set switchbuf 							=usetab 						" open prev/next buffer in split if not already visible somewhere?
+set scrolloff=5 sidescrolloff=2 								" autoscrolls before hits end
+set sidescroll 							=1 									" dont jump a zillion columns when scrolling sideways. HOW not the default??
+"}}}
+
+if exists('g:vimpager.enabled') 						"vimpager specific settings...
+	set nocursorline
+	set showtabline 			=1
+	set nowrap
+	sign unplace *
+
+	let g:startify_skiplist_server 						=['vimpager']
+"   if exists('g:vimpager.ptree') && g:vimpager.ptree[-2] == 'wman'
+"     set filetype=man
+" 	endif
+endif
+
+let g:vimpager = {}
+let g:less     = {}
+let g:less.number =1
+" let g:vimpager.ansiesc = 0
+
+" let g:ansiNone='hi gui=NONE cterm=NONE fg=white bg=black'
+" " let g:ansiBold='hi gui=NONE cterm=NONE fg= bg=black'
+" let g:ansiBold='hi! link GruvboxBlueSign' 
+" let g:ansiItalic='hi gui=italic fg=orange bg=None'
+" let g:ansiUnderline='hi gui=underline fg=orange bg=None'
+
+
+let &colorcolumn 							=join(range(100,300),',') "fade bg slightly past 100 cols bc fuck yall
+
+"{{{ keys
+nnoremap j              gj| 			"move properly within wrapped lines
+nnoremap k              gk| 			"why does this get echoed?
+cnoremap <C-A>          <Home>| 	 
+cnoremap <C-E>          <End>
+cnoremap <C-K>          <C-U>
+cnoremap <C-P>          <Up>
+cnoremap <C-N>          <Down>
+noremap <C-A>           0
+noremap <C-E>           $
+"}}}
+
+"{{{2 				 RESIZE WINDOW
+
+function! ResizeWindow(sign, amount) 	"resize window by direction instead of +- etc
+	let initial = winnr() 	"save the original window index
+	if 		 a:sign =~? '<' || a:sign =~? '>' | let movedirection = 'h'
+	elseif a:sign =~? '+' || a:sign =~? '-' | let movedirection = 'k' | endif
+
+	execute 'wincmd ' . movedirection
+	if winnr() == initial 	"couldnt switch window, try other direction (just to check)
+		if 		 movedirection =~? 'h' | wincmd l
+		elseif movedirection =~? 'k' | wincmd j | endif
+		if winnr() == initial	"def nothing to resize, passing back to tmux
+			if 		 a:sign =~? '<' | call system('tmux resize-pane -L 5')
+			elseif a:sign =~? '>' | call system('tmux resize-pane -R 5')
+			elseif a:sign =~? '+' | call system('tmux resize-pane -D 3')
+			elseif a:sign =~? '-' | call system('tmux resize-pane -U 3') | endif
+		else 		"switch back, then resize since there are other windows but orig was correct
+			execute initial . 'wincmd w' 		
+			execute a:amount . 'wincmd' . a:sign
+		endif
+	else 			"did succeed switching. So resize, then go back to orig win
+		execute a:amount . 'wincmd' . a:sign
+		execute initial . 'wincmd w'
+	endif
+endfunction
+
+function! MaximizeWindow()
+	let numwindows = winnr('$')
+	if numwindows == 1
+		call system('tmux resize-pane -Z')
+	else
+		MaximizerToggle!
+	endif
+endfunction
+
+"{{{2 				 ROTATE WINDOWS
+function! Rotate()
+	let initial = winnr() 			"save the original window index, jump to the first window
+	exe 1 . 'wincmd w'
+	wincmd l
+	if winnr() != 1 | wincmd J  "succeeded moving to the right window. make it the bottom window
+	else | wincmd H | endif 		"cannot move to the right, so we are at the top. make it the left window. 
+
+	exe initial . 'wincmd w'
+	" restore cursor to the initial window
+endfunction
+"}}}
+"{{{
+let g:tmux_navigator_no_mappings =1 													"moves tmux split instead if available
+inoremap <silent> <M-h>     <C-O>:TmuxNavigateLeft<CR>| 			"equiv to <C-w><C-h> etc
+inoremap <silent> <M-j>     <C-O>:TmuxNavigateDown<CR>
+inoremap <silent> <M-k>     <C-O>:TmuxNavigateUp<CR>
+inoremap <silent> <M-l>     <C-O>:TmuxNavigateRight<CR>
+inoremap <silent> <M-z>     <C-O>:TmuxNavigatePrevious<CR>
+noremap <silent> <M-h>           :TmuxNavigateLeft<CR>
+noremap <silent> <M-j>           :TmuxNavigateDown<CR>
+noremap <silent> <M-k>           :TmuxNavigateUp<CR>
+noremap <silent> <M-l>           :TmuxNavigateRight<CR>
+noremap <silent> <M-z>           :TmuxNavigatePrevious<CR>
+if has('nvim')
+	tnoremap <M-h>             <C-\><C-n><C-w><C-h>| 	"term, only way to exit that buff except mouse
+	tnoremap <M-j>             <C-\><C-n><C-w><C-j>
+	tnoremap <M-k>             <C-\><C-n><C-w><C-k>
+	tnoremap <M-l>             <C-\><C-n><C-w><C-l>
+endif 
+
+noremap	 	<silent> <M-H> 				:call ResizeWindow('<', 5)<CR>
+noremap	 	<silent> <M-J> 				:call ResizeWindow('+', 3)<CR>
+noremap 	<silent> <M-K> 				:call ResizeWindow('-', 3)<CR>
+noremap 	<silent> <M-L> 				:call ResizeWindow('>', 5)<CR>
+inoremap 	<silent> <M-H> 	 <C-O>:call ResizeWindow('<', 5)<CR>
+inoremap 	<silent> <M-J> 	 <C-O>:call ResizeWindow('+', 3)<CR>
+inoremap 	<silent> <M-K> 	 <C-O>:call ResizeWindow('-', 3)<CR>
+inoremap 	<silent> <M-L> 	 <C-O>:call ResizeWindow('>', 5)<CR>
+
+
+noremap <silent> <Leader>hh 		:call ResizeWindow('<', 20)<CR>
+noremap <silent> <Leader>jj 		:call ResizeWindow('+', 12)<CR>
+noremap <silent> <Leader>kk 		:call ResizeWindow('-', 12)<CR>
+noremap <silent> <Leader>ll 		:call ResizeWindow('>', 20)<CR>
+
+nnoremap <Leader>mn 						:call Rotate()<CR>
+"}}}
+
+nmap <Leader>vr 			:so $MYVIMRC<CR>| 		"manually reload vimrc
+
+colorscheme gruvbox
+
+
+" if !exists('g:syntax_on')
 " au BufRead,BufNewFile *.* setfiletype sh
-"endif
+" endif
