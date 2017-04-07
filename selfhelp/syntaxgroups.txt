@@ -1,0 +1,52 @@
+" vim: filetype=help foldmethod=marker foldmarker=<<<,>>> modifiable noreadonly
+
+ColorColumn  	 used for the columns set with 'colorcolumn'
+Conceal      	 placeholder chars substituted for concealed text 'conceallevel' *hl-Conceal*
+Cursor       	 the character under the cursor                                  *hl-Cursor*
+CursorIM     	 like Cursor, but used when in IME mode |CursorIM|                 *hl-CursorIM*
+CursorColumn 	 column that the cursor is in when 'cursorcolumn' set            *hl-CursorColumn*
+CursorLine   	 line that the cursor is in when 'cursorline' set                *hl-CursorLine*
+Directory    	 directory names (and other special names in listings)           *hl-Directory*
+DiffAdd      	 diff mode: Added line |diff.txt|                                  *hl-DiffAdd*
+DiffChange   	 diff mode: Changed line |diff.txt|                                *hl-DiffChange*
+DiffDelete   	 diff mode: Deleted line |diff.txt|                                *hl-DiffDelete*
+DiffText     	 diff mode: Changed text within a changed line |diff.txt|          *hl-DiffText*
+EndOfBuffer  	 filler (~) after end of buffer. Default link |hl-NonText|.{Nvim}  *hl-EndOfBuffer*
+TermCursor   	 cursor in a focused terminal {Nvim}                             *hl-TermCursor*
+TermCursorNC 	 cursor in an unfocused terminal {Nvim}                          *hl-TermCursorNC*
+ErrorMsg     	 error messages on the command line                              *hl-ErrorMsg*
+VertSplit    	 the column separating vertically split windows                  *hl-VertSplit*
+Folded       	 line used for closed folds                                      *hl-Folded*
+FoldColumn   	 'foldcolumn'                                                    *hl-FoldColumn*
+SignColumn   	 column where |signs| are displayed                                *hl-SignColumn*
+IncSearch    	 'incsearch' highlighting; also text replaced with ":s///c"    	 *hl-IncSearch*
+Substitute   	 |:substitute| replacement text highlighting                       *hl-Substitute*
+LineNr       	 Line number for ":number"/":#" 'number'/'relativenumber'.       *hl-LineNr*
+CursorLineNr 	 Like LineNr when 'cursorline' or 'relativenumber' is set.       *hl-CursorLineNr*
+MatchParen   	 Char under cursor if paired bracket (+match) |pi_paren.txt|       *hl-MatchParen*
+ModeMsg      	 'showmode' message (e.g., "-- INSERT --")                       *hl-ModeMsg*
+MoreMsg      	 |more-prompt|                                                     *hl-MoreMsg*
+NonText      	 @ at end of win, chars from 'showbreak'/not in actual file.     *hl-NonText*
+Normal       	 normal text                                                     *hl-Normal*
+Pmenu        	 Popup menu: normal    item.                                     *hl-Pmenu*
+PmenuSel     	 Popup menu: selected  item.                                     *hl-PmenuSel*
+PmenuSbar    	 Popup menu:  scrollbar.                                         *hl-PmenuSbar*
+PmenuThumb   	 Popup menu: Thumb of the scrollbar.                             *hl-PmenuThumb*
+Question     	 |hit-enter| prompt and yes/no questions                           *hl-Question*
+QuickFixLine 	 selected |quickfix| item in QF win. Combined with |hl-CursorLine|   *hl-QuickFixLine*
+Search       	 Last 'hlsearch' + to HL current line in quickfix win etc        *hl-Search*
+SpecialKey   	 <M>/special keys + unprintable chars in text, 'listchars'       *hl-SpecialKey*
+SpellBad     	 Word that is not recognized by the spellchecker. |spell|          *hl-SpellBad*
+SpellCap     	 Word that should start with a capital.                          *hl-SpellCap*
+SpellLocal   	 Word spellchecker views as used in another region.              *hl-SpellLocal*
+SpellRare    	 Word spellchecker views as hardly ever used.                    *hl-SpellRare*
+StatusLine   	 status line of current window                                   *hl-StatusLine*
+StatusLineNC 	 status lines of rest.                                           *hl-StatusLineNC*
+TabLine      	 tab pages line, not active tab page label                       *hl-TabLine*
+TabLineFill  	 tab pages line, where there are no labels                       *hl-TabLineFill*
+TabLineSel   	 tab pages line, active tab page label                           *hl-TabLineSel*
+Title        	 titles for output from ":set all", ":autocmd" etc               *hl-Title*
+Visual       	 Visual mode selection                                           *hl-Visual*
+WarningMsg   	 warning messages                                                *hl-WarningMsg*
+WildMenu     	 current match in 'wildmenu' completion                          *hl-WildMenu*
+
