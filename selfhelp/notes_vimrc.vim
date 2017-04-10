@@ -1,3 +1,18 @@
+"{{{1 				IDEAS
+move to orgmode I guess...
+
+* 'superbar' thing yeah
+	bit hand in hand: window-local fileexplorer
+
+* show number of hits for current search + which one (if any) we're on, in statusline...
+	only when search is fully active, ie. highlighted
+
+* QUESTION: possible to define new colors? so dont have to choose between
+	'guifg=blue', hi! link, and 'guifg=#5181e1'
+
+* in vim syntax, each hi group should highlight any occurance of itself. easy. nice.
+"}}}
+"
 "⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏ 
 ""{{{1 				DEBUG / TROUBLESHOOT / FIXES
 "{{{2					 slow scrolling splits on left/right:
@@ -147,12 +162,23 @@ g, 		" moves backward and forward in edit locations
 C-^ is (randomly or  bc my remappings in osx + vim both?) equiv to the C-] that follows help links...
 rebinding to <CR><CR>? 
 
+"{{{ 					vimgrep / regex:
+" NOT match:
+'^\(.*not_this\)\@!
+"}}}
+
 "{{{2 				BIT DUH
 not vim but | pipe is or in fzf, dun forget
 no specific setting to toggle the sign column. clear it with: :sign unplace *
 C-o / C-i = go back to prev locations _including in other buffers_. NICE! so works for help etc..
 jf open file under cursor (+ gd go to definition)
 gx = open url under cursor (not from plugin, is part of vim)
+"}}}
+
+
+"{{{2 					 FOLDS
+set foldmethod=diff
+folds away all non-changed text. sounds useful...
 "}}}
 
 "{{{2 				from plugs:
