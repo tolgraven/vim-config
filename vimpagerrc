@@ -1,32 +1,30 @@
 scriptencoding utf-8
 filetype off
 call plug#begin('~/.vim/plugged') 
-
-
 Plug 'morhetz/gruvbox' 											"best theme only cunts disagree c/d??
-Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes' "| Plug 'edkolev/tmuxline.vim' mirror airline look in tmux statusline
+" Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes' "| Plug 'edkolev/tmuxline.vim' mirror airline look in tmux statusline
 Plug 'ryanoasis/vim-devicons' 							"emoji bullshit for adult idiots. very pretty
 Plug 'christoomey/vim-tmux-navigator' 			"navigate vim splits and tmux splits with same keys
-
+Plug '~/Documents/CODE/VIM/LISTA/lista.nvim'
 call plug#end() 
 
 syntax enable "{{{
 set background 							=dark
 set number 																			"show line numbers
-set showmatch matchtime 		=3									"quickly jump to highlighted matching bracket, 3 = 0.2s?
-set cursorline 																	"hmm maybe turn off since iterm already has line? apparently slows
-set showtabline 						=1 									"2 = tabline always. 1 = if multiple
+" set showmatch matchtime 		=3									"quickly jump to highlighted matching bracket, 3 = 0.2s?
+" set cursorline 																	"hmm maybe turn off since iterm already has line? apparently slows
+set showtabline 						=0 									"2 = tabline always. 1 = if multiple
 set noshowmode 																	"dont show normal/insert etc, cause airline does
 set shortmess               =atT 								"shorten cmdline messages
 set shortmess 						 	+=c 								"no what-type-of-completion messages in cmdline
 set shortmess 							+=A 								"dont warn about existing swap files
 set fillchars 							+=fold:\ 						" blank space instead of dashes to fill out folds
 set foldminlines 						=2 									"dont fold < 3 lines. 1 is default = 2 lines
-set fillchars 							+=vert:│ 						" default is regular|pipe which leaves spaces tween each line and looks like shit
+" set fillchars 							+=vert:│ 						" default is regular|pipe which leaves spaces tween each line and looks like shit
 
 set ttimeout 		ttimeoutlen	=50									"timeout for keycode sequence
-set timeoutlen           		=300 								"timeout for mapped sequences
-set updatetime							=250 								"time idle before bg shit runs?
+set timeoutlen           		=350 								"timeout for mapped sequences
+set updatetime							=500 								"time idle before bg shit runs?
 
 set shiftround
 set tabstop=2 shiftwidth=2
@@ -68,7 +66,7 @@ let g:less.number =1
 " let g:ansiUnderline='hi gui=underline fg=orange bg=None'
 
 
-let &colorcolumn 							=join(range(100,300),',') "fade bg slightly past 100 cols bc fuck yall
+" let &colorcolumn 							=join(range(100,300),',') "fade bg slightly past 100 cols bc fuck yall
 
 "{{{ keys
 nnoremap j              gj| 			"move properly within wrapped lines

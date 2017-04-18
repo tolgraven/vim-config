@@ -1,7 +1,9 @@
+" vim: filetype=help foldmethod=marker modifiable noreadonly
 "{{{1 				IDEAS
 move to orgmode I guess...
 
 * 'superbar' thing yeah
+" :CD - change window-local CWD to dir of curr open buffer
 	bit hand in hand: window-local fileexplorer
 
 * show number of hits for current search + which one (if any) we're on, in statusline...
@@ -10,9 +12,36 @@ move to orgmode I guess...
 * QUESTION: possible to define new colors? so dont have to choose between
 	'guifg=blue', hi! link, and 'guifg=#5181e1'
 
-* in vim syntax, each hi group should highlight any occurance of itself. easy. nice.
+* in vim syntax, each hi group should highlight any occurance of its own name. easy. nice.
+* info: window-local (as opposed to buffer-local) syntax is set with
+:ownsyntax foo
+
+* debug syntax:
+:syntime on
+<do stuff>
+:syntime report
 "}}}
-"
+" emojis bc why not... "{{{
+  👍  👎   👌  👊   ✌️    ✋   💪     
+  🌑  🌒  🌓  🌔  🌔  🌕  🌖  🌗  🌘     
+  🌙  ⚡     ⭐  🌟   ✨      ☀️    🔆  🔅        💫     💥  🔥        
+  ⛅  ☁️        ❄️      💧     
+  💿  📀  💽   💾     ☎️    📞   📡     🔊  🔇    🔔  🔕     
+  ⏳  ⌛  ⏰      ⌚       📅  📆 
+  🔓  🔒  🔏  🔐    🔑     
+  🔍  🔎  💡  🔦   🔧  🔩  🔨  ✂️    🔗  📐     
+  🚬  💣  🔫  🔪     💊  💉 📯      📦       🐳  🐋     🌐     
+  📝  📄  📃   📑   ✉️     📈  📉  📜   📋  	📇     📖  🔖   📰     
+  📕 📗 📘 📙 📓 📔 📒      📚      📁  📂 
+  🎤  🎼  🎶  🎹  ⚽  🎾  🎱     
+  🎲  🏁  🏆     ☕   🍵   🍺     🎩     ⚓      🚀   ✈️     🚦 🚥      
+	®️    ©️      ™️     
+  ❕❔     ❗❓     ‼️    ⁉️ 
+	⭕   ❌        
+	🚫   ⛔    ⚠️    🚧      🔰     
+  🕛 🕧 🕐 🕜 🕑 🕝 🕒 🕞 🕓 🕟 🕔 🕠 🕕 🕖 🕗 🕘 🕙 🕚 🕡 🕢 🕣 🕤 🕥 🕦     
+	💚    💛 🔶 🔸  	🔷 🔹  🔵  💙    🔻 🔺  	📍 🚩 🎈   🎯 💢  🔴	 ❤️  
+	"}}}
 "⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏ 
 ""{{{1 				DEBUG / TROUBLESHOOT / FIXES
 "{{{2					 slow scrolling splits on left/right:
@@ -47,6 +76,25 @@ move to orgmode I guess...
 "________________________________________
 
 ""{{{1 				NOTES
+▦ ▤ ▣ ▢  ▢ 
+□ ■ 
+● ○ ◉ ◎ ◌ ◯
+◆ ◇ ◈ 
+powerline-esque, obviously not good enough bc not nearly tall enough....
+▶ ►  vs powerline   ⮀
+
+unicode, alllmost works but leaves some gaps sadly :(
+◣ ◢   ◤ ◥  vs powerline   
+
+Question: can you prevent "exit insert"/"enter insert" or whatever, autocmds
+from running on a simple <C-o>? Cause everything doing that gets really
+sluggish now. Example:
+" inoremap <Up>      <C-o>gk
+
+
+<Plug> needs to be map-ed, no *nore
+
+fzf has :Maps which is p much like my <leader>map+lista filter.
 
 "a"{{{2  			TEXT OBJECTS
 	dl"		delete character (alias: "x")		|dl|
@@ -128,7 +176,9 @@ q: and q/  	= highlighted command window with list of prev cmds/searches
 
 <C-X><C-L> = complete entire lines, p cool!
 
+gn / gN = jump to next search match and select it visually. if already in visual, select to there...
 gp / gP = paste without moving cursor
+:read !shellcmd 		put output of cmd into buffer! sweet so like :read !pbpate
 
 " explains weird <expr> '' "" differences: 			use double-quotes and "\..." notation |expr-quote|
 feedkeys("\<CR>") simulates pressing of the <Enter> key, feedkeys('\<CR>') pushes 5 characters.
