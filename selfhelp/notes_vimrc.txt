@@ -1,8 +1,13 @@
-" vim: filetype=help foldmethod=marker modifiable noreadonly
-"{{{1 				IDEAS
+ITERM PERF DEBUG
+stable		24s
+beta			18s
+nightly		18s
+turning off adaptive framerate / GCD makes no difference
+
+"{{{1 				*IDEAS*
 move to orgmode I guess...
 
-* 'superbar' thing yeah
+* "superbar" thing yeah
 " :CD - change window-local CWD to dir of curr open buffer
 	bit hand in hand: window-local fileexplorer
 
@@ -21,28 +26,7 @@ move to orgmode I guess...
 <do stuff>
 :syntime report
 "}}}
-" emojis bc why not... "{{{
-  👍  👎   👌  👊   ✌️    ✋   💪     
-  🌑  🌒  🌓  🌔  🌔  🌕  🌖  🌗  🌘     
-  🌙  ⚡     ⭐  🌟   ✨      ☀️    🔆  🔅        💫     💥  🔥        
-  ⛅  ☁️        ❄️      💧     
-  💿  📀  💽   💾     ☎️    📞   📡     🔊  🔇    🔔  🔕     
-  ⏳  ⌛  ⏰      ⌚       📅  📆 
-  🔓  🔒  🔏  🔐    🔑     
-  🔍  🔎  💡  🔦   🔧  🔩  🔨  ✂️    🔗  📐     
-  🚬  💣  🔫  🔪     💊  💉 📯      📦       🐳  🐋     🌐     
-  📝  📄  📃   📑   ✉️     📈  📉  📜   📋  	📇     📖  🔖   📰     
-  📕 📗 📘 📙 📓 📔 📒      📚      📁  📂 
-  🎤  🎼  🎶  🎹  ⚽  🎾  🎱     
-  🎲  🏁  🏆     ☕   🍵   🍺     🎩     ⚓      🚀   ✈️     🚦 🚥      
-	®️    ©️      ™️     
-  ❕❔     ❗❓     ‼️    ⁉️ 
-	⭕   ❌        
-	🚫   ⛔    ⚠️    🚧      🔰     
-  🕛 🕧 🕐 🕜 🕑 🕝 🕒 🕞 🕓 🕟 🕔 🕠 🕕 🕖 🕗 🕘 🕙 🕚 🕡 🕢 🕣 🕤 🕥 🕦     
-	💚    💛 🔶 🔸  	🔷 🔹  🔵  💙    🔻 🔺  	📍 🚩 🎈   🎯 💢  🔴	 ❤️  
-	"}}}
-"⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏ 
+"⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏  
 ""{{{1 				DEBUG / TROUBLESHOOT / FIXES
 "{{{2					 slow scrolling splits on left/right:
 " first noticed because having nerdtree etc open would make shit mad laggy
@@ -73,9 +57,37 @@ move to orgmode I guess...
 "
 "
 "}}}
+sometimes the whole thing freezes up with 100% cpu, esp on entering window and
+after :write:
+profile shows -
+
+count  total (s)   self (s)  function
+   57   5.011494   0.001167  airline#extensions#branch#get_head()
+   57   5.010327   0.001942  airline#extensions#branch#head()
+   57   5.000767   0.004057  <SNR>162_update_untracked()
+    8   4.995163             airline#util#system()
+    3   1.283763   0.000366  gitgutter#async#handle_diff_job_nvim()
+    2   1.282511   0.000228  gitgutter#handle_diff()
+    2   1.256552   0.000422  gitgutter#sign#update_signs()
+    2   1.160197   1.160178  gitgutter#sign#remove_signs()
+    1   0.300363   0.000049  RefreshUI()
+
+for just one :w and moving cursor a tiny bit afterwards. So def an airline
+	issue, but originating in git somehow...so, fugitive? or?
+	SNR 162 = *~/.vim/plugged/vim-airline/autoload/airline/extensions/branch.vim*
+	so slowness in |get_head()| is just from calls to |head()| which is just from
+	its calls to |update_untracked()| which is in turn from |system()| which calls
+	|jobstart()| / |system()| / |jobwait()| (nvim) or just |system()| (vim)
+
+	gitgutter is also showing incorrect info when this happens, like "+27" lines
+	for vimrc unchanging. So git is def pulling something weird.
+
+	I guess gitgutter |remove_signs()| is also a bit suspicious and should be
+	worked out (after whatever the primary airline ill is here)
 "________________________________________
 
 ""{{{1 				NOTES
+{{{2 					UNICODE / POWERLINE DUMP
 ▦ ▤ ▣ ▢  ▢ 
 □ ■ 
 ● ○ ◉ ◎ ◌ ◯
@@ -86,32 +98,79 @@ powerline-esque, obviously not good enough bc not nearly tall enough....
 unicode, alllmost works but leaves some gaps sadly :(
 ◣ ◢   ◤ ◥  vs powerline   
 
-Question: can you prevent "exit insert"/"enter insert" or whatever, autocmds
-from running on a simple <C-o>? Cause everything doing that gets really
-sluggish now. Example:
+nerd fonts shite
+  
+ 
+    
+     
+    
+   
+      
+    
+  
+ 
+     
+      
+
+  
+powerline       
+extra 		         								 
+					       				          
+#				       					  
+/*}}}*/
+" emojis bc why not... "{{{2
+  👍  👎   👌  👊   ✌️    ✋   💪     
+  🌑  🌒  🌓  🌔  🌔  🌕  🌖  🌗  🌘     
+  🌙  ⚡     ⭐  🌟   ✨      ☀️    🔆  🔅        💫     💥  🔥        
+  ⛅  ☁️        ❄️      💧     
+  💿  📀  💽   💾     ☎️    📞   📡     🔊  🔇    🔔  🔕     
+  ⏳  ⌛  ⏰      ⌚       📅  📆 
+  🔓  🔒  🔏  🔐    🔑     
+  🔍  🔎  💡  🔦   🔧  🔩  🔨  ✂️    🔗  📐     
+  🚬  💣  🔫  🔪     💊  💉 📯      📦       🐳  🐋     🌐     
+  📝  📄  📃   📑   ✉️     📈  📉  📜   📋  	📇     📖  🔖   📰     
+  📕 📗 📘 📙 📓 📔 📒      📚      📁  📂 
+  🎤  🎼  🎶  🎹  ⚽  🎾  🎱     
+  🎲  🏁  🏆     ☕   🍵   🍺     🎩     ⚓      🚀   ✈️     🚦 🚥      
+	®️    ©️      ™️     
+  ❕❔     ❗❓     ‼️    ⁉️ 
+	⭕   ❌        
+	🚫   ⛔    ⚠️    🚧      🔰     
+  🕛 🕧 🕐 🕜 🕑 🕝 🕒 🕞 🕓 🕟 🕔 🕠 🕕 🕖 🕗 🕘 🕙 🕚 🕡 🕢 🕣 🕤 🕥 🕦     
+	💚    💛 🔶 🔸  	🔷 🔹  🔵  💙    🔻 🔺  	📍 🚩 🎈   🎯 💢  🔴	 ❤️  
+	"}}}
+
+Question 		can you prevent "exit insert"/"enter insert" or whatever, autocmds
+						from running on a simple <C-o>? 
+						Cause everything doing that gets really sluggish now. Example:
 " inoremap <Up>      <C-o>gk
+Note: outside of <C-o>, at least <C-c> skips InsertLeave. How skip InsertEnter?
 
 
-<Plug> needs to be map-ed, no *nore
+<Plug> 			needs to be |map|-ed, no |nore|
+|autocmds| 	dont protect matchadd() from duplicate matches. 
+						Need to also wrap a check, if !exists()
 
-fzf has :Maps which is p much like my <leader>map+lista filter.
+
+fzf has |:Maps| which is p much like my <leader>map+lista filter.
 
 "a"{{{2  			TEXT OBJECTS
-	dl"		delete character (alias: "x")		|dl|
-	diw"	delete inner word								*diw*
-	daw"	delete a word										*daw*
-	diW"	delete inner WORD (see |WORD|)	*diW*
-	daW"	delete a WORD (see |WORD|)			*daW*
-	dgn" 	delete the next search match    *dgn*
-	dd"		delete one line									|dd|
-	dis"	delete inner sentence						*dis*
-	das"	delete a sentence								*das*
-	dib"	delete inner '(' ')' block			*dib*
-	dab"	delete a '(' ')' block					*dab*
-	dip"	delete inner paragraph					*dip*
-	dap"	delete a paragraph							*dap*
-	diB"	delete inner '{' '}' block			*diB*
-	daB"	delete a '{' '}' block					*daB*
+|delete| example:
+dl"			  character (alias: "x")		|dl|
+diw"		  inner word								*diw*
+daw"		  a word										*daw*
+diW"		  inner WORD (see |WORD|)	*diW*
+daW"		  a WORD (see |WORD|)			*daW*
+dgn"		  the next search match    *dgn*
+dd"			  one line									|dd|
+dis"		  inner sentence						*dis*
+das"		  a sentence								*das*
+dib"		  inner '(' ')' block			*dib*
+dab"		  a '(' ')' block					*dab*
+dip"		  inner paragraph					*dip*
+dap"		  a paragraph							*dap*
+diB"		  inner '{' '}' block			*diB*
+daB"		  a '{' '}' block					*daB*
 
 "{{{2					SURROUND
 Old text(*=cursor)        Command     New text ~
@@ -142,46 +201,45 @@ w*orld!       yssB             {Hello world!}
 "}}}
 
 {{{2  			 FOLD MANIP
- 	zf#j 	 		 creates a fold from the cursor down # lines.
- 	zf/string  creates a fold from the cursor to string.
- 	zj				 moves the cursor to the next fold.
- 	zk				 moves the cursor to the previous fold.
- 	zo				 opens a fold at the cursor.
- 	zO				 opens all folds at the cursor.
- 	zm				 increases the foldlevel by one.
- 	zM				 closes all open folds.
- 	zr				 decreases the foldlevel by one.
- 	zR				 decreases the foldlevel to zero -- all folds will be open.
- 	zd				 deletes the fold at the cursor.
- 	zE				 deletes all folds.
- 	[z				 move to start of open fold.
- 	]z				 move to end of open fold.
+|zf#j|				creates a fold from the cursor down # lines.
+|zf/string|		creates a fold from the cursor to string.
+|zj|					moves the cursor to the next fold.
+|zk|					moves the cursor to the previous fold.
+|zo|					opens a fold at the cursor.
+|zO|					opens all folds at the cursor.
+|zm|					increases the foldlevel by one.
+|zM|					closes all open folds.
+|zr|					decreases the foldlevel by one.
+|zR|					decreases the foldlevel to zero -- all folds will be open.
+|zd|					deletes the fold at the cursor.
+|zE|					deletes all folds.
+|[z|					move to start of open fold.
+|]z|					move to end of open fold.
 "}}}
 "{{{2 				WINDOW MGMT
-<C-W> _ "Max out the height of the current split"
-<C-W> | "Max out the width of the current split"
-<C-W> = "Normalize all split sizes, which is very handy when resizing terminal
-<C-W> R "Swap top/bottom or left/right split
-<C-W> T "Break out current window into a new tabview
-<C-W> o "Close every window in the current tabview but the current one"
+<C-W> _ 			Max out the height of the current split
+<C-W> | 			Max out the width of the current split
+<C-W> = 			Normalize all split sizes, which is very handy when resizing terminal
+<C-W> R 			Swap top/bottom or left/right split
+<C-W> T 			Break out current window into a new tabview
+<C-W> o 			Close every window in the current tabview but the current one
 "}}}
-normal mode {  } = move to prev/next empty line (have remapped so arrow keys work like athat)
+|{| / |}| 		normal mode = move to prev/next empty line (have remapped so arrow keys work like athat)
 
-[I list all lines containing word under cursor! remap to something?
-or reimplement / find version that retains highlighting and actually highlights search
+|[I| 					list all lines containing word under cursor! remap to something?
+							or reimplement / find version that retains highlighting and actually highlights search
 
+|q:| and |q/|	highlighted command window with list of prev cmds/searches
+<C-f> 				opens history when already at : prompt
 
-q: and q/  	= highlighted command window with list of prev cmds/searches
-<C-f> opens history when already at : prompt
+<C-X><C-L> 		complete entire lines, p cool!
 
-<C-X><C-L> = complete entire lines, p cool!
+|:read| |!shellcmd|  put output of cmd into buffer! sweet so like :read !pbpate
 
-gn / gN = jump to next search match and select it visually. if already in visual, select to there...
-gp / gP = paste without moving cursor
-:read !shellcmd 		put output of cmd into buffer! sweet so like :read !pbpate
-
-" explains weird <expr> '' "" differences: 			use double-quotes and "\..." notation |expr-quote|
-feedkeys("\<CR>") simulates pressing of the <Enter> key, feedkeys('\<CR>') pushes 5 characters.
+|explains| |weird|   use double-quotes and "\..." notation 					|expr-quote|
+<expr> '' ""		 feedkeys("\<CR>") simulates pressing of the <Enter> key, 
+|differences|		 feedkeys('\<CR>') pushes 5 characters.
+								
 
 "{{{2 				CHANGE CASE
 Toggle case "HellO" to "hELLo"		g~	   then a movement.
@@ -202,15 +260,24 @@ c_			:h c_CTRL-R		ex command line
 -				:h -r					Vim argument (starting Vim)
 "}}}
 
-g-
-g+ 		" step back and forth in history purely time-wise (ignoring branches): 
-g;
-g, 		" moves backward and forward in edit locations
+|g-| |g+|	step back and forth in history purely time-wise (ignoring branches) 
+|g;| |g,|	moves backward and forward in edit locations
+|gn| |gN|	jump to next search match and select it! if already in visual, select to there...
+|gp| |gP|	paste without moving cursor
 
-<C-r>" (paste at commandline: for default register)
+<C-r>" 		(paste at commandline: for default register)
 
-C-^ is (randomly or  bc my remappings in osx + vim both?) equiv to the C-] that follows help links...
-rebinding to <CR><CR>? 
+<C-^>			is (randomly, or bc my remappings in osx + vim both?) equiv to the 
+					<C-]> that follows help links...
+
+|map!| 		like |imap| + |cmap|
+<C-v> 		visual block, duh. What to remember is that |i| for some reason
+					doesn't work, need |I| to enter insert mode and operate on all at once.
+					Thankfully this doesn't move cursor. Still, why? Default or a side effect from 
+					something dumb? Guess it's the same thing fucking multiple cursors for me.
+<C-e> 		accept completion in cmdline
+<C-d> 		accept completion in cmdline + list directory contents
+					so remap <CR> to like "if iscompleting/wildmenu, then <C-d> + <tab>
 
 "{{{ 					vimgrep / regex:
 " NOT match:
@@ -238,3 +305,5 @@ WINDOWSWAP: plugin I had all along.... <Leader>ww in one window, then another, t
 
 from scriptease: K does viml help, zS show highlighting group under cursor,
 :Verbose auto redir to preview window, etc... good.
+}}}
+vim: filetype=help foldmethod=marker modifiable noreadonly:
