@@ -279,6 +279,9 @@ c_			:h c_CTRL-R		ex command line
 <C-d> 		accept completion in cmdline + list directory contents
 					so remap <CR> to like "if iscompleting/wildmenu, then <C-d> + <tab>
 
+set |eventignore=all| 	etc. Disable autocmds temporarily (globally)
+set |ei=InsertEnter|
+
 "{{{ 					vimgrep / regex:
 " NOT match:
 '^\(.*not_this\)\@!

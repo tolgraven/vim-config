@@ -1,12 +1,13 @@
 scriptencoding utf-8
 " vim: set shiftwidth=2 tabstop=2 softtabstop=2 ft=vim fdm=marker:
+" if &shell =~# 'fish$' | set shell=zsh | endif		"some stuff apparently still iffy about this? obvs fucks fish with :terminal etc tho, workaround?
 " ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅
 "{{{1 				PLUGIN LOAD
 filetype off "{{{2
 call plug#begin('~/.vim/plugged') 
 "}}}
 
-"{{{2					 --- FUZZ ME 'ARD | WIT UR <BAR>-LINE 	  								PLUG
+"{{{2					 --- FUZZ ME 'ARD | WIT UR <BAR>-LINE 	  					PLUG
 Plug 'ctrlpvim/ctrlp.vim' | Plug 'tacahiroy/ctrlp-funky' | Plug 'sgur/ctrlp-extensions.vim' | Plug 'jasoncodes/ctrlp-modified.vim'
 Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim' "proper way when already have brew fzf. should check if path exists first tho, for linuxbrew etc
 Plug 'Shougo/denite.nvim' "| Plug 'Shougo/neomru.vim', {'on': 'Denite'} | Plug 'Shougo/unite.vim' "if loading denite on demand would need to check if exists before calling setup funcs...
@@ -18,9 +19,10 @@ Plug 'mbbill/undotree' ", {'on': 'UndotreeToggle'}
 
 Plug 'morhetz/gruvbox' 											"best theme only cunts disagree c/d??
 if !exists('g:pager_mode_so_fuckoff_all_fatasses') 
-  Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
-	Plug 'mhinz/vim-startify'  									"nice lil start page/session manager
-	Plug 'scrooloose/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+Plug 'mhinz/vim-startify'  									"nice lil start page/session manager
+Plug 'scrooloose/nerdtree'
+" Plug 'Xuyuanp/nerdtree-git-plugin'				 "on-again off-again slowdown issues ugh
 Plug 'ryanoasis/vim-devicons' 							"emoji bullshit for adult idiots. very pretty
 endif
 " Plug '0phoff/vim-devicons', { 'branch': 'colors' }  "fork for lightline-coldevicons
@@ -32,7 +34,7 @@ endif
 Plug 'gcmt/taboo.vim' 											"rename tabs and stuff
 Plug 'zefei/vim-wintabs' 										"tabs for windows!
 " Plug 'bling/vim-bufferline'                 "buffer list in cmd bar? sounds nifty, mostly just random spew there anyways
-"{{{2					--- SYNTAX B REAL COLERFULL  		PLUG
+"{{{2					--- SYNTAX B REAL COLERFULL												PLUG
 Plug 'sheerun/vim-polyglot' 								"shit ton of different languages
 let g:polyglot_disabled					=['tmux', 'json', 'python', 'clojure'] "have better replacements
 "{{{ HONEST HARDWORKING MURICAN SYNTAXES OUT OF A JOB BC POLYGLOT IMGRANTS???
@@ -68,8 +70,8 @@ Plug 'junegunn/rainbow_parentheses.vim', {'on': 'RainbowParentheses'} "active fo
 " Plug 'klen/python-mode', 				{'for': 'python'}
 " Plug 'jeaye/color_coded'										"fancy clang highlighting...no neovim support yet :/
 
-"{{{2					--- COME PLEASED  		PLUG
-Plug 'ervandew/supertab'
+"{{{2					--- COME PLEASED																PLUG
+" Plug 'ervandew/supertab'
 Plug 'honza/vim-snippets'
 Plug 'Shougo/neosnippet' | Plug 'Shougo/neosnippet-snippets'
 
@@ -95,7 +97,9 @@ Plug 'Shougo/neco-vim', 							{'for': 'vim'}
 Plug 'zchee/deoplete-zsh', 						{'for': 'zsh'}
 Plug 'Shougo/neco-syntax'                                             "filetype syntax completion
 Plug 'Shougo/context_filetype.vim'    | Plug 'Shougo/neoinclude.vim' 	"complete from included files?
-Plug 'SevereOverfl0w/deoplete-github'	| Plug 'thalesmello/webcomplete.vim' | Plug 'wellle/tmux-complete.vim'
+Plug 'SevereOverfl0w/deoplete-github'
+" Plug 'thalesmello/webcomplete.vim'
+Plug 'wellle/tmux-complete.vim'
 "}}}
  
 " Plug 'Shougo/neopairs.vim'      																	"autopairs from shuogo?
@@ -110,12 +114,13 @@ Plug 'Shougo/echodoc.vim' 									"show function args in msg area after complet
 
 Plug 'chrisbra/unicode.vim'
 
-"{{{2  					--- UTILNTTY   		PLUG
-Plug 'marcweber/vim-addon-mw-utils'
+"{{{2  					--- UTILNTTY																		PLUG
+" Plug 'marcweber/vim-addon-mw-utils'   					"tinyfunc and utils. noneed?
 Plug 'tomtom/tcomment_vim', {'on': 'TComment'} 	"toggle comments better
 Plug 'tpope/vim-surround' 											"put stuff around stuff
 Plug 'tpope/vim-repeat' 												" . for plugins
 Plug 'jiangmiao/auto-pairs' 										"test if works better than gentle ver
+Plug 'tpope/vim-endwise'												"auto endif endfunc etc
 Plug 'ConradIrwin/vim-bracketed-paste' 					"auto paste mode and back
 Plug 'bfredl/nvim-miniyank' 										"pro yank like in shell
 Plug 'machakann/vim-highlightedyank' 	"is making yank move when doing motions? hmm y0 already moves either way 		highlight yanked region. works with miniyank and without config/mapping in nvim
@@ -127,7 +132,7 @@ Plug 'tomtom/tinykeymap_vim' 										"for repeating multikey stuff easier (eg.
 " Plug 'tpope/vim-rsi' 														"readline bindings
 Plug 'vim-utils/vim-husk' 											"less aggro readline bindings?
 " Plug 'godlygeek/tabular', 	{'on': 'Tabularize'} "align text
-Plug 'junegunn/vim-easy-align' 										"easier text align?
+Plug 'junegunn/vim-easy-align' 									"easier text align?
 Plug 'sbdchd/neoformat' 												"format code 
 Plug '907th/vim-auto-save', {'for': 'text'} 		"autosave, for my note popup term
 Plug 'MarcWeber/vim-addon-local-vimrc', {'for': 'text'} 	"per folder .localvimrc
@@ -135,7 +140,9 @@ Plug 'tpope/vim-tbone' 													"tmux stuff
 Plug 'tpope/vim-eunuch' 												"shell tool unix stuff
 Plug 'tpope/vim-dispatch', {'on': 'Dispatch'} 	"async shell jobs etc
 Plug 'tpope/vim-scriptease' 										"do debug a scriptz (+ :Verbose = auto redir to preview window, hell yeah)
-Plug 'kana/vim-textobj-user' 										"custom text objects
+Plug 'kana/vim-textobj-user' | Plug 'kana/vim-textobj-line'	| Plug 'kana/vim-textobj-entire'	| Plug 'kana/vim-textobj-indent'								"custom text objects
+Plug 'vimtaku/vim-textobj-keyvalue' | Plug 'thinca/vim-textobj-between' | Plug 'saaguero/vim-textobj-pastedtext'
+Plug 'jceb/vim-textobj-uri' | Plug 'kana/vim-textobj-syntax' | Plug 'rhysd/vim-textobj-continuous-line'
 " Plug 'vim-scripts/marvim' 											"save macros and shit, maybe when im better with those
 " Plug 'vim-scripts/repeatable-motions.vim' 			"repeat movements/motions
 Plug 'nathanaelkane/vim-indent-guides'
@@ -143,28 +150,31 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'kopischke/vim-fetch'                      "open file to line/col using format from stack traces and similar
 " Plug 'lambdalisue/pinkyless.vim' 								"maybe good w a different config
 Plug 'blueyed/vim-diminactive'                  "dim inactive windows
-"{{{2					--- SATNAV YOU A GLONASS  		PLUG
-" Plug 'goldfeld/vim-seek'	 									"easymotion inna line
+Plug 'mtth/cursorcross.vim'
+"{{{2					--- SATNAV YOU A GLONASS															PLUG
+" Plug 'qstrahl/vim-matchmaker'								"auto-highlight word under cursor without fucking your search or performance. Then make it subtle and keep that shit running
+Plug 'itchyny/vim-cursorword'								"check how compares...
 Plug 'justinmk/vim-sneak'                   "best parts of vim-seek and easymotion in one basically
-Plug 'easymotion/vim-easymotion' 
-" Plug 'haya14busa/incsearch.vim'   					"atm using own version bc they refuse to fix nvim bug
+" Plug 'easymotion/vim-easymotion'					"meh, sneak covers my needs I reckon
+" Plug 'haya14busa/incsearch.vim'   				"atm using own version bc they refuse to fix nvim bug
 Plug 'haya14busa/incsearch-easymotion.vim' | Plug 'haya14busa/incsearch-fuzzy.vim' 	"easymotion + fuzzysearch for incsearch
 Plug 'yuttie/comfortable-motion.vim'
 Plug 'terryma/vim-multiple-cursors' 				"why is this slow as balls? fantastic, either way
-" Plug 'tpope/vim-unimpaired' 								"shortcuts for stuff via [], would need to rebind
+" Plug 'tpope/vim-unimpaired' 							"shortcuts for stuff via [], would need to rebind
 " Plug 'zhaocai/GoldenView.Vim', 	{'on': 'ToggleGoldenViewAutoResize'} "buggier than a motherfucker
 Plug 'szw/vim-maximizer', 			{'on': 'MaximizerToggle'}	"maximize/restore split
-Plug 'wesQ3/vim-windowswap'                 "very good. need to get the airline integration working tho
+" Plug 'wesQ3/vim-windowswap'                 "very good. choosewin includes same functionality tho
+Plug 't9md/vim-choosewin'										"navigate to windows like tmux overlays
 Plug 'christoomey/vim-tmux-navigator' 			"navigate vim splits and tmux splits with same keys
 Plug 'lacombar/vim-mpage', {'on': 'MPageToggle'} "multipage. view buffer over multiple windows, like a book
 Plug 'mhinz/vim-sayonara', 	{'on': 'Sayonara'} 	"kill buffer preserve window
 Plug 'Shougo/neoyank.vim' 									"yank history for unite/denite?
-Plug 'tpope/vim-vinegar' 										"something about file browsing
-" Plug 'airblade/vim-rooter' 									"auto change dir to proj base.  startify can handle?
+" Plug 'tpope/vim-vinegar' 										"something about file browsing
+" Plug 'airblade/vim-rooter' 								"auto change dir to proj base.  startify can handle?
 Plug 'Konfekt/FastFold' 										"make folds easier lighter on sys
 Plug 'kshenoy/vim-signature'                "put marks n shit, yo
 
-"{{{2					--- B THE DIFFERENCED & ASSORTED LALL  		PLUG
+"{{{2					--- B THE DIFFERENCED & ASSORTED LALL									PLUG
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 " Plug 'jreybert/vimagit'
@@ -178,7 +188,7 @@ Plug 'lambdalisue/vim-pager' "| Plug 'lambdalisue/vim-manpager'
 Plug 'lambdalisue/vim-rplugin'
 
 " Plug 'rhysd/nyaovim-popup-tooltip'
-"{{{2 					---FANCY JOAN FREGERT's FORKS BECAUSE AM BETTZER THAN ZU CONTRIBUTE, HUH  		PLUG
+"{{{2 					---FANCY JOAN FREGERT's FORKS and originals					PLUG
 Plug '~/Documents/CODE/VIM/LISTA/lista.nvim', 						{'on': ['Lista', 'ListaCursorWord'], 'do': ':UpdateRemotePlugins'}  "my fork of 'lambdalisue/lista.nvim'
 Plug '~/Documents/CODE/VIM/forks--/incsearch.vim'
 Plug '~/Documents/CODE/VIM/forks--/vim-manpager'
@@ -186,6 +196,10 @@ Plug '~/Documents/CODE/VIM/forks--/semantic-highlight.vim', {'on': 'SemanticHigh
 Plug '~/.config/nvim/scripts/ColDevicons' 			"colored devicons in nerdtree, even prettier
 Plug '~/Documents/CODE/VIM/forks--/vim-numbertoggle' 		"forked 'jeffkreeftmeijer/vim-numbertoggle' auto switch on rel numbers for normal and visual?
 Plug '~/Documents/CODE/VIM/COLORS/bruvbox' 			"eventual bruvbox
+" Plug '~/Documents/CODE/VIM/forks--/vim-matchmaker'
+Plug '~/Documents/CODE/VIM/forks--/webcomplete.vim'		"quick fix to not auto-launch chrome if not launched, before proper webcomplete implemented...
+Plug '~/Documents/CODE/VIM/proper-smooth.vim'
+
 "{{{2 						PLUG END
 call plug#end() 
 set runtimepath 					 +=~/.vim/bundle/deoplete.nvim
@@ -237,10 +251,11 @@ if has('nvim') "{{{2
 	set noshowcmd 																	" something about nvim + tmux flickering issues...
 	set mouse 									=a 									"no longer autoset in neovim 0.2.0 for some reason? $TERM thing?
 
-" augroup NeovimSpecific | autocmd!
+augroup NeovimSpecific | autocmd!
+	" autocmd TermOpen		
 		" autocmd CursorHold * rshada|wshada
 		" autocmd BufWritePost * Neomake 							"getting in the way of ALE
-" augroup END 
+augroup END 
 else "{{{2 					REGULAR VIM
 	if has('syntax') && !exists('g:syntax_on')
 		syntax enable
@@ -329,7 +344,7 @@ set listchars 							=tab:·\ ,trail:·
   
 " set list listchars=tab:»-,trail:·,extends:»,precedes:«  "lol, no
 " set list 															"show tabs and trails. nah, annoying, autocleanup instead 
-let &colorcolumn=join(range(100,300),',') "fade bg slightly past not 80 but 100 cols bc fuck yall, 43in display innit
+let &colorcolumn=join(range(100,240),',') "fade bg slightly past not 80 but 100 cols bc fuck yall, 43in display innit
 "}}}
 
 set ttimeout 		ttimeoutlen	=2					"timeout for keycode sequence
@@ -407,30 +422,54 @@ let g:wintabs_autoclose_vim 					=1
 let g:taboo_tabline										=0
 let g:taboo_renamed_tab_format        =' %l%m '  "default ' [%l]%m'
 
-let g:diminactive_max_cols            =100
+let g:choosewin_label									='123456789'
+let g:choosewin_tablabel							='ABCDEFGHIJKL'
 
 let g:neoterm_repl_python             ='ptipython'
 let g:neoterm_autoinsert              =1
-let g:neoterm_keep_term_open          =0        "so polluting otherwise. temp-reset val, or have it autoconnect to a tmux sesh or something
+" let g:neoterm_keep_term_open          =0        "so polluting otherwise. temp-reset val, or have it autoconnect to a tmux sesh or something
 
-let g:easy_align_ignore_comment				=0				"align comments aswell
+let g:easy_align_ignore_comment				=0				"dont skip aligning comments
 
-" augroup ProperComfortableMotion | autocmd!
-" 	autocmd WinEnter	*		call SetupProperComfortableMotionForWindow(winheight(0))
-" augroup END
-" function! SetupProperComfortableMotionForWindow(winheight)
-"
-" endfunction 
-" nnoremap <silent> <C-d> :call comfortable_motion#flick(800)<CR>
-" nnoremap <silent> <C-u> :call comfortable_motion#flick(-800)<CR>
-" nnoremap <silent> <C-f> :call comfortable_motion#flick(1600)<CR>
-" nnoremap <silent> <C-b> :call comfortable_motion#flick(-1600)<CR>
+let g:matchmaker_enable_startup				=1				"matchmaker is cruise control for texting yer sexts, always
+
+let g:diminactive_max_cols            =100
+let g:diminactive_buftype_blacklist		=['nofile', 'nowrite', 'acwrite', 'quickfix'] ", 'help']
+let g:diminactive_filetype_blacklist  =['startify']
+
+
+let g:indent_guides_indent_levels					=14
+let g:indent_guides_auto_colors           =0
+let g:indent_guides_enable_on_vim_startup =1
+let g:indent_guides_start_level           =3
+let g:indent_guides_guide_size            =2  "doesnt work with tabs ugh.
+" let g:indent_guides_color_change_percent =5
+let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'startify']
+
+
+" let g:cursorcross_dynamic							='cw'			"w = disable for other windows. c = auto cursorline. l = fuckoff
+let g:cursorcross_dynamic							='c'			"c = auto cursorline, dont touch abything else
+" let g:cursorcross_exceptions					=[]
+let g:cursorcross_mappings						=0
+	
+let g:ranger_map_keys									=0
+
+" test, add generic syntax-based complete omnifunc _only if no other provided_
+autocmd Filetype *	if &omnifunc == "" | 	setlocal omnifunc=syntaxcomplete#Complete |	endif
+
+
+" nnoremap <silent> <C-d> :call comfortable_motion#flick(600)<CR>
+" nnoremap <silent> <C-u> :call comfortable_motion#flick(-600)<CR>
+" nnoremap <silent> <C-f> :call comfortable_motion#flick(1200)<CR>
+" nnoremap <silent> <C-b> :call comfortable_motion#flick(-1200)<CR>
 let g:comfortable_motion_scroll_down_key="j"		"without this it actually changes the behavior (outcome) of ctrl-d et al
 let g:comfortable_motion_scroll_up_key	="k"
 let g:comfortable_motion_interval			=10				"default 1000 / 60 = 16.repeating
 let g:comfortable_motion_friction			=0				"default 80
 " let g:comfortable_motion_air_drag			=4.0			"default 2.0
 let g:comfortable_motion_air_drag			=24.5
+
+
 "{{{2 				 AIRLINE
 let g:airline_powerline_fonts 										=1      "otherwise, if doc is utf8 it uses crappy unicode ones
 let g:airline_left_sep 														=''    "  vs ⮀ ''  
@@ -446,28 +485,29 @@ let g:airline#extensions#tabline#left_sep 				='  '      "' ' '  
 let g:airline#extensions#tabline#left_alt_sep 		='  '    "'  ' '│'
 let g:airline#extensions#tabline#right_sep 				=' '     "' '
 let g:airline#extensions#tabline#right_alt_sep 		='  '       "'  ' '│' ' '
-let g:airline#extensions#tabline#buffer_nr_show 	=1
+let g:airline#extensions#tabline#tabs_label 			=' '	"'T' 
 let g:airline#extensions#tabline#tab_nr_type      =2      "show both tab nr and amount of splits
-let g:airline#extensions#tabline#tabs_label 			=' '	"'T'
-let g:airline#extensions#tabline#buffers_label 		='B' 	"'' 
 let g:airline#extensions#tabline#show_tab_type 		=1
 let g:airline#extensions#tabline#fnamecollapse 		=1
 let g:airline#extensions#tabline#show_close_button=0
 let g:airline#extensions#tabline#middle_click_preserves_windows =1
 " let g:airline#extensions#tabline#formatter 				='unique_tail_improved'
 let g:airline#extensions#tabline#fnamemod 				=':t' 	"Just buf/filename no path in tabs
-let g:airline#extensions#tabline#buffer_nr_format ='%s  '
+let g:airline#extensions#tabline#buffers_label 		='B' 	"'' 
+let g:airline#extensions#tabline#buffer_nr_show 	=1
+" let g:airline#extensions#tabline#buffer_nr_format ='%s  '
 " let g:airline#extensions#tabline#buffer_idx_mode 	=1 			"something about switching buffers not tabs, sux
 " let g:airline#extensions#tabline#excludes         =['NERD_Tree', 'Tagbar']
 let g:airline#extensions#tabline#ignore_bufadd_pat=
-\'\c\vgundo|undotree|vimfiler|tagbar|nerd_tree|nerdtree|buffergator|ctrlp|fzf|vimplug|preview|previewwindow' "avoids unnessesary redraw
+\'\c\vgundo|undotree|vimfiler|nerd_tree|nerdtree|buffergator|ctrlp|fzf|vimplug|preview|previewwindow' "avoids unnessesary redraw
 "}}}
 "shorter mode names. has  for I, put somewhere with check for devicons first i guess
 let g:airline_mode_map 	= { '__': '-', 'n': 'N', 'i': '', 'R': 'R', 'c': 'C',
 													\ 'v': 'v', 'V': 'V  ', '': 'V ▢ ',
 													\ 's': 's', 'S': 'S  ', '': 'S ▢ '}
 
-let g:airline#extensions#default#formatter 				='unique_tail_improved'
+" let g:airline#extensions#default#formatter 				='unique_tail_imroved'
+let g:airline#extensions#default#formatter 				='default'
 let g:airline#extensions#default#layout=[['a', 'c', 'b', 'gutter'],
 																				\['error', 'warning', 'x', 'z']] " hide section y with filetype bs bc doesnt seem to stick when I try to repurpose it?
 " let g:airline#extensions#default#section_truncate_width ={
@@ -487,7 +527,7 @@ function! AirlineHunksColored()
   call airline#parts#define_accent(  'hunk_added',    'green')
   call airline#parts#define_accent(  'hunk_changed',  'yellow')
   call airline#parts#define_accent(  'hunk_deleted',  'red')
-  let g:airline_section_b = airline#section#create(['hunk_added', 'hunk_changed', 'hunk_deleted', 'branch'])
+  let g:airline_section_b = airline#section#create(['hunk_added', 'hunk_changed', 'hunk_deleted', 'branch', ' '])
 endfunction
 function! AirlineHunkAdded()
   let g:hunk_summary = GitGutterGetHunkSummary()      "this works but feels... uh, hacky
@@ -755,7 +795,8 @@ let g:ctrlp_default_input 										=0
 let g:ctrlp_max_files 												=20000
 let g:ctrlp_match_window ='bottom,order:btt,min:1,max:30,results:30' "results 0 == no limit
 let g:ctrlp_working_path_mode 								='rw'
-let g:ctrlp_clear_cache_on_exit 							=0 										"share cache
+" let g:ctrlp_clear_cache_on_exit 							=0 										"share cache
+let g:ctrlp_clear_cache_on_exit 							=1 										"is annoying bc _never_ auto updates ugh, so wipe I guess...
 let g:ctrlp_cache_dir 												=$HOME.'/.cache/ctrlp'
 let g:ctrlp_switch_buffer 										=0 										"disable autojumping to other panes 'Et'
 let g:ctrlp_extensions=['dir', 'undo', 'line', 'changes', 'mixed', 'tag', 'buffertag'] ", 'quickfix', 'rtscript', 'bookmarkdir'
@@ -876,8 +917,9 @@ let g:multi_cursor_exit_from_visual_mode=0
 
 
 "{{{2 				 SNEAK
-let g:sneak#use_ic_scs  =1    "resoect smartcase etc
+let g:sneak#use_ic_scs  =1    "respect smartcase etc
 let g:sneak#s_next      =1    "just mash s to navigate further...
+" let g:sneak#label				=1		"easymotion style
 
 "{{{2 				 ASSORTED RANDOM
 " if executable('ag') | let g:ackprg = 'ag --vimgrep' | endif
@@ -1179,11 +1221,6 @@ augroup END
 " "}}}
 "}}}
 
-let g:indent_guides_auto_colors           =0
-let g:indent_guides_enable_on_vim_startup =1
-let g:indent_guides_start_level           =3
-let g:indent_guides_guide_size            =2  "doesnt work with tabs ugh.
-" let g:indent_guides_color_change_percent =5
 
 
 "{{{2 				 PER FILETYPE AUTOCMDS
@@ -1200,6 +1237,7 @@ autocmd BufNewFile,BufRead *.py		setlocal softtabstop=2 shiftwidth=2 textwidth=7
 
 " autocmd BufNewFile,BufRead 	*.applescript 	set filetype 	=applescript "gets loaded as sh??
 autocmd BufNewFile,BufRead 	*.fish 	set filetype=fish 			 "same, wtf?
+autocmd FileType	fish			compiler fish | setlocal foldmethod=expr
 
 autocmd FileType vim,fish,lua,python,ruby,go,clojure,sh,javascript    IndentGuidesEnable
 
@@ -1221,7 +1259,7 @@ autocmd FileType vim,lua		if !exists('w:loaded_matchadds_folds')	| call SetupMat
 " autocmd FileType vim,lua	let w:matchrightbraces	=matchadd('foldOpenedMarker', '}}}')
 
 augroup END "}}}2
-
+"{{{2					 SETUP THE CUSTOM MATCHADDS
 function! SetupMatchaddsFolds() abort
 	" let w:matchfoldlevel		=matchadd('BruvboxRedSign', '+---')                                                                              
   let w:matchdashes				=matchadd('Folded', '----------') 	"regular dash                                                                
@@ -1241,7 +1279,7 @@ function! SetupMatchaddsVim() abort
 
 	let w:loaded_matchadds_vim = 1
 endfunction
-
+"}}}
 "}}}
 "⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏ 
 
@@ -1297,11 +1335,11 @@ let g:jedi#rename_command           = ''
 
 "{{{2 			  	DEOPLETE
 let g:deoplete#enable_at_startup						=1
-let g:deoplete#auto_complete_start_length   =1
+let g:deoplete#auto_complete_start_length   =2
 let g:deoplete#enable_camel_case 						=1
 let g:deoplete#file#enable_buffer_path      =1
-let g:deoplete#max_abbr_width								=120
-" let g:deoplete#max_menu_width								=120
+let g:deoplete#max_abbr_width								=100
+" let g:deoplete#max_menu_width								=100
 let g:deoplete#auto_complete_delay					=50
 let g:deoplete#enable_refresh_always				=1
 let g:deoplete#auto_refresh_delay						=100
@@ -1316,47 +1354,47 @@ let g:deoplete#sources#clang#clang_header 	='/Library/Developer/CommandLineTools
 
 let g:deoplete#sources#jedi#show_docstring 	=1 				"in preview window
 " Insert candidate and re-generate popup menu for deoplete:
-inoremap <expr><C-h>  deoplete#smart_close_popup()."\<C-h> 
+" inoremap <expr><C-h>  deoplete#smart_close_popup()."\<C-h> 
+inoremap <expr><C-h>  deoplete#smart_close_popup()."\<C-h>" |" was missing the " above, cant be right no?
 inoremap <expr><C-l>  deoplete#refresh()
-" inoremap <expr><C-g>  deoplete#undo_completion()|      "seems way buggy
-" i
+inoremap <expr><C-g>  deoplete#undo_completion()|      "seems way buggy
 
 let g:deoplete#keyword_patterns           ={}
 let g:deoplete#keyword_patterns.clojure 		='[\w!$%&*+/:<=>?@\^_~\-\.#]*'
 call deoplete#custom#set('buffer',        'mark', 'ℬ')
 call deoplete#custom#set('tag',           'mark', '')
+call deoplete#custom#set('file',          'mark', './')
 call deoplete#custom#set('omni',          'mark', '')
 call deoplete#custom#set('ternjs',        'mark', '')
 call deoplete#custom#set('jedi',          'mark', '')
 call deoplete#custom#set('vim',           'mark', '')
 call deoplete#custom#set('neosnippet',    'mark', '')
-call deoplete#custom#set('around',        'mark', '')  " combines with subsource:  A - above cursor, B - below, C - :changes
+call deoplete#custom#set('around',        'mark', '')  " combines with subsource:  A - above cursor, B - below, C - :changes
 call deoplete#custom#set('syntax',        'mark', '♯')
 call deoplete#custom#set('webcomplete',   'mark', '')
-" call deoplete#custom#set('tmux-complete', 'mark', 'tmux')
-
-" default is 100...
-call deoplete#custom#set('vim',           'rank', 330)
-call deoplete#custom#set('jedi',          'rank', 310)
-call deoplete#custom#set('ternjs',        'rank', 320)
-" call deoplete#custom#set('omni',          'rank', 600)
-call deoplete#custom#set('member',        'rank', 200)
-call deoplete#custom#set('file_include',  'rank', 160)
-call deoplete#custom#set('file',          'rank', 150)
-call deoplete#custom#set('tag',           'rank', 140)
-call deoplete#custom#set('around',        'rank', 130)
+call deoplete#custom#set('tmux-complete', 'mark', 'tmux')
+" ~/D/C/V/
+" default is 100... 
+call deoplete#custom#set('vim',           'rank', 230)
+call deoplete#custom#set('jedi',          'rank', 210)
+call deoplete#custom#set('ternjs',        'rank', 220)
+" call deoplete#custom#set('omni',          'rank', 200)
+call deoplete#custom#set('member',        'rank', 210)
+call deoplete#custom#set('file',          'rank', 200)
+call deoplete#custom#set('file_include',  'rank', 200)
+call deoplete#custom#set('tag',           'rank', 190)
+call deoplete#custom#set('around',        'rank', 180)
+call deoplete#custom#set('webcomplete',   'rank', 130)
 call deoplete#custom#set('buffer',        'rank', 120)
-call deoplete#custom#set('tmux-complete', 'rank', 120)
-call deoplete#custom#set('webcomplete',   'rank', 110)
-call deoplete#custom#set('syntax',        'rank', 90)
-call deoplete#custom#set('neosnippet',    'rank', 70)
+call deoplete#custom#set('tmux-complete', 'rank', 110)
+call deoplete#custom#set('syntax',        'rank', 100)
+call deoplete#custom#set('neosnippet',    'rank', 90)
 call deoplete#custom#set('dictionary',    'rank', 10)
 
-call deoplete#custom#set('_', 'min_pattern_length', 1)
+call deoplete#custom#set('_', 'min_pattern_length', 2)
 
 
 function! DeopleteInit()
-	" call deoplete#custom#set('_', 'converters', ['converter_auto_paren', 'converter_remove_overlap'])
   let l:s = ['sorter_rank', 'sorter_word']                    "default: rank
   let l:m = ['matcher_length', 'matcher_full_fuzzy']          "default: length, fuzzy    XXX: test full_fuzzy vs fuzzy...
   let l:c = ['converter_remove_overlap', 'converter_auto_delimiter', 'converter_auto_paren',
@@ -1438,9 +1476,9 @@ function! RefreshUI()
 	call ColDevicons_init()
 	if exists('g:loaded_webdevicons') | call webdevicons#softRefresh() | endif "helps fix NERDTree window when it shows line numbers and shit post-reload
 endfunction " was airline wrecking reload. had to refresh it+reload syntax stuf. now works without? cant remember why
-"{{{2 				 RESIZE WINDOW
+"{{{2 				 WINDOW STUFF feat. tmux. make plug proper-vim-tmux-integration
 
-function! ResizeWindow(sign, amount) 	"resize window by direction instead of +- etc
+function! WindowResize(sign, amount) 	"resize window by direction instead of +- etc
 	" let had_lazyredraw = &lazyredraw "yeah even if it does help (doesnt look it) when done properly...
 	" quick toggle on and off def isnt the way to go, 10x slower....
 	let initial = winnr() 	"save the original window index
@@ -1466,7 +1504,7 @@ function! ResizeWindow(sign, amount) 	"resize window by direction instead of +- 
 	endif
 endfunction
 
-function! MaximizeWindow()
+function! WindowMaximize()
 	let numwindows = winnr('$')
 	if numwindows == 1
 		call system('tmux resize-pane -Z')
@@ -1475,17 +1513,21 @@ function! MaximizeWindow()
 	endif
 endfunction
 
-"{{{2 				 ROTATE WINDOWS
-function! Rotate()
+function! WindowSwitch()			"improve on vim-tmux-navigator...
+
+endfunction
+
+function! WindowRotate()
 	let initial = winnr() 			"save the original window index, jump to the first window
-	exe 1 . 'wincmd w'
+	execute 1 . 'wincmd w'
 	wincmd l
 	if winnr() != 1 | wincmd J  "succeeded moving to the right window. make it the bottom window
 	else | wincmd H | endif 		"cannot move to the right, so we are at the top. make it the left window. 
 
-	exe initial . 'wincmd w'
-	" restore cursor to the initial window
+	execute initial . 'wincmd w'
+	" restore focus to the initial window
 endfunction
+
 
 "{{{2 				 SCROLL SCREEN NOT CURSOR
 function! ScrollToPercent(percent)
@@ -1575,24 +1617,6 @@ function! GetScriptNumber(script_name) " Return the <SNR> of a script.
     return -1
 endfunction
 
-" {{{2 				 Auto-highlight all instances of word under cursor, when idle.
-function! AutoHighlightToggle()
-  let @/ = '' 									"doesnt work properly sometimes not all instances actually highlight...
-  if exists('#auto_highlight')
-    au! auto_highlight
-    augroup! auto_highlight
-    " setlocal updatetime=4000 --should restore, actually, not do that
-    echo 'Highlight current word: OFF'
-    return 0
-  else
-    augroup auto_highlight | autocmd!
-      autocmd CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
-    augroup end
-    " setlocal updatetime=250
-    echo 'Highlight current word: ON'
-    return 1
-  endif
-endfunction
 
 ""{{{2 				 VISUAL SEARCH AND REPLACE
 
@@ -1618,11 +1642,10 @@ endfunction
 
 "{{{2 				DUPLICATE LINE
 function! DuplicateLine()
-	let col = virtcol('.')
+	let col   = virtcol('.')
 	let stash = getreg('"')
-	let type = getregtype('"')
-	yank
-	put
+	let type  = getregtype('"')
+	yank | put
 	call setreg('"', stash, type)
 	call cursor(0, col)
 endfunction
@@ -1838,15 +1861,7 @@ command! -nargs=* E mkview 9 | edit | loadview 9
 
 " ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ 
 " {{{1 				KEY BINDINGS  
-"CANT USE INLINE COMMENTS HERE| 	"but can use fancy trick
-"Note: XXX always remember to not set mappings that cause unnecessary timeout issues.
-" what might be reason these are def'd n+v+o? :map should be normal+visual+select+operator. vmap = visual+select
-" nnoremap <expr> j       v:count ? 'j':'gj'| "more complete/solid than straight j->gj, count should always move proper lines.
-" nnoremap <expr> k       v:count ? 'k':'gk'
-" vnoremap <expr> j       v:count ? 'j':'gj' 
-" vnoremap <expr> k       v:count ? 'k':'gk'
-" onoremap <expr> j       v:count ? 'j':'gj' 
-" onoremap <expr> k       v:count ? 'k':'gk'
+"Note: remember to not set mappings that cause unnecessary timeout issues.  CANT USE INLINE COMMENTS HERE| 	"but can use fancy trick
 noremap <expr> j				v:count ? 'j':'gj' 
 noremap <expr> k				v:count ? 'k':'gk'
 " inoremap <Down>    <C-o>gj      "c-o:ing is too laggy :/
@@ -1859,7 +1874,7 @@ nnoremap <CR><CR> 			<C-]>| 		"follow links. put some check so doesnt error if n
 nnoremap <CR><BS> 			<C-O>| 		"back one-handed
 nnoremap <BS><CR> 			<C-I>| 		"forward
 
-nnoremap zz      			  za| 			" folds quick
+nnoremap zz      			  za| 			"folds quick
 nnoremap <Leader>z 			zA| 			"recursive toggle folds
 noremap <M-Right> 			za
 nnoremap <silent><Leader>zx 		:if &foldclose == ''<BAR>set foldclose=all<BAR>else<BAR>set foldclose=<BAR>endif<CR>| 	"toggle autofold, read up how to do...
@@ -1867,24 +1882,22 @@ nnoremap <Leader>zt 		:set foldenable!<CR>|	"toggle use folds
 nnoremap <Leader>zn 		:g//foldopen<CR>| 		"open all folds with search results..
 
 inoremap jk             <Esc>| 		" exit insert mode more better easier
-" inoremap jkl            <C-c>:
-" inoremap jkh            <C-c>/
 inoremap jj 						<C-o>5j
 inoremap kk 						<C-o>5k
-" noremap  uu 						:redo<CR>|      "quick redo, super awesome except cant spam undo and generally slows to timeout
-noremap  <Leader>u 		  :redo<CR>|      "leader-u instead of just uu, so no timeout bs or issue repeating regular undo. note U to undo and then U again will redo back and forth photoshop-style
+" noremap  uu 						:redo<CR>| "quick redo, super awesome except cant spam undo and generally slows to timeout
+noremap  <Leader>u 		  :redo<CR>| "leader-u instead of just uu, so no timeout bs or issue repeating regular undo. note U to undo and then U again will redo back and forth photoshop-style
 
-vnoremap <Tab>          >gv|            " indent with tab in visual and keep selection
-vnoremap <S-Tab>        <gv|            " deindent
-noremap <Leader>< 			>>|             " space-< tiny bit chiller than shift-double-< to indent
+vnoremap <Tab>          >gv|       "indent with tab in visual and keep selection
+vnoremap <S-Tab>        <gv|       "deindent
+noremap <Leader>< 			>>|        "space-< tiny bit chiller than shift-double-< to indent
 
-vnoremap <C-x>          "*d|            " access system clipboard with systemish shortcuts
-vnoremap <C-c>          "*y|						"dont need insert equivs since cmd-v etc works then
-nnoremap 	Y 							y$| 			    "so acts same as D and C.
-nnoremap x              "_x|            "make x not save to default "" register
+vnoremap <C-x>          "*d|       "access system clipboard with systemish shortcuts
+vnoremap <C-c>          "*y|			 "dont need insert equivs since cmd-v etc works then
+nnoremap 	Y 							y$| 		 "so acts same as D and C.
+nnoremap x              "_x|       "make x not save to default "" register
 vnoremap x              "_x
-inoremap 	<M-p>        	<C-o>p| 	      "paste in insert mode (cmd-c to paste system)
-" xnoremap 	p 						"_dP| 		    "paste-overwrite without yanking back replaced text
+inoremap 	<M-p>        	<C-o>p| 	 "paste in insert mode (cmd-c to paste system)
+" xnoremap 	p 						"_dP| 	 "paste-overwrite without yanking back replaced text
 xnoremap <expr>p 				'pgv"'.v:register.'y'| "fancy version of above I think? with register support. "The result of "xp would evaluate to pgv"xy, where x is the register."
 noremap 	ö								p`[| 			    "paste without moving cursor
 noremap 	Ö 							P`[j| 		    "paste prepend, cursor stay, move down line 
@@ -1901,10 +1914,13 @@ nnoremap <Leader>I 			i<Space><C-c>l
 nnoremap <Leader><Tab> 	i<Tab><C-c>l|	 	"insert tabs from normal mode
 nmap <silent> <M-i>     "=nr2char(getchar())<CR>P|  "insert any one char from normal mode. like reverse insert C-o
 
+nnoremap <silent><Esc>  :nohlsearch<CR><Esc>| "better than specific binding: esc clears hlsearch if in normal mode
 "FINALLY SANITY GODDAMN. cancels comp incl removing anything already inserted, but stays in normal mode! with completeopt "longest,menuone,preview,noinsert,noselect", guess those last two are the key...
-"XXX: tho should add a check for whether anything is actually selected, in
-"the popup. That way quick auto deoplete suggestions wont block exiting on first esc...
-inoremap <expr><Esc> pumvisible() ? "\<C-E>" : "\<Esc>"| "works even though ive rebound C-E, thanks to prior inoremap...
+"XXX: tho should add a check for whether anything is actually selected, in the popup. That way quick auto deoplete suggestions wont block exiting on first esc...
+" inoremap <expr><Esc> pumvisible() ? "\<C-E>" : "\<Esc>"| "works even though ive rebound C-E, thanks to prior inoremap...
+" inoremap <expr><Esc> pumvisible() ? "deoplete" : "\<Esc>"| "works even though ive rebound C-E, thanks to prior inoremap...
+" inoremap <expr><Esc> pumvisible() ? "\<C-E>\<Esc>" : "\<Esc>"| "goes back to normal no matter what, so no go...
+" inoremap <expr><Esc> pumvisible() ? "\<C-E>\<C-E>" : "\<Esc>"| "need like "C-E, wait til popup, C-E again". Or more 
 
 " imap <expr><CR> pumvisible() ? "\<C-Y>" : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"| "\<Plug>AutoPairsReturn" \<CR>"
 imap <expr><CR> pumvisible() ? "\<C-Y>" : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>\<Plug>AutoPairsReturn"
@@ -1913,6 +1929,21 @@ xmap <expr><CR> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand
 " Note: These last few must be "imap" and "smap" for whatever reason.
 
 
+function! TabWrap() "supertab minus the bullshit. not really working atm...
+	if pumvisible()						| return "\<C-N>"
+	elseif strpart( getline('.'), 0, col('.') - 1 ) =~ '^\s*$'	| return "\<Tab>"
+	elseif &omnifunc !~ ''		|	return "\<C-X>\<C-O>"
+	else											| return "\<C-N>"
+	endif
+endfunction | imap <silent><expr><Tab> TabWrap()
+
+" Enter: complete&close popup if visible (so next Enter works); else: break undo
+" inoremap <silent><expr><CR> pumvisible() ? deoplete#mappings#close_popup() : "<C-g>u<CR>"
+" Ctrl-Space: summon FULL (synced) autocompletion
+inoremap <silent><expr> <C-Space> deoplete#mappings#manual_complete()
+" Escape: exit autocompletion, go to Normal mode
+" inoremap <silent><expr> <Esc> pumvisible() ? "<C-e><Esc>" : "<Esc>"
+
 " Scroll pages in menu
 imap <expr><C-f> pumvisible() ? "\<PageDown>" : "\<C-f>"
 imap <expr><C-b> pumvisible() ? "\<PageUp>" :   "\<C-b>"
@@ -1920,8 +1951,8 @@ imap <expr><C-d> pumvisible() ? "\<PageDown>" : "\<C-d>"
 imap <expr><C-u> pumvisible() ? "\<PageUp>" :   "\<C-u>"
 
 " select mode test...
-nnoremap <M-v>					*``gn<C-g>|			"select word under cursor
-inoremap <M-v>		 <C-o>gn<C-g>|				"select next
+nnoremap <M-v>					*``gn<C-g>|			"select word under cursor		" select 1 select 2 selekt 3 select 4 
+inoremap <M-v>		 <C-o>gn<C-g>|				"select next								" select 5 nope   7 select 8          
 snoremap <expr>.				@.|							"repeat last
 
 "{{{2 		  	US layout(ish) for åäö normal
@@ -1962,9 +1993,8 @@ nnoremap <S-Left> 			[{
 nnoremap <S-Right> 			]}
 map <Leader>5 					%| 				"faster than shift-5 to match pair
 map <Leader>6 					^| 				"go first non-whitespace char
-nnoremap <silent><Esc>  :nohlsearch<CR><Esc>| "better than specific binding: esc clears hlsearch if in normal mode
 
-nnoremap <leader>vb 		viB
+nnoremap <Leader>vb 		viB
 
 "{{{2 					cmdline readline stuffs
 cnoremap <C-A>          <Home>| 	 
@@ -1975,7 +2005,7 @@ cnoremap <C-N>          <Down>
 " cnoremap <C-Y> 					| 			"how paste at cmdline?
 
 inoremap <C-A>          <Home>| 	"readline stuffs
-inoremap <C-E>          <End>| 		"messes c-e to cancel inserted completion, but using esc for that anyways
+" inoremap <C-E>          <End>| 		"messes c-e to cancel inserted completion, but using esc for that anyways
 inoremap <C-U>        	<C-o>d0| 	"backward-kill-line, doesnt work at EOL, why?
 " inoremap <C-Y>        	<C-o>p| 	"yank/paste
 inoremap <C-K> 		     	<C-o>D| 	"kill-line
@@ -2015,31 +2045,32 @@ if has('nvim')
 	tnoremap <M-j>             <C-\><C-n><C-w>j
 	tnoremap <M-k>             <C-\><C-n><C-w>k
 	tnoremap <M-l>             <C-\><C-n><C-w>l
-	tnoremap <Esc>									<C-\><C-n>
+	tnoremap <Esc><Esc>				 <C-\><C-n>
 endif 
 " to make better I guess this must be plugin, use timer callback to defer redraws until timeoutlen so doesnt get fucked when repeating resize...
 " tho if staying in vim in the first place I guess can just use Timer (no sense fucking around with python just for something so little...)
-noremap	 	<silent> <M-H> 				:call ResizeWindow('<', 5)<CR>
-noremap	 	<silent> <M-J> 				:call ResizeWindow('+', 3)<CR>
-noremap 	<silent> <M-K> 				:call ResizeWindow('-', 3)<CR>
-noremap 	<silent> <M-L> 				:call ResizeWindow('>', 5)<CR>
-inoremap 	<silent> <M-H> 	 <C-O>:call ResizeWindow('<', 5)<CR>
-inoremap 	<silent> <M-J> 	 <C-O>:call ResizeWindow('+', 3)<CR>
-inoremap 	<silent> <M-K> 	 <C-O>:call ResizeWindow('-', 3)<CR>
-inoremap 	<silent> <M-L> 	 <C-O>:call ResizeWindow('>', 5)<CR>
+noremap	 	<silent> <M-H> 				:call WindowResize('<', 5)<CR>
+noremap	 	<silent> <M-J> 				:call WindowResize('+', 3)<CR>
+noremap 	<silent> <M-K> 				:call WindowResize('-', 3)<CR>
+noremap 	<silent> <M-L> 				:call WindowResize('>', 5)<CR>
+inoremap 	<silent> <M-H> 	 <C-O>:call WindowResize('<', 5)<CR>
+inoremap 	<silent> <M-J> 	 <C-O>:call WindowResize('+', 3)<CR>
+inoremap 	<silent> <M-K> 	 <C-O>:call WindowResize('-', 3)<CR>
+inoremap 	<silent> <M-L> 	 <C-O>:call WindowResize('>', 5)<CR>
 
 
-noremap <silent> <Leader>hh 		:call ResizeWindow('<', 20)<CR>
-noremap <silent> <Leader>jj 		:call ResizeWindow('+', 12)<CR>
-noremap <silent> <Leader>kk 		:call ResizeWindow('-', 12)<CR>
-noremap <silent> <Leader>ll 		:call ResizeWindow('>', 20)<CR>
+noremap <silent> <Leader>hh 		:call WindowResize('<', 20)<CR>
+noremap <silent> <Leader>jj 		:call WindowResize('+', 12)<CR>
+noremap <silent> <Leader>kk 		:call WindowResize('-', 12)<CR>
+noremap <silent> <Leader>ll 		:call WindowResize('>', 20)<CR>
 
 " nnoremap <Leader>8 		|"make all windows 80 cols wide-ish
 nnoremap <Leader>min 						<C-w>1<BAR>|"minimize current window...
 
 
-nnoremap <Leader>mn 						:call Rotate()<CR>
+nnoremap <Leader>mn 						:call WindowRotate()<CR>
 
+nmap  <Leader>w									<Plug>(choosewin)
 
 
 " {{{2 				 UNUSED
@@ -2059,7 +2090,7 @@ nmap <Leader>y2 			ysiW"| 						      "surround "quotes"
 nmap <Leader>y7 			ysiW]| 						      "surround [brackets]
 nmap <Leader>y8 			ysiW)| 						      "surround (paranthesis)
 nmap <Leader>y9 			ysiW}| 						      "surround {braces}
-nmap <Leader>y' 			ysiW'| 						      "surround 'single' quotes
+" nmap <Leader>y' 			ysiW'| 						      "surround 'single' quotes.  shouldnt be needed right? 
 vmap <Leader>1				S<BAR>
 vmap <Leader>2				S"
 vmap <Leader>7				S]
@@ -2067,7 +2098,7 @@ vmap <Leader>8				S)
 vmap <Leader>9				S}
 
 nnoremap <Leader>yy   :let @"=@".getline('.')<CR>|    "append yank to existing unnamed register
-" fix a similar vmap one for selection...
+" XXX fix a similar vmap one for selection...
 nnoremap <Leader>dd   :let @"=@".getline('.')"\n"<CR>"_dd|"append delete to existing unnamed register: just do as above and then blackhole the line...
 nnoremap <Leader>wf 	:set nowrap<CR>| 			  "wrap off
 nnoremap <Leader>wn 	:set wrap<CR>
@@ -2099,13 +2130,12 @@ nnoremap <Leader>cib  ci(
 nnoremap <Leader>ciB  ci{
 "}}}
 
-" nnoremap <Leader>tb 	:call ToggleBool()<CR>
 " function! ToggleBool()
 " 	" y
-" endfunction
+" endfunction | nnoremap <Leader>tb 	:call ToggleBool()<CR>
+
 function! GetPID()
-  perl VIM::DoCommand('let pid =' . $$)
-  return pid
+	perl VIM::DoCommand('let pid =' . $$) | return pid
 endfunction
 " {{{2 				SPLIT AND MAXIMIZE
 nnoremap <Leader>m  	:wincmd _<CR>| 							"
@@ -2122,7 +2152,6 @@ nmap <Leader>SL				:botright  	vsp<CR>
 nmap <Leader>SK  		 	:topleft  	 sp<CR>
 nmap <Leader>SJ  			:botright 	 sp<CR>
 nmap <Leader>0 				<C-w>=| 							"equalize windows }}}
-" nmap <MiddleMouse> 	:echo FART FART FART
 
 cnoremap w!!         	SudoWrite<CR>| 				"aka sudo tee %, via vim.eunuch 
 cnoremap hg 					helpgrep
@@ -2130,7 +2159,6 @@ cnoremap ARR          AirlineRefresh<CR>
 cnoremap DOFF         call deoplete#disable()<CR>
 cnoremap DON          call deoplete#enable()<CR>
 cnoremap SFT 					set filetype=|        " just 'ft' way too annoying bc like abbs, these expand everywhere not just at beginning...
-nnoremap <Leader>hl		:if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>| "autohl word under cursor
 nnoremap <Leader>v  	V`]| 									"Select pasted text
 map <Leader>gg      	:vimgrep // **/*.<left><left><left><left><left><left><left>| "grep globbed
 map <Leader>g 				:vimgrep // <C-R>%<C-A><right><right><right><right><right><right><right><right><right>| "current file
@@ -2143,7 +2171,7 @@ nnoremap <silent><Leader>bl :if &modifiable && !&readonly && &modified<BAR>w<BAR
 
 nnoremap <Leader>x 		:Sayonara!<CR>| 			"same as old "close buffer leave window" but via more robust plugin
 
-
+nnoremap <Leader>!!		:exec '!'.getline('.')<CR>| "exec line under cursor in shell
 nnoremap <Leader>ws  	:%s/\s\+$//<cr>:let @/=''<CR>| "Strip EOL whitespace
 
 nnoremap <Leader>cul 	:set cursorline!<CR>|  "toggle cursorline
@@ -2250,7 +2278,7 @@ autocmd FileType  elm					nnoremap <Leader>em							:ElmMakeCurrentFile<CR>
 autocmd FileType 	javascript	nnoremap <silent><buffer> gb		:TernDef<CR>
 " autocmd FileType 	c,cpp 		nmap gd										<Plug>(clang_complete_goto_declaration)
 " autocmd FileType 	c,cpp	 		nmap gdp									<Plug>(clang_complete_goto_declaration_preview)
-autocmd FileType 	tmux			nnoremap <buffer>	<M-w>					:w<BAR>call system('tmux source ~/.tmux.conf')<CR>| "auto-source tmux.conf when writing to it
+autocmd FileType 	tmux			nnoremap <buffer>	<M-w>					:w<BAR>call system('tmux source ~/.tmux.conf; tmux display-message reloaded')<CR>| "auto-source tmux.conf when writing to it
 " FIX: map so does proper reload like prefix-r...
 " autocmd FileType  help,man	nnoremap <buffer>	<Space>				<C-d>			"fucks man?
 autocmd FileType  help			nnoremap <buffer>	<Space>				<C-d>
@@ -2260,9 +2288,6 @@ augroup END "}}}
 "                                        
 " {{{1 				KEY BINDINGS FOR PLUGINS
 
-" inoremap <expr><silent><Tab> SuperTab("n")
-" inoremap <expr><silent><S-Tab> SuperTab("p")  "why error?
-" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 vnoremap <silent> <CR>		:EasyAlign<CR>|							"enter does nothing useful in visual anyways
 
 nmap <silent><Leader>en   <Plug>(ale_next_wrap)lh
@@ -2271,7 +2296,6 @@ nmap <silent><Leader>ek 	<Plug>(ale_previous_wrap)
 nmap <silent><Leader>ej 	<Plug>(ale_next_wrap)
 
 ""{{{2 				LANCH DE MAD BARZ
-"lots of 'map's here and not nmap or nnoremap i guess bc some of these have their own modes and want to be global or whatever? meh
 map <Leader>n      	:NERDTreeToggle<CR>|					"
 map <Leader>N       :NERDTreeFocus<CR>| 					"
 map <Leader>nn      :NERDTreeClose<CR>|						"
@@ -2283,23 +2307,18 @@ nnoremap <Leader>ql :call NERDTreeQuickLook()<CR>
 map <Leader>b 			:CtrlPBuffer<CR>|							"ctrlp buffer search, way better than buffergator etc...
 map <Leader>P 			:CtrlPMixed<CR>|							"ctrlp mixed search
 map <Leader>F 			:FZF<CR>| 										"well
-" imap <S-Tab> 	<Plug>(fzf-complete-line)           "fucks up S-Tab in completions
 imap <C-x><C-l>			<Plug>(fzf-complete-line)
-imap <C-x><C-f>			<Plug>(fzf_complete-file-ag)
+imap <C-x><C-f>			<Plug>(fzf-complete-file-ag)
 vnoremap <silent> KK :call SearchVisualSelectionWithAg()<CR>
 function! SearchVisualSelectionWithAg() range
-	let old_reg = getreg('"')
-	let old_regtype = getregtype('"')
-	let old_clipboard = &clipboard
+	let old_reg = getreg('"') | let old_regtype = getregtype('"') | let old_clipboard = &clipboard
 	set clipboard&
 	normal! ""gvy
 	let selection = getreg('"')
-	call setreg('"', old_reg, old_regtype)
-	let &clipboard = old_clipboard
+	call setreg('"', old_reg, old_regtype) | let &clipboard = old_clipboard
 	execute 'Ag' selection
 endfunction
 
-" imap <M-Left> <Plug>(fzf-maps-)
 map <Leader>uu 			:UndotreeToggle<CR>| 					"undotree
 " nnoremap <Leader>s+ :let w:f=?filetype | setlocal filetype=nowrite | setlocal syntax=w:f<CR>| "unset filetype, keep syntax (eg to get multiple help windows)
 " unmap ,t
@@ -2345,10 +2364,14 @@ xmap <C-l>        		<Plug>(textmanip-move-right)
 nmap <Leader>o 				<Plug>(textmanip-blank-below)
 nmap <Leader>O 				<Plug>(textmanip-blank-above)
 "{{{2 				EASYALIGN
-xmap 		ga 				<Plug>(EasyAlign)| " Start interactive EasyAlign in visual mode (e.g. vipga)
-nmap 		ga 				<Plug>(EasyAlign)| " Start interactive EasyAlign for a motion/text object (e.g. gaip)
-map <Leader>gat 	:EasyAlign /\t/<CR>| " shortcut to align first tab
+xmap 		ga 				<Plug>(LiveEasyAlign)|	" Start interactive EasyAlign in visual mode (e.g. vipga)
+nmap 		ga 				<Plug>(EasyAlign)|			" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+map <Leader>gat 	:EasyAlign /\t/<CR>|		" shortcut to align first tab
 xmap <Leader>gat 	:EasyAlign /\t/<CR>
+map <Leader>gas 	:EasyAlign /\s/<CR>|		" first whitespace
+xmap <Leader>gas 	:EasyAlign /\s/<CR>
+map <Leader>gad 	:EasyAlign /\d/<CR>|		" first number
+xmap <Leader>gad 	:EasyAlign /\d/<CR>
 "{{{2 					MULTIPLE CURSORS
 
 nnoremap <silent> <M-N> :MultipleCursorsFind <C-R>/<CR>
@@ -2432,11 +2455,9 @@ nnoremap <silent><Leader>ct   :silent Dispatch! ctags_gen<cr>| 		"noneed really 
 
 map p                   <Plug>(miniyank-autoput)| 		"miniyank replaces normal paste
 map P                   <Plug>(miniyank-autoPut)| 		"(imap paste rebound in normal section)
-map <M-y>               <Plug>(miniyank-cycle)| 			"which works because reg map here not noremap
+map <M-y>               <Plug>(miniyank-cycle)| 			"
 " imap <M-y>       <C-o><Plug>(miniyank-cycle)| 			"good to have, no? but doesnt seem to work when done like that. doesnt cycle..
 map <M-p> 			        <Plug>(miniyank-cycle)| 			"just a lil extra
-" map PP 							<Plug>(miniyank-cycle)| 			"so much faster hey. except for the escape bs, hence PP instead of pp so not every paste gets delayed...
-" imap pp 	       <C-o><Plug>(miniyank-cycle)| 			"
 map <Leader>p 	        <Plug>(miniyank-cycle)| 			"good compromise, moved ctrlp-all to P
 
 map <silent>-      				    :TComment<CR>| 					"comment/uncomment curr line even more better easier
@@ -2452,7 +2473,7 @@ let g:AutoPairsShortcutJump 			='<Leader>apj'
 let g:AutoPairsShortcutBackInsert ='<Leader>api'
 
 nnoremap <silent><M-m> 	 	:MaximizerToggle!<CR>| 	"maximize/restore window
-" nnoremap <silent><M-m> 	 	:call MaximizeWindow()<CR>| 	"maximize/restore window
+" nnoremap <silent><M-m> 	 	:call WindowMaximize()<CR>| 	"maximize/restore window
 
 " nnoremap <Leader>pio 			:call SetupPlatformioEnvironment(expand("%:p:h"))<CR>
 
@@ -2463,10 +2484,11 @@ nnoremap <Leader>deb 			:Denite -auto-resize buffer<CR>| "
 call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
 call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
 
-nnoremap <Leader>r 				:call RangerExplorer()<CR>
+nnoremap <Leader>r 				:call Ranger()<CR>
 
 nmap ,  <Plug>Sneak_;|   "makes much more sense on a Swedish keyboard - same shift/nonshift direction as n/N
 nmap ;  <Plug>Sneak_,
+" omap z	<Plug>Sneak_s|		"not sure why not mapped by default... weird.
 
 noremap # 								:Lista<CR>
 noremap ## 							  :ListaResume<CR>
@@ -2487,7 +2509,7 @@ nnoremap <Leader>mp 			:call MultiPage()<CR>| 	"}}}
 let g:NumberToggleTrigger	='<Leader>rn'
 nnoremap <Leader>rnf 			:call DisableRelativeNumbers()<CR>
 
-nnoremap <Leader>color 		:ColorToggle<CR>:ColorSwapFgBg<CR>| 	"highlight color names/codes with their color
+nnoremap <Leader>color 		:ColorClear<BAR>:ColorToggle<BAR>:ColorSwapFgBg<CR>| 	"highlight color names/codes with their color
 nnoremap <Leader>nocolor 	:ColorClear<CR>| 									"off	
 
 
