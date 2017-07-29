@@ -1,0 +1,19 @@
+
+FUNCTION  gitgutter#sign#remove_signs()
+Called 2 times
+Total time:   5.643239
+ Self time:   5.643218
+
+count  total (s)   self (s)
+    2   0.000017   0.000014   let bufnr = gitgutter#utility#bufnr()
+    2   0.000029   0.000011   if a:all_signs && s:supports_star && empty(gitgutter#utility#getbufvar(bufnr, 'other_signs'))
+                                let dummy_sign_present = gitgutter#utility#getbufvar(bufnr, 'dummy_sign')
+                                execute "sign unplace * buffer=" . bufnr
+                                if dummy_sign_present
+                                  execute "sign place" s:dummy_sign_id "line=" . 9999 "name=GitGutterDummy buffer=" . bufnr
+                                endif
+                              else
+  657              0.002874     for id in a:sign_ids
+  655              5.636355       execute "sign unplace" id
+  655              0.003501     endfor
+    2              0.000003   endif
