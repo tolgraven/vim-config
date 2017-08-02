@@ -269,6 +269,8 @@ Toggle case "HellO" to "hELLo"		g~	   then a movement.
 Uppercase "HellO" to "HELLO" 			gU	   then a movement.
 Lowercase "HellO" to "hello" 			gu	   then a movement.
 visual mode:  ~ to toggle case, U uppercase, u lowercase.
+normal mode:  ~ toggles case for single char under cursor
+
 "}}}
 "{{{2 				HELP SEARCH PREFIXES
 " TODO:  help stuff - each help topic has a context:
@@ -298,9 +300,16 @@ c_			:h c_CTRL-R		ex command line
 					doesn't work, need |I| to enter insert mode and operate on all at once.
 					Thankfully this doesn't move cursor. Still, why? Default or a side effect from 
 					something dumb? Guess it's the same thing fucking multiple cursors for me.
+|o| 			change cursor side/direction in visual mode, to opposite side
+
+
 <C-e> 		accept completion in cmdline
 <C-d> 		accept completion in cmdline + list directory contents
 					so remap <CR> to like "if iscompleting/wildmenu, then <C-d> + <tab>
+
+:read 		insert result of whatever into buffer, ie from a shell cmd:
+:read !cat % | fish_indent
+					or can select text to replace (eg all in this caxe) and just run the cmd directly
 
 set |eventignore=all| 	etc. Disable autocmds temporarily (globally)
 set |ei=InsertEnter|
