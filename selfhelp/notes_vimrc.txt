@@ -1,26 +1,3 @@
-weird...
-
-FUNCTION  gitgutter#sign#remove_signs()
-Called 9 times
-Total time:  28.532286
- Self time:  28.532161
-
-count  total (s)   self (s)
-    9   0.000063   0.000034   let bufnr = gitgutter#utility#bufnr()
-    9   0.000127   0.000050   if a:all_signs && s:supports_star && empty(gitgutter#utility#getbufvar(bufnr, 'other_signs'))
-    3   0.000030   0.000011     let dummy_sign_present = gitgutter#utility#getbufvar(bufnr, 'dummy_sign')
-    3              0.000076     execute "sign unplace * buffer=" . bufnr
-    3              0.000004     if dummy_sign_present
-    2              0.031765       execute "sign place" s:dummy_sign_id "line=" . 9999 "name=GitGutterDummy buffer=" . bufnr
-    2              0.000007     endif
-    3              0.000002   else
- 1058              0.003174     for id in a:sign_ids
- 1052             28.492731       execute "sign unplace" id
- 1052              0.003766     endfor
-    6              0.000006   endif
-
-
-
 ITERM PERF DEBUG
 stable		24s
 beta			18s
@@ -102,7 +79,7 @@ for just one :w and moving cursor a tiny bit afterwards. So def an airline
 	its calls to |update_untracked()| which is in turn from |system()| which calls
 	|jobstart()| / |system()| / |jobwait()| (nvim) or just |system()| (vim)
 
-	gitgutter is also showing incorrect info when this happens, like "+27" lines
+	gitgutter is also showing incorrect info when this happens, like "+27" lines9365-5935-8651-7052-8664
 	for vimrc unchanging. So git is def pulling something weird.
 
 	I guess gitgutter |remove_signs()| is also a bit suspicious and should be
@@ -269,8 +246,6 @@ Toggle case "HellO" to "hELLo"		g~	   then a movement.
 Uppercase "HellO" to "HELLO" 			gU	   then a movement.
 Lowercase "HellO" to "hello" 			gu	   then a movement.
 visual mode:  ~ to toggle case, U uppercase, u lowercase.
-normal mode:  ~ toggles case for single char under cursor
-
 "}}}
 "{{{2 				HELP SEARCH PREFIXES
 " TODO:  help stuff - each help topic has a context:
@@ -300,16 +275,9 @@ c_			:h c_CTRL-R		ex command line
 					doesn't work, need |I| to enter insert mode and operate on all at once.
 					Thankfully this doesn't move cursor. Still, why? Default or a side effect from 
 					something dumb? Guess it's the same thing fucking multiple cursors for me.
-|o| 			change cursor side/direction in visual mode, to opposite side
-
-
 <C-e> 		accept completion in cmdline
 <C-d> 		accept completion in cmdline + list directory contents
 					so remap <CR> to like "if iscompleting/wildmenu, then <C-d> + <tab>
-
-:read 		insert result of whatever into buffer, ie from a shell cmd:
-:read !cat % | fish_indent
-					or can select text to replace (eg all in this caxe) and just run the cmd directly
 
 set |eventignore=all| 	etc. Disable autocmds temporarily (globally)
 set |ei=InsertEnter|

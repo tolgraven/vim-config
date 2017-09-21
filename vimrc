@@ -120,8 +120,9 @@ Plug 'tpope/vim-repeat' 												" . for plugins
 Plug 'kana/vim-arpeggio'												"key chord support		
 Plug 'jiangmiao/auto-pairs' 										"test if works better than gentle ver
 " Plug 'tpope/vim-endwise'												"auto endif endfunc etc
-Plug 'ConradIrwin/vim-bracketed-paste' 					"auto paste mode and back. not needed for nvim?
-Plug 'bfredl/nvim-miniyank' 										"pro yank like in shell
+Plug 'ConradIrwin/vim-bracketed-paste' 					"auto paste mosvermeulen/vim-easyclipde and back. not needed for nvim?
+Plug 'bfredl/nvim-miniyank' 										"pro yank killring like in shell
+" Plug 'svermeulen/vim-easyclip'									"lots of clipboard related stuff, incl killring functionality. stupid and bullshit and evil.
 Plug 'machakann/vim-highlightedyank'						"should be part of default vim
 " Plug 'vim-scripts/highlight.vim' 								"bare fucks shit up. Find alternative 	 hl shit without :hi. toggle mark-highlight current line etc
 Plug 't9md/vim-textmanip' 											"move lines around visually
@@ -141,9 +142,10 @@ Plug 'tpope/vim-eunuch' 		 										"shell tool unix stuff
 Plug 'justinmk/vim-dirvish'											"aardKORE rename...dir viewer heuh
 Plug 'tpope/vim-dispatch', {'on': 'Dispatch'} 	"async shell jobs etc
 Plug 'tpope/vim-scriptease' 										"do debug a scriptz (+ :Verbose = auto redir to preview window, hell yeah)
-Plug 'kana/vim-textobj-user' | Plug 'kana/vim-textobj-line'	| Plug 'kana/vim-textobj-entire'	| Plug 'kana/vim-textobj-indent'								"custom text objects
-Plug 'vimtaku/vim-textobj-keyvalue' | Plug 'thinca/vim-textobj-between' | Plug 'saaguero/vim-textobj-pastedtext'
+Plug 'kana/vim-textobj-user' | Plug 'kana/vim-textobj-line'	 | Plug 'kana/vim-textobj-indent'								"custom text objects
+Plug 'thinca/vim-textobj-between' | Plug 'saaguero/vim-textobj-pastedtext'
 Plug 'jceb/vim-textobj-uri' | Plug 'kana/vim-textobj-syntax' | Plug 'rhysd/vim-textobj-continuous-line'
+" Plug 'vimtaku/vim-textobj-keyvalue' | Plug 'kana/vim-textobj-entire'	"both these much heavier during startup than other plugs. only 30ms, but since I don't really use them anyways...
 " Plug 'vim-scripts/marvim' 											"save macros and shit, maybe when im better with those
 " Plug 'vim-scripts/repeatable-motions.vim' 			"repeat movements/motions
 Plug 'nathanaelkane/vim-indent-guides'
@@ -207,6 +209,7 @@ Plug '~/Documents/CODE/VIM/proper-smooth.vim'
 Plug '~/Documents/CODE/VIM/LISTA/metabuffer.nvim'
 " Plug 'tolgraven/metabuffer.nvim'
 Plug '~/Documents/CODE/VIM/proper-vim-tmux-nav'
+Plug '~/Documents/CODE/VIM/ale-platformio.vim'
 " Plug 'tolgraven/proper-vim-tmux-nav'
 "{{{2					 LAST IN ORDER
 Plug 'arakashic/chromatica.nvim',	{'for': ['c', 'cpp', 'ObjC']}		"like color_coded but for nvim
@@ -348,8 +351,8 @@ autocmd BufReadPost *		if line("'\"") >= 1 && line("'\"") <= line("$") | execute
 " autocmd User Startified				call ColDevicons_init()
 autocmd User AirlineAfterInit  AirlineRefresh "need extra redraw to put my mods in
 
-"below only triggers on exit, not on <C-z>. how hook on that?
-autocmd VimLeave		*		!echo "\<Esc>]1337;CursorShape=1\x7"
+"below only triggers on exit, not on <C-z>. how hook on that? also not doing it properly anyways so...
+" autocmd VimLeave		*		!echo "\<Esc>]1337;CursorShape=1\x7"
 
 
 augroup END
@@ -412,8 +415,7 @@ set formatoptions						=jc,ro,ql		"various but vim default =jcroql? py tcqj so n
 set sessionoptions          +=globals   "blank,buffers,curdir,folds,help,tabpages,winsize,globals
 set sessionoptions          -=blank	  	"if contains "blank" windows editing a buffer without a name will be restored <-this causing eg nerdtree bs with sessions? lets try
 " set sessionoptions=blank,curdir,folds,help,tabpages,winpos "recommended by startify
-set undofile
-set undolevels 							=1000 			"cap a bit, seems to make undotree a lil happier
+set undofile	undolevels 		=1000 			"cap a bit, seems to make undotree a lil happier
 set noswapfile 													"nope, swap's too annoying. how actally disable the stupid warning?		" what no ofc we want a swap file duh, as long as dir is set
 set autowriteall
 set fileformats 					=unix,dos,mac "default is mac first, so sort
@@ -477,7 +479,9 @@ let g:colorizer_colornames						=0					"dont hl regular color names, only hex. u
 
 
 let g:taboo_tabline										=0					"dont fuck with the tabline, just handle tab naming
-let g:taboo_renamed_tab_format        =' %l%m '  "default ' [%l]%m'
+let g:taboo_renamed_tab_format        =' %l%m'  "default ' [%l]%m'
+
+let g:autojump_executable							='/usr/local/etc/autojump.sh'
 
 
 let g:choosewin_label									='123456789'
@@ -492,13 +496,13 @@ hi! link  ChooseWinOverlay        BruvboxBlueSign
 hi! link  ChooseWinOverlayCurrent BruvboxOrangeSign 
 hi! link  ChooseWinShade          BruvboxFg4        
 augroup ChooseWinColors | autocmd!
-	au VimEnter hi! link  ChooseWinLabel          BruvboxBlueSign
-	au VimEnter hi! link  ChooseWinLabelCurrent   BruvboxOrangeSign
-	au VimEnter hi! link  ChooseWinLand           BruvboxAquaBg
-	au VimEnter hi! link  ChooseWinOther          BruvboxOrangeSign
-	au VimEnter hi! link  ChooseWinOverlay        BruvboxBlueSign
-	au VimEnter hi! link  ChooseWinOverlayCurrent BruvboxOrangeSign
-	au VimEnter hi! link  ChooseWinShade          BruvboxFg4
+	au ColorScheme hi! link  ChooseWinLabel          BruvboxBlueSign
+	au ColorScheme hi! link  ChooseWinLabelCurrent   BruvboxOrangeSign
+	au ColorScheme hi! link  ChooseWinLand           BruvboxAquaBg
+	au ColorScheme hi! link  ChooseWinOther          BruvboxOrangeSign
+	au ColorScheme hi! link  ChooseWinOverlay        BruvboxBlueSign
+	au ColorScheme hi! link  ChooseWinOverlayCurrent BruvboxOrangeSign
+	au ColorScheme hi! link  ChooseWinShade          BruvboxFg4
 augroup END
 " let g:choosewin_color_label          ={'gui':['DarkGreen', 'white', 'bold'], 'cterm': [ 22, 15,'bold'] }
 " let g:choosewin_color_label_current  ={'gui':['LimeGreen', 'black', 'bold'], 'cterm': [ 40, 16, 'bold'] }
@@ -1113,9 +1117,9 @@ highlight FoldedUnderline 		gui=underline
 highlight vimrcHashSep   	ctermfg=White			guifg=White
 
 augroup ModeChange | autocmd!
-	autocmd InsertEnter * 	highlight CursorLine gui=underline,bold   | highlight! link CursorLineNr BruvboxRedSign
+	autocmd InsertEnter * 	hi CursorLine gui=underline,bold  | hi! link CursorLineNr BruvboxRedSign | hi! link VertSplit BruvboxInsertModeColor
 	" autocmd InsertEnter *   "set timeoutlen like, super short for insert mode. Then can have a bunch of leader etc shit, and all kinds of other stuff, that doesnt delay shown output from typing, but shit still working! As long as key sequence is esoteric enough not to actually be typed otherwise.
-	autocmd InsertLeave * 	highlight CursorLine gui=None             | highlight! link CursorLineNr BruvboxCursorLineNr
+	autocmd InsertLeave * 	hi CursorLine gui=None            | hi! link CursorLineNr BruvboxCursorLineNr | hi! link VertSplit BruvboxNormalModeColor
 	" autocmd ModeChange
 augroup END
 
@@ -1556,12 +1560,19 @@ function! TestPerformance()
 	else
 		echo "stopping performance profiling"
 		profile stop
+
 		execute 'tabnew ' . pro_file
 		setfiletype vim
 		normal! G
+		" per script information:
+		" let timings=[]                      
+		" g/^SCRIPT/call add(timings, [getline('.')[len('SCRIPT  '):], matchstr(getline(line('.')+1), '^Sourced \zs\d\+')]+map(getline(line('.')+2, line('.')+3), 'matchstr(v:val, ''\d\+\.\d\+$'')'))
+		" enew                            
+		" call setline('.', ['count total (s)   self (s)  script']+map(copy(timings), 'printf("%5u %9s   %8s  %s", v:val[1], v:val[2], v:val[3], v:val[0])'))
 	endif
 	" cmds are :syntime on, move around a bit, :syntime report. shows in current win so need to open new one or run from elsewhere
 	" also: nvim --startuptime file " profiles startup...
+	" nvim -V 2>&1 | lnav -t
 endfun
 
 " {{{2 				 GET SCRIPT SNR NUMBER
@@ -1866,10 +1877,12 @@ nnoremap <M-.>					@:| 			"rerun last command. Same as my fish binding
 " nnoremap <M-~>				
 " nnoremap <M-^>				
 " nnoremap <M-+>				
+
 " nnoremap <M-0>				
-" nnoremap <M-9>				
-" nnoremap <M-8>				
+" nnoremap <M-6>				
 " nnoremap <M-7>				
+" nnoremap <M-8>				
+" nnoremap <M-9>				
 
 " nnoremap <BS><BS> 			@:| 			"rerun last command old
 
@@ -1977,7 +1990,8 @@ if exists('g:tol_omgfixthekeysgoddamn')
     map   <   $    |    imap  <   $
     map   >   ~    |    imap  >   ~
     map   ¨   ^    |    imap  ¨   ^
-    map   ©   |    |    imap  ©   |
+    map   ©   |
+		imap  ©   |
     map   £   /    |    imap  £   /
     map   ”   '    |    imap  ”   '
     " map    |    imap
@@ -2146,8 +2160,8 @@ map <Leader>gg      	:grep  */*<left><left><left><left>| "grep globbed
 " map <Leader>g 				:vimgrep // <C-R>%<C-A><right><right><right><right><right><right><right><right><right>| "current file
 
 map <silent><Leader>cc :botright cope<cr>| 	"quickfix across bottom
-map <silent><Leader>qf :cwindow<cr>|				"quickfix across bottom
-map <silent><Leader>lc :lopen<cr>|					"loclist
+map <silent><Leader>qf :cwindow<cr>|				"quickfix bottom right
+map <silent><Leader>lc :lopen<cr>|					"loclist bottom current window
 map <Leader>err					:cp<cr>| 						"check for errors
 
 nnoremap <silent><Leader>bh :if &modifiable && !&readonly && &modified<BAR>w<BAR>endif<BAR>bnext<CR>
@@ -2168,13 +2182,11 @@ nnoremap <silent><Leader>t.		:call neoterm#do('')|		"
 nnoremap <Leader>d 		:call DuplicateLine()<CR>k:TComment<CR>j| 	"duplicate line, comment prev. retaining cursor pos and last yank...
 nnoremap <Leader>D 		:call DuplicateLine()<CR>| 									"duplicate line
 
-" nmap <Leader>ju 			:jumps<CR>| 					"list previous positions
-nmap <Leader>ju 			:V jumps<CR>| 					"list previous positions
-nmap <Leader>ch 			:changes<CR>
 nnoremap <Leader>' 		``| 									"go to previous position incl column. less deal now that I changed `´ button with Ukulele to remove dead key mode and flip order. But keep for macbook
+nmap <Leader>ju 			:V jumps<CR>| 					"list previous positions
+nmap <Leader>ch 			:V changes<CR>
 
-" nnoremap <Leader>ms 	:mess<CR>
-nnoremap <Leader>ms 	:V :mess<CR>G
+nnoremap <Leader>ms 	:V mess<CR>G
 nnoremap <Leader>ve		:if &ve=='all'<BAR>set ve=block,onemore<BAR>else<BAR>set ve=all<BAR>endif<CR>
 vmap <C-r>		 				<C-c>:%s/<c-r>=GetVisual()<CR>//g<left><left>|"replace all instances of selected text (escape-safe)
 " map <Leader>gd 				[I:let nr = input("Which one: ")<Bar>exe "normal! " . nr ."[\t"<CR>|"list definitions, then jump
@@ -2464,7 +2476,10 @@ map p                   <Plug>(miniyank-autoput)| 		"miniyank replaces normal pa
 map P                   <Plug>(miniyank-autoPut)| 		"(imap paste rebound in normal section)
 map <M-y>               <Plug>(miniyank-cycle)| 			"an extra imap with <c-o> would be good to have, but doesnt seem to cycle so no go
 map <M-p> 			        <Plug>(miniyank-cycle)| 			"just a lil extra for p+m-p quick cycle
-" map <Leader>p 	        <Plug>(miniyank-cycle)| 			"good compromise, moved ctrlp-all to P
+let g:EasyClipUseCutDefaults		=0
+let g:EasyClipUsePasteDefaults	=0
+let g:EasyClipEnableBlackHoleRedirect =0
+let g:EasyClipEnableBlackHoleRedirectForDeleteOperator =0		"lol why do I have to set them all individually. this plug is all wrong and needs to meet a violent death.
 
 map <silent>-      				    :TComment<CR>| 					"comment/uncomment curr line even more better easier
 " map <silent><M-->    			    :TComment<CR>| 					"comment/uncomment curr line
