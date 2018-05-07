@@ -1102,24 +1102,37 @@ let g:semanticBlacklistOverride={
 \  ] }
 "}}}
 
-
-" ban orange and red since ue that for syntax
-hi! link rainbowParensShell16   BruvboxFgHard
-hi! link rainbowParensShell15   BruvboxPurpleNeutral
-hi! link rainbowParensShell14   BruvboxGreenNeutral
-hi! link rainbowParensShell13   BruvboxBlueNeutral
-hi! link rainbowParensShell12   BruvboxYellowNeutral
-hi! link rainbowParensShell11   BruvboxAquaNeutral
-hi! link rainbowParensShell10   BruvboxPurpleSign
-hi! link rainbowParensShell9    BruvboxYellowSign
-hi! link rainbowParensShell8    BruvboxBlueSign
-hi! link rainbowParensShell7    BruvboxGreenSign
-hi! link rainbowParensShell6    BruvboxAquaSign
-" hi! link rainbowParensShell5    Bruvbox
-" hi! link rainbowParensShell4    Bruvbox
-" hi! link rainbowParensShell3    Bruvbox
-" hi! link rainbowParensShell2    Bruvbox
+function! SetupRainbowParensHighlights()
+  " ban orange and red since ue that for syntax
+  hi! link rainbowParensShell16   BruvboxFgHard
+  hi! link rainbowParensShell15   BruvboxPurpleNeutral
+  hi! link rainbowParensShell14   BruvboxGreenNeutral
+  hi! link rainbowParensShell13   BruvboxOrangeNeutral
+  hi! link rainbowParensShell12   BruvboxBlueNeutral
+  hi! link rainbowParensShell11   BruvboxYellowNeutral
+  hi! link rainbowParensShell10   BruvboxAquaNeutral
+  hi! link rainbowParensShell9    BruvboxRedNeutral
+  hi! link rainbowParensShell8    BruvboxPurpleSign
+  hi! link rainbowParensShell7    BruvboxGreenSign
+  hi! link rainbowParensShell6    BruvboxOrangeSign
+  hi! link rainbowParensShell5    BruvboxBlueSign
+  hi! link rainbowParensShell4    BruvboxYellowSign
+  hi! link rainbowParensShell3    BruvboxAquaSign
+  hi! link rainbowParensShell2    BruvboxRedSign
+  hi! link rainbowParensShell1    BruvboxFgSign
+endfunction
+" let g:rbpt_colorpairs = [
+" \ ['brown',       'RoyalBlue3'],  ['Darkblue',    'SeaGreen3'],
+" \ ['darkgray',    'DarkOrchid3'], ['darkgreen',   'firebrick3'],
+" \ ['darkcyan',    'RoyalBlue3'],  ['darkred',     'SeaGreen3'],
+" \ ['darkmagenta', 'DarkOrchid3'], ['brown',       'firebrick3'],
+" \ ['gray',        'RoyalBlue3'],  ['black',       'SeaGreen3'],
+" \ ['darkmagenta', 'DarkOrchid3'], ['Darkblue',    'firebrick3'],
+" \ ['darkgreen',   'RoyalBlue3'],  ['darkcyan',    'SeaGreen3'],
+" \ ['darkred',     'DarkOrchid3'], ['red',         'firebrick3'],]
 let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
+let g:rainbow#auto = 0
+" let g:rainbow#max_level =10
 " let g:rainbow_guifgs=['#d2845d', 'White', '#bdae93', '#a89984', '#dabd7a', '#6e916e', '#af8589', '#80a0b3', '#8b8c63', '#60906a', '#919535', '#ca782b', '#528895', '#a0a172', '#fdfbe8', '#dccca9']
 " let g:rainbow_conf={'guifgs': ['#d65d0e', '#cc241d', '#b16286', '#458588']}
 " let g:rainbow#blacklist = [stuff, #hex]
@@ -1173,6 +1186,8 @@ augroup END
 augroup SyntaxAutocmds | autocmd!
 " autocmd FileType 	java 					setlocal omnifunc=javacomplete#Complete
 autocmd FileType 	lisp,clojure 	RainbowParentheses
+autocmd Syntax 	   *            silent call SetupRainbowParensHighlights() "works if no orig cmd like above?
+" autocmd BufEnter 	      	      call SetupRainbowParensHighlights()
 autocmd FileType 	lisp,clojure 	let g:parinfer_mode = "off"
 autocmd FileType  help          let &colorcolumn=join(range(80,240),',')
 
