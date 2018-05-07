@@ -2652,9 +2652,32 @@ call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'nor
 
 nmap ,  <Plug>Sneak_;|   "flipped makes much more sense on a Swedish keyboard - same shift/nonshift direction as n/N
 nmap ;  <Plug>Sneak_,
-omap s	<Plug>Sneak_s|		"not sure why z not mapped by default like it says in readme... weird. Something is breaky with mappign z, weird. but sticking to s/S makes more sense anyways surely?
-omap S	<Plug>Sneak_S|		"cause they're free ffs
+" 1-character enhanced 'f'
+nmap f <Plug>Sneak_f
+nmap F <Plug>Sneak_F
+" visual-mode
+xmap f <Plug>Sneak_f
+xmap F <Plug>Sneak_F
+" operator-pending-mode
+omap f <Plug>Sneak_f
+omap F <Plug>Sneak_F
 
+" 1-character enhanced 't'
+nmap t <Plug>Sneak_t
+nmap T <Plug>Sneak_T
+" visual-mode
+xmap t <Plug>Sneak_t
+xmap T <Plug>Sneak_T
+" operator-pending-mode
+omap t <Plug>Sneak_t
+omap T <Plug>Sneak_T
+
+omap s	<Plug>Sneak_s|		"not sure why z not mapped by default like it says in readme... weird. Something is breaky with mappign z, weird.
+omap S	<Plug>Sneak_S|		"brty hack test, fix so horiz view doesnt stay all shitty after windows are resized. need silent! since craps out when returning from FZF terminal window, somehow gets executed before actually leaving terminal?ut sticking to s/S makes more sense anyways surely? cause they're free ffs
+omap z	<Plug>Sneak_s|		"somehow they don't work even when mapped tho so here's z again... argh.
+omap Z	<Plug>Sneak_S|		"
+
+" noremap # 								:Meta<CR>:call SetupRainbowParensHighlights()<CR>
 noremap # 								:Meta<CR>
 noremap ## 							  :MetaResume<CR>
 noremap ** 							  :MetaCursorWord<CR>
