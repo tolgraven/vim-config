@@ -350,8 +350,14 @@ augroup VimStart | autocmd!
 " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | Startify | NERDTree | wincmd w | endif
 " autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | enew | endif "opens nerd if vim started with dir
 
-autocmd VimEnter		* 	call DeopleteInit()|normal <Esc>		"| call ColDevicons_init()
-autocmd InsertEnter *		call deoplete#enable()
+autocmd VimEnter		* 	call DeopleteInit() " | normal! <Esc><Esc>
+" ^ this normal <Esc><Esc> was causing the changes-on-start, no idea why or what is was used as a workaround for in the first place... landing in insert i guess? but then why normal lol
+" autocmd InsertEnter *		call deoplete#enable() "obviouslymaes it reenable and fuck yo_
+autocmd InsertEnter *		call DeopleteEnable()
+
+autocmd VimEnter * command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>, <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
+
 " autocmd BufReadPost * 		let &colorcolumn=join(range(100,300),',') "fade bg slightly past not 80 but 100 cols bc fuck yall, 43in display innit
 
  " When editing a file, jump to the last known valid cursor pos, unless inside an event handler		"is this fucking me? nope something else...
@@ -1298,6 +1304,7 @@ let g:jedi#rename_command           = '<leader>gr'	"(default: '<leader>r')
 
 "{{{2 			  	DEOPLETE
 let g:deoplete#enable_at_startup						=0		"try defer til insertenter...
+" let g:deoplete#enable_on_insert_enter       =1  "try use this instead of manual autocmd
 " let g:deoplete#enable_camel_case 						=0
 " let g:deoplete#file#enable_buffer_path      =1
 let g:deoplete#auto_complete_delay					=20
@@ -1305,9 +1312,9 @@ let g:deoplete#enable_refresh_always				=1
 let g:deoplete#auto_refresh_delay						=30
 let g:deoplete#tag#cache_limit_size					=2000000
 
-call deoplete#custom#set('_', 'min_pattern_length', 1)	"2 is default. 1 convenient but also uhm, inconvenient
-call deoplete#custom#set('_', 'max_abbr_width', 70)
-call deoplete#custom#set('_', 'max_menu_width', 100)
+call deoplete#custom#source('_', 'min_pattern_length', 1)	"2 is default. 1 convenient but also uhm, inconvenient
+call deoplete#custom#source('_', 'max_abbr_width', 70)
+call deoplete#custom#source('_', 'max_menu_width', 100)
 
 let g:deoplete#ignore_sources		= {}
 
@@ -1317,11 +1324,23 @@ let g:deoplete#omni#input_patterns.lua   ='\w+|[^. *\t][.:]\w*'
 let g:deoplete#omni#functions            =get(g:, 'deoplete#omni#functions', {})
 let g:deoplete#omni#functions.javascript =['tern#Complete', 'jspc#omni']
 
-let g:deoplete#sources									 =get(g:, 'deoplete#sources', {})    "only needed for scripts and whatnot, not vimrc obvs
-let g:deoplete#sources['javascript'] 		    =['file', 'ternjs']
+" let g:deoplete#sources									 =get(g:, 'deoplete#sources', {})    "only needed for scripts and whatnot, not vimrc obvs
+" let g:deoplete#sources['javascript'] 		    =['file', 'ternjs']
+
+let g:deoplete#sources#clang#flags = ['--std=c++11']
+let g:deoplete#sources#clang#autofill_neomake = 1
+let g:deoplete#sources#clang#std   = {
+      \ 'c': 'c11',
+      \ 'cpp': 'c++11',
+      \ 'objc': 'c11',
+      \ 'objcpp': 'c++1z' }
+
+let g:clang2_placeholder_prev              = '<s-tab>'
+let g:clang2_placeholder_next              = '<tab>'
 " XXX QUESTION WAIT HUH dont i want to use llvm brew head clang?  /usr/local/opt/llvm/lib
-let g:deoplete#sources#clang#libclang_path 	='/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
-let g:deoplete#sources#clang#clang_header 	='/Library/Developer/CommandLineTools/usr/lib/clang'
+" let g:deoplete#sources#clang#libclang_path 	='/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'   "for deoplete-clang (non-2)
+" let g:deoplete#sources#clang#clang_header 	='/Library/Developer/CommandLineTools/usr/lib/clang'
+
 let g:deoplete#sources#jedi#show_docstring 	=1	"in preview window. flashes too much and hidden by menu :/
 " Enable jedi source debug messages
 " let g:deoplete#enable_profile = 1
@@ -1332,36 +1351,36 @@ let g:deoplete#sources#jedi#show_docstring 	=1	"in preview window. flashes too m
 let g:deoplete#keyword_patterns           ={}
 let g:deoplete#keyword_patterns.clojure 	='[\w!$%&*+/:<=>?@\^_~\-\.#]*'
 
-call deoplete#custom#set('buffer',        'mark', 'ℬ')
-call deoplete#custom#set('tag',           'mark', '')
-call deoplete#custom#set('file',          'mark', '')	"./
-call deoplete#custom#set('omni',          'mark', '')
-call deoplete#custom#set('ternjs',        'mark', '')
-call deoplete#custom#set('jedi',          'mark', '')
-call deoplete#custom#set('vim',           'mark', '')
-call deoplete#custom#set('neosnippet',    'mark', '')
-call deoplete#custom#set('around',        'mark', '') "subsources: A=above cursor, B=below, C=:changes
-call deoplete#custom#set('syntax',        'mark', '♯')
-call deoplete#custom#set('webcomplete',   'mark', '')
-call deoplete#custom#set('tmux-complete', 'mark', 'tmux')
+call deoplete#custom#source('buffer',        'mark', 'ℬ')
+call deoplete#custom#source('tag',           'mark', '')
+call deoplete#custom#source('file',          'mark', '')	"./
+call deoplete#custom#source('omni',          'mark', '')
+call deoplete#custom#source('ternjs',        'mark', '')
+call deoplete#custom#source('jedi',          'mark', '')
+call deoplete#custom#source('vim',           'mark', '')
+call deoplete#custom#source('neosnippet',    'mark', '')
+call deoplete#custom#source('around',        'mark', '') "subsources: A=above cursor, B=below, C=:changes
+call deoplete#custom#source('syntax',        'mark', '♯')
+call deoplete#custom#source('webcomplete',   'mark', '')
+call deoplete#custom#source('tmux-complete', 'mark', 'tmux')
 " default is 100...
-call deoplete#custom#set('vim',           'rank', 230)
-call deoplete#custom#set('jedi',          'rank', 230)
-call deoplete#custom#set('ternjs',        'rank', 230)
-call deoplete#custom#set('async-clj',     'rank', 230)
-call deoplete#custom#set('CLJ',						'rank', 230)
-call deoplete#custom#set('omni',          'rank', 99)
-call deoplete#custom#set('tag',           'rank', 98)
-call deoplete#custom#set('around',        'rank', 98)
-call deoplete#custom#set('member',        'rank', 97)
-call deoplete#custom#set('file',          'rank', 96)
-call deoplete#custom#set('file_include',  'rank', 95)
-call deoplete#custom#set('neosnippet',    'rank', 95)
-call deoplete#custom#set('webcomplete',   'rank', 94)
-call deoplete#custom#set('buffer',        'rank', 93)
-call deoplete#custom#set('tmux-complete', 'rank', 92)
-call deoplete#custom#set('syntax',        'rank', 91)
-call deoplete#custom#set('dictionary',    'rank', 10)
+call deoplete#custom#source('vim',           'rank', 230)
+call deoplete#custom#source('jedi',          'rank', 230)
+call deoplete#custom#source('ternjs',        'rank', 230)
+call deoplete#custom#source('async-clj',     'rank', 230)
+call deoplete#custom#source('CLJ',					 'rank', 230)
+call deoplete#custom#source('omni',          'rank', 99)
+call deoplete#custom#source('tag',           'rank', 98)
+call deoplete#custom#source('around',        'rank', 98)
+call deoplete#custom#source('member',        'rank', 97)
+call deoplete#custom#source('file',          'rank', 96)
+call deoplete#custom#source('file_include',  'rank', 95)
+call deoplete#custom#source('neosnippet',    'rank', 95)
+call deoplete#custom#source('webcomplete',   'rank', 94)
+call deoplete#custom#source('buffer',        'rank', 93)
+call deoplete#custom#source('tmux-complete', 'rank', 92)
+call deoplete#custom#source('syntax',        'rank', 91)
+call deoplete#custom#source('dictionary',    'rank', 10)
 
 
 
@@ -1373,10 +1392,21 @@ function! DeopleteInit()
 	" let l:c = ['converter_remove_overlap', 'converter_auto_delimiter', 'converter_remove_paren',
 	let l:c = ['converter_remove_overlap', 
 	\ 'converter_truncate_abbr', 'converter_truncate_menu']   "default remove_overlap, truncate_abbr, truncate_menu
-	call deoplete#custom#set('_', 'matchers',   l:m)
-	call deoplete#custom#set('_', 'sorters',    l:s)
-	call deoplete#custom#set('_', 'converters', l:c)
+	call deoplete#custom#source('_', 'matchers',   l:m)
+	call deoplete#custom#source('_', 'sorters',    l:s)
+	call deoplete#custom#source('_', 'converters', l:c)
 
+  " cpsm match+sort
+  " call deoplete#custom#source('_', 'matchers', ['matcher_cpsm']) 
+  " call deoplete#custom#source('_', 'sorters', [])                
+
+  " call deoplete#enable()
+endfunction
+
+function! DeopleteEnable()
+  if get(g:, 'deoplete_has_been_enabled', 0) | return | endif
+  silent call deoplete#enable()
+  let g:deoplete_has_been_enabled = 1
 endfunction
 "}}}
 
