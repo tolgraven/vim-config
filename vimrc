@@ -1752,6 +1752,66 @@ command! -nargs=* Ag call fzf#run({'source':  printf('ag --nogroup --column --co
 \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.'--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.'--color hl:68,hl+:110',
 \ 'down':    '50%' })
 
+" Files + devicons
+function! Fzf_dev()
+  let l:fzf_files_options=
+        \ '--preview "echo {} | tr -s \" \" \"\n\" | tail -1 | xargs highlight | head -'.&lines.'"'
+        " \ '--preview "echo {} | tr -s \" \" \"\n\" | tail -1 | xargs rougify | head -'.&lines.'"'
+  function! s:files()
+    let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
+    return s:prepend_icon(l:files)
+  endfunction
+
+  function! s:prepend_icon(candidates)
+    let l:result = []
+    for l:candidate in a:candidates
+      let l:filename = fnamemodify(l:candidate, ':p:t')
+      let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
+      call add(l:result, printf('%s %s', l:icon, l:candidate))
+    endfor
+
+    return l:result
+  endfunction
+
+  function! s:edit_file(item)
+    let l:parts = split(a:item, ' ')
+    let l:file_path = get(l:parts, 1, '')
+    execute 'silent e' l:file_path
+  endfunction
+
+  call fzf#run({
+        \ 'source': <sid>files(),
+        \ 'sink':   function('s:edit_file'),
+        \ 'options': '-m ' . l:fzf_files_options,
+        \ 'down':    '40%' })
+endfunction
+command! F call Fzf_dev()
+
+function! Line_handler(l)
+  let keys = split(a:l, ':')
+  exec keys[0]
+  normal! ^zz
+endfunction
+
+function! SearchWord()
+    let g:fzf_ft=&ft
+    call fzf#run({
+    \   'source':  map(getline(1, '$'), '(v:key + 1) . ": " . v:val '),
+    \   'sink':    function('Line_handler'),
+    \   'options': '+s -e --ansi'
+    \})
+    let g:fzf_ft=''
+endfunction
+
+
+let g:fzf_ft=''
+augroup FZF
+    autocmd!
+    autocmd! FileType fzf if strlen(g:fzf_ft) | silent! let &ft=g:fzf_ft | endif
+augroup END
+
+nmap <Leader>// :call SearchWord()<Cr>
+
 "{{{2 					RANDOM - RANGER n stuff
 function! RangerExplorer()
 		exec "silent !ranger --choosefile=/tmp/vim_ranger_current_file " . expand("%:p:h")
