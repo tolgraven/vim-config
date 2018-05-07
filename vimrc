@@ -2388,11 +2388,18 @@ au FileType clojure			nmap		 <Leader>l						:Last<CR>| 		"open output of last ev
 au FileType clojure			nmap		 <Leader>gf						:Djump | 		"Jump to def for given symbol (so need to switch this...).
 au FileType clojure			nmap		 <Leader>gs						:Dsplit | 		"Jump to def for given symbol, in split
 au FileType clojure			nmap		 <Leader>.						cqc<Esc>k<CR>| 		"hacky way to rerun last eval
-au FileType clojure			nmap		 <Leader>as						:Eval (activate-show)<CR>| 		"myfav
-au FileType clojure			nmap		 <Leader>cue						:Eval (make-cues-tol)<CR>| 		"myfav
-au FileType clojure			nmap		 <Leader>pai					:let g:parinfer_mode="indent"
-au FileType clojure			nmap		 <Leader>pap					:let g:parinfer_mode="paren"
-au FileType clojure			nmap		 <Leader>paf					:let g:parinfer_mode="off"
+
+au FileType clojure			nmap			<Leader>as	:Eval (activate-show)<CR>
+au FileType clojure			nmap			<Leader>cue	:Eval (make-cues-tol)<CR>
+au FileType clojure			nmap			<Leader>pm	:Eval (patch-moving)<CR>
+au FileType clojure			nmap			<Leader>pl	:Eval (patch-strips)<CR>
+au FileType clojure			nmap			<Leader>ps	:Eval (patch-static)<CR>
+au FileType clojure			nmap			<Leader>pu	:Eval (patch-ug)<CR>
+
+au FileType clojure			nmap		 <Leader>pai					:let g:parinfer_mode="indent"<CR>
+au FileType clojure			nmap		 <Leader>pap					:let g:parinfer_mode="paren"<CR>
+au FileType clojure			nmap		 <Leader>paf					:let g:parinfer_mode="off"<CR>
+
 au FileType javascript	nnoremap <silent><buffer>gb		:TernDef<CR>
 au FileType c,cpp				nmap		 <buffer>gd 		<Plug>(clang_complete_goto_declaration)
 au FileType c,cpp				nmap		 <buffer>gdp		<Plug>(clang_complete_goto_declaration_preview)
