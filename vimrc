@@ -524,27 +524,18 @@ let g:taboo_renamed_tab_format        =' %l%m'  "default ' [%l]%m'
 
 let g:autojump_executable							='/usr/local/etc/autojump.sh'
 
+let g:better_whitespace_enabled       =1
+let g:strip_whitespace_on_save        =1
+let g:better_whitespace_operator      ='_s'
+hi ExtraWhitespace NONE
 
 let g:choosewin_label									='123456789'
-let g:choosewin_tablabel							='ABCDEFGHIJKL'
-let g:choosewin_label_fill						=1
+let g:choosewin_tablabel							='ABCDEFGHI'
+let g:choosewin_label_fill						=0
+let g:choosewin_label_padding         =0
+
 let g:choosewin_overlay_enable				=0		"cool in theory but SUPER DANGEROUS as it fucks with undolevels and fails to restore it properly and also fucking lands you in fucking insert mode = FUCKKK
-hi! link  ChooseWinLabel          BruvboxBlueSign   
-hi! link  ChooseWinLabelCurrent   BruvboxOrangeSign 
-hi! link  ChooseWinLand           Visual
-hi! link  ChooseWinOther          BruvboxOrangeSign 
-hi! link  ChooseWinOverlay        BruvboxBlueSign   
-hi! link  ChooseWinOverlayCurrent BruvboxOrangeSign 
-hi! link  ChooseWinShade          BruvboxFg4        
-augroup ChooseWinColors | autocmd!
-	au ColorScheme hi! link  ChooseWinLabel          BruvboxBlueSign
-	au ColorScheme hi! link  ChooseWinLabelCurrent   BruvboxOrangeSign
-	au ColorScheme hi! link  ChooseWinLand           BruvboxAquaBg
-	au ColorScheme hi! link  ChooseWinOther          BruvboxOrangeSign
-	au ColorScheme hi! link  ChooseWinOverlay        BruvboxBlueSign
-	au ColorScheme hi! link  ChooseWinOverlayCurrent BruvboxOrangeSign
-	au ColorScheme hi! link  ChooseWinShade          BruvboxFg4
-augroup END
+
 " let g:choosewin_color_label          ={'gui':['DarkGreen', 'white', 'bold'], 'cterm': [ 22, 15,'bold'] }
 " let g:choosewin_color_label_current  ={'gui':['LimeGreen', 'black', 'bold'], 'cterm': [ 40, 16, 'bold'] }
 " let g:choosewin_color_other          ={'gui':['gray20', 'black'], 'cterm': [ 240, 0] }
@@ -553,19 +544,32 @@ augroup END
 " let g:choosewin_color_overlay_current  { 'gui': ['LimeGreen', 'LimeGreen' ], 'cterm': [ 40, 40 ] },
 " let g:choosewin_color_shade          ={'gui':[ '', '#777777'], 'cterm': ['', 'grey'] }
 
+let g:choosewin_keymap = {
+\ '0':     'tab_first', '$':  'tab_last',
+\ 'j':     'tab_prev',  'k':  'tab_next',
+\ 'p':     'tab_prev',  'n':  'tab_next',
+\ 'x':     'tab_close', 'q':  'tab_close',
+\ '-':     'previous',  'z':  'previous',  'w':  'previous',  "\<Tab>":  'previous',
+\ 's':     'swap',      'S':  'swap_stay',
+\ "\<CR>": 'win_land',
+\ }
+let g:choosewin_label_align           ='left'
+
+
 let g:diminactive_enable_focus				=1				"dim every window when vim doesnt have focus
 let g:diminactive_max_cols            =100
 let g:diminactive_buftype_blacklist		=['nofile', 'nowrite', 'acwrite', 'quickfix'] ", 'help']
 let g:diminactive_filetype_blacklist  =['startify']
 
-let g:indent_guides_indent_levels					=7
-let g:indent_guides_auto_colors           =0
 let g:indent_guides_enable_on_vim_startup =1
-let g:indent_guides_start_level           =3
-let g:indent_guides_guide_size            =2		"doesnt work with tabs ugh.
-let g:indent_guides_exclude_filetypes			=['help', 'nerdtree', 'undotree', 'tagbar', 'startify', 'nofile', 'quickfix']
+let g:indent_guides_indent_levels					=12
+let g:indent_guides_start_level           =2
+let g:indent_guides_auto_colors           =0
 let g:indent_guides_color_change_percent	=5
+let g:indent_guides_guide_size            =2		"doesnt work with tabs ugh.
+let g:indent_guides_exclude_filetypes			=['help', 'nerdtree', 'undotree', 'tagbar', 'startify', 'nofile', 'quickfix', 'clojure']
 
+let g:linediff_buffer_type          ='scratch'
 
 
 let g:neoterm_repl_python             ='ptipython'
@@ -589,7 +593,7 @@ let g:cursorcross_mappings						=0
 let g:ranger_map_keys									=0
 
 let g:indent_detector_echolevel_write =0				"don't spew every fucking write ugH
-let g:indent_detector_echolevel_write =0				"don't spew ever actually. just set the setsings and stfu
+let g:indent_detector_echolevel_enter =0				"don't spew ever actually. just set the setsings and stfu
 
 "}}}
 
