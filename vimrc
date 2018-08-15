@@ -13,20 +13,23 @@ call plug#begin() "call plug#begin('~/.vim/plugged')
 
 "{{{2					 --- FUZZ ME 'ARD | WIT UR <BAR>-LINE 	  					PLUG
 Plug 'ctrlpvim/ctrlp.vim' "| Plug 'tacahiroy/ctrlp-funky' | Plug 'sgur/ctrlp-extensions.vim' | Plug 'jasoncodes/ctrlp-modified.vim'
+" Plug 'nixprime/cpsm', {'do': 'set -x PY3 ON; ./install.sh'}        "matcher for ctrlp/deoplete
+" Plug 'nixprime/cpsm'         "matcher for ctrlp/deoplete
 Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim' "proper way when already have brew fzf. should check if path exists first tho, for linuxbrew etc
 Plug 'Shougo/denite.nvim' "| Plug 'Shougo/neomru.vim', {'on': 'Denite'} | Plug 'Shougo/unite.vim' "if loading denite on demand would need to check if exists before calling setup funcs...
-Plug 'francoiscabrol/ranger.vim'
+Plug 'francoiscabrol/ranger.vim' | Plug 'rbgrouleff/bclose.vim' "ranger integration, plus neovim dependency
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight' 	"colored devicons - better than other script?
 
 " Plug 'morhetz/gruvbox' 											"second best theme only cunts disagree c/d??
-if !exists('g:pager_mode_so_fuckoff_all_fatasses')
 Plug 'vim-airline/vim-airline' "| Plug 'vim-airline/vim-airline-themes'
+if !exists('g:pager_mode_so_fuckoff_all_fatasses')
+" Plug 'mg979/vim-xtabline'                   "extra addons to airline tabline extension
 Plug 'mhinz/vim-startify'  									"nice lil start page/session manager
 Plug 'mbbill/undotree' ", {'on': 'UndotreeToggle'}
 Plug 'majutsushi/tagbar' ", {'on': 'TagbarToggle'}
 Plug 'scrooloose/nerdtree'
 " Plug 'Xuyuanp/nerdtree-git-plugin'				 "on-again off-again slowdown issues ugh
-Plug 'ryanoasis/vim-devicons' 							"post-emoji bullshit for adult idiots. so fucking pretty
+" Plug 'ryanoasis/vim-devicons' 							"post-emoji bullshit for adult idiots. so fucking pretty
 endif
 
 Plug 'padde/jump.vim'												"autojump in vim
@@ -44,16 +47,18 @@ Plug 'darfink/vim-plist' ", 		{'for': 'plist'} vimplug doesnt recognize plist fi
 Plug 'wilriker/vim-fish',    		{'for': 'fish'} "more active than 'dag/vim-fish' and kballard fork
 Plug 'tmux-plugins/vim-tmux' 								"polyglot has a bullshit one
 Plug 'jez/vim-github-hub'                   "github ft
-Plug 'MikeCoder/markdown-preview.vim'
+" Plug 'MikeCoder/markdown-preview.vim'
 Plug 'elzr/vim-json'												"proper json hl
 Plug 'cyberkov/openhab-vim' 								"openhab syntax
-Plug 'reedes/vim-pencil' 										"natural text processing
+" Plug 'reedes/vim-pencil' 										"natural text processing
 Plug 'jceb/vim-orgmode' | Plug 'tpope/vim-speeddating'  "orgmode a la emacs + date incr/decr support plug so it'll stop complaining...
-" Plug 'junegunn/goyo.vim' | Plug 'junegunn/limelight.vim'
+" Plug 'junegunn/goyo.vim' | Plug 'junegunn/limelight.vim'  "for writing normal text or some shit
 Plug 'hdima/python-syntax' 									"better python syntax def
+Plug 'octol/vim-cpp-enhanced-highlight'     "modern c++
 
-Plug 'tweekmonster/nvim-api-viewer'
+" Plug 'tweekmonster/nvim-api-viewer'
 " LANG UTILS
+Plug 'metakirby5/codi.vim'                  "real-time double-pane REPL
 Plug 'bfredl/nvim-ipy'											"ipython integration
 " Plug 'klen/python-mode', 				{'for': 'python'}
 Plug 'Shougo/vinarise.vim', 			{'on': 'Vinarise'}	"hex viewer
@@ -61,41 +66,44 @@ Plug 'powerman/vim-plugin-AnsiEsc' 					"view files with ansi escape colors.
 Plug 'chrisbra/Colorizer' 		"no {'on': 'ColorToggle'} bc use others first already, cant lazy-load 	highlight color names/hex w their actual color. mad slow, ugh
 
 Plug 'diepm/vim-rest-console'
-Plug 'stevearc/vim-arduino', 			{'for': 'arduino'} | Plug 'sudar/vim-arduino-snippets', 	{'for': 'arduino'} "arduino upload etc, overlaps platformio i guess, do i need?
+Plug 'stevearc/vim-arduino', 			{'for': 'arduino,cpp'}
+Plug 'sudar/vim-arduino-snippets'           "arduino upload etc, overlaps platformio i guess, do i need?
+
 Plug 'othree/yajs.vim',						{'for': 'javascript'} | Plug 'othree/es.next.syntax.vim', {'for': 'javascript'} "better javascript syntax inkl ES6+ES7
 
 Plug 'tpope/vim-fireplace', 			{'for': 'clojure'} | Plug 'clojure-vim/vim-cider', 				{'for': 'clojure'}
 " Plug 'clojure-vim/acid.nvim',			{'for': 'clojure'}				"seems buggy. general clojure plug somehow...
-" Plug 'guns/vim-clojure-highlight',{'for': 'clojure'}
-Plug 'clojure-vim/async-clj-highlight',{'for': 'clojure'}		"hl local, referred, aliased vars as above, but async for nvim
+Plug 'clojure-vim/async-clj-highlight',{'for': 'clojure'}		"hl local, referred, aliased vars as guns/vim-clojure-highlight, but async for nvim
 Plug 'venantius/vim-eastwood', 		{'for': 'clojure'}
 Plug 'venantius/vim-cljfmt', 			{'for': 'clojure'}				"clojure formatter
 " Plug 'clojure-vim/clj-refactor.nvim'		"refactoring plug
 Plug 'tpope/vim-classpath', 			{'for':['clojure', 'java']} 	| Plug 'tpope/vim-salve', 	{'for': 'clojure'}	"auto clojure/java classpath
-" Plug 'guns/vim-sexp', {'for': 'clojure'} | Plug 'tpope/vim-sexp-mappings-for-regular-people', {'for': 'clojure'}
-Plug 'snoe/nvim-parinfer.js'
-Plug 'junegunn/rainbow_parentheses.vim' ", {'on': 'RainbowParentheses'} "active fork of kien/rainbow_parentheses.vim
+Plug 'guns/vim-sexp', {'for': 'clojure'} | Plug 'tpope/vim-sexp-mappings-for-regular-people', {'for': 'clojure'}
+" Plug 'snoe/nvim-parinfer.js'
+" Plug 'junegunn/rainbow_parentheses.vim' ", {'on': 'RainbowParentheses'} "active fork of kien/rainbow_parentheses.vim
 
 " Plug 'jeaye/color_coded'										"fancy clang highlighting...no neovim support yet :/
-" Plug 'arakashic/chromatica.nvim'						"same but for nvim. p buggy, hl-wise
+Plug 'arakashic/chromatica.nvim'						"same but for nvim. p buggy, hl-wise
 
 " Plug 'ervandew/supertab'
-Plug 'honza/vim-snippets'
 Plug 'Shougo/neosnippet' | Plug 'Shougo/neosnippet-snippets'
+Plug 'honza/vim-snippets'
 
 Plug 'w0rp/ale' 														"neovim lint
+Plug 'meck/ale-platformio'                  "ale plugin for pio
 " Plug 'SevereOverfl0w/clojure-check', {'do': './install'}	"clojure lint for ALE
-" Plug '~/Documents/CODE/VIM/ALE/clojure-check'	"clojure lint for ALE, fix
+
 " Plug 'joonty/vdebug'												"adds itself to path again and again it seems
 
 " Plug 'roxma/nvim-completion-manager' 			 	"neovim deoplete alt with fuzzy
+Plug 'filipekiss/nvim-completion-manager' 			 	"neovim deoplete alt with fuzzy
 " Plug 'roxma/clang_complete' 							 	"clang for ncm
-" Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' } 	"unified completion server spec client thingY
+Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'} 	"unified completion server spec client thingY
 
 "{{{3  						DEOPLETE SOURCES
 Plug 'Shougo/deoplete.nvim', 					{'do': ':UpdateRemotePlugins'}
-Plug 'tweekmonster/deoplete-clang2', 	{'for': ['c', 'cpp', 'ObjC']}
-Plug 'zchee/deoplete-jedi', 					{'for': 'python'}
+" Plug 'tweekmonster/deoplete-clang2' ", 	{'for': ['c', 'cpp', 'ObjC', 'ino']}
+" Plug 'zchee/deoplete-jedi', 					{'for': 'python'}
 Plug 'zchee/deoplete-go', 						{'for': 'go', 'do': 'make'} 		"breaking ale lol?
 Plug 'mitsuse/autocomplete-swift', 		{'for': 'swift'}
 Plug 'clojure-vim/async-clj-omni' ",		{'for': 'clojure'}
@@ -103,14 +111,16 @@ Plug 'carlitux/deoplete-ternjs', 		  {'for': ['javascript', 'javascript.jsx']}
 Plug 'ponko2/deoplete-fish',					{'for': 'fish'}
 Plug 'Shougo/neco-vim', 							{'for': 'vim'}
 Plug 'zchee/deoplete-zsh', 						{'for': 'zsh'}
-" Plug 'Shougo/neco-syntax'           "super broken keeps adding dup autocmds... filetype syntax completion
-Plug 'Shougo/context_filetype.vim'    | Plug 'Shougo/neoinclude.vim' 	"complete from included files?
+Plug 'Shougo/neco-syntax'           "super broken keeps adding dup autocmds... filetype syntax completion
+Plug 'Shougo/context_filetype.vim'
+Plug 'Shougo/neoinclude.vim' 	"complete from included files?
 Plug 'wellle/tmux-complete.vim'
 " Plug 'SevereOverfl0w/deoplete-github'
 " Plug 'thalesmello/webcomplete.vim'
 "}}}
 
-" Plug 'Shougo/neopairs.vim'      				"autopairs from shuogo?
+Plug 'Shougo/echodoc.vim' 							"show function args in msg area after completing function name
+Plug 'Shougo/neopairs.vim'      				"autopairs from shuogo?
 " Plug 'neomake/neomake' | Plug 'coddingtonbear/neomake-platformio', {'do': ':UpdateRemotePlugins'}  "koar linting
 
 Plug 'artur-shaik/vim-javacomplete2', {'for': 'java'}  "more moderny than 'cilquirm/javacomplete'
@@ -118,25 +128,24 @@ Plug 'davidhalter/jedi-vim', 					{'for': 'python'}
 Plug 'ternjs/tern_for_vim',						{'for': ['javascript', 'javascript.jsx'], 'do': 'npm install'}
 Plug 'othree/jspc.vim', 							{'for': ['javascript', 'javascript.jsx']}
 
-Plug 'Shougo/echodoc.vim' 							"show function args in msg area after completing function name
 
 Plug 'chrisbra/unicode.vim'							"unicode char completion
 
 "{{{2  				 --- UTILNTTY																		PLUG
-" Plug 'Khouba/indent-detector.vim'
+Plug 'Khouba/indent-detector.vim'
 " Plug 'marcweber/vim-addon-mw-utils'   					"tinyfunc and utils. noneed?
 Plug 'tomtom/tcomment_vim', {'on': 'TComment'} 	"toggle comments better
 Plug 'tpope/vim-surround' 											"put stuff around stuff
 Plug 'tpope/vim-repeat' 												" . for plugins
-Plug 'kana/vim-arpeggio'												"key chord support		
+" Plug 'kana/vim-arpeggio'												"key chord support
 Plug 'jiangmiao/auto-pairs' 										"test if works better than gentle ver
 " Plug 'tpope/vim-endwise'												"auto endif endfunc etc
-Plug 'ConradIrwin/vim-bracketed-paste' 					"auto paste mosvermeulen/vim-easyclipde and back. not needed for nvim?
 Plug 'bfredl/nvim-miniyank' 										"pro yank killring like in shell
 " Plug 'svermeulen/vim-easyclip'									"lots of clipboard related stuff, incl killring functionality. stupid and bullshit and evil.
 Plug 'machakann/vim-highlightedyank'						"should be part of default vim
 " Plug 'vim-scripts/highlight.vim' 								"bare fucks shit up. Find alternative 	 hl shit without :hi. toggle mark-highlight current line etc
 Plug 't9md/vim-textmanip' 											"move lines around visually
+Plug 'salsifis/vim-transpose'                   "transpose words n shit
 Plug 'AndrewRadev/splitjoin.vim'								"break up single-line statements into multi-line ones, and vice versa
 Plug 'tommcdo/vim-exchange' 										"easily flip two words/motions
 Plug 'terryma/vim-expand-region' 								"select awesomely
@@ -145,13 +154,14 @@ Plug 'tomtom/tinykeymap_vim' 										"for repeating multikey stuff easier (eg.
 Plug 'vim-utils/vim-husk' 											"less aggro readline bindings?
 Plug 'junegunn/vim-easy-align' 									"easier more better text align than tabular
 Plug 'sbdchd/neoformat' 												"format code
+Plug 'ntpeters/vim-better-whitespace'           "only nazis like white spaces
 " Plug '907th/vim-auto-save', {'for': 'text'} 		"autosave, for my note popup term
 Plug 'MarcWeber/vim-addon-local-vimrc', {'for': 'text'} 	"per folder .localvimrc
 Plug 'tpope/vim-tbone' 													"tmux stuff
 Plug 'benmills/vimux'  | Plug 'julienr/vimux-pyutils'
 Plug 'tpope/vim-eunuch' 		 										"shell tool unix stuff
 " Plug 'justinmk/vim-dirvish'											"aardKORE rename...dir viewer heuh
-Plug 'tpope/vim-dispatch', {'on': 'Dispatch'} | Plug 'radenling/vim-dispatch-neovim' 	"async shell jobs etc
+" Plug 'tpope/vim-dispatch', {'on': 'Dispatch'} | Plug 'radenling/vim-dispatch-neovim' 	"async shell jobs etc
 Plug 'tpope/vim-scriptease' 										"do debug a scriptz (+ :Verbose = auto redir to preview window, hell yeah)
 Plug 'kana/vim-textobj-user' | Plug 'kana/vim-textobj-line'	 | Plug 'kana/vim-textobj-indent'								"custom text objects
 Plug 'thinca/vim-textobj-between' | Plug 'saaguero/vim-textobj-pastedtext'
@@ -159,12 +169,15 @@ Plug 'jceb/vim-textobj-uri' | Plug 'kana/vim-textobj-syntax' | Plug 'rhysd/vim-t
 " Plug 'vimtaku/vim-textobj-keyvalue' | Plug 'kana/vim-textobj-entire'	"both these much heavier during startup than other plugs. only 30ms, but since I don't really use them anyways...
 " Plug 'vim-scripts/marvim' 											"save macros and shit, maybe when im better with those
 " Plug 'vim-scripts/repeatable-motions.vim' 			"repeat movements/motions
-Plug 'nathanaelkane/vim-indent-guides'
-" Plug 'kopischke/vim-stay', {'branch': 'release/1.4.0'}  "auto-persist position, folds etc on :e etc. bugs in nvim, fix
+" Plug 'nathanaelkane/vim-indent-guides'
+Plug 'kopischke/vim-stay' ", {'branch': 'release/1.4.0'}  "auto-persist position, folds etc on :e etc. bugs in nvim, fix
 Plug 'kopischke/vim-fetch'                      "open file to line/col using format from stack traces and similar
 " Plug 'lambdalisue/pinkyless.vim' 								"maybe good w a different config
-Plug 'blueyed/vim-diminactive'                  "dim inactive windows
+Plug 'blueyed/vim-diminactive'                  "dim inactive windows. love it but maybe a perf issue
 " Plug 'mtth/cursorcross.vim'
+Plug 'AndrewRadev/linediff.vim'                 "diff two regions in file
+Plug 'skywind3000/vim-preview'                  "commands for preview window. prob not the ones i actually proper need
+
 Plug 'mhinz/vim-halo'														"helper thing sorta to blink current line on timer. incorporate into meta etc...
 
 Plug 'gfontenot/vim-xcode'
@@ -179,13 +192,14 @@ Plug 'haya14busa/incsearch.vim'   				"atm using own version bc they refuse to f
 Plug 'haya14busa/incsearch-fuzzy.vim'					"fuzzysearch for incsearch
 Plug 'bronson/vim-visual-star-search'				"search for selection with *
 Plug 'terryma/vim-multiple-cursors' 				"why is this slow as balls? fantastic, either way
-Plug 'tpope/vim-unimpaired' 							"shortcuts for stuff via [], would need to rebind
+Plug 'embear/vim-foldsearch'
+" Plug 'tpope/vim-unimpaired' 							"shortcuts for stuff via [], would need to rebind
 " Plug 'zhaocai/GoldenView.Vim', 	{'on': 'ToggleGoldenViewAutoResize'} "buggier than a motherfucker
 Plug 'szw/vim-maximizer', 			{'on': 'MaximizerToggle'}	"maximize/restore split
 Plug 't9md/vim-choosewin'										"navigate to windows like tmux overlays, including windowswap functionality. Not actually slow, was only feeling problematic bc of binding and timeouts
 Plug 'lacombar/vim-mpage', {'on': 'MPageToggle'} "multipage. view buffer over multiple windows, like a book
 Plug 'mhinz/vim-sayonara', 	{'on': 'Sayonara'} 	"kill buffer preserve window
-" Plug 'Shougo/neoyank.vim' 									"yank history for unite/denite?
+Plug 'Shougo/neoyank.vim' 									"yank history for unite/denite?
 " Plug 'tpope/vim-vinegar' 										"netrw betterer
 " Plug 'airblade/vim-rooter' 								"auto change cwd to proj base.  startify can handle?
 Plug 'Konfekt/FastFold' 										"make folds easier lighter on sys
@@ -195,22 +209,25 @@ Plug 'blueyed/vim-qf_resize'
 
 "{{{2					 --- B THE DIFFERENCED & ASSORTED LALL									PLUG
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive' | Plug 'tpope/vim-rhubarb'          "git stuff, hub stuff
+" Plug 'gregsexton/gitv', {'on': ['Gitv']}
 " Plug 'jreybert/vimagit'
-Plug 'lambdalisue/gina.vim'
+" Plug 'lambdalisue/gina.vim'
 " Plug 'jaxbot/github-issues.vim'
 " Plug 'diraol/vim-easytags'																	"maybe slow...
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'vim-scripts/yate' 																		"taglist but from manual ctags
+" Plug 'vim-scripts/yate' 																		"taglist but from manual ctags
 " Plug 'brettanomyces/nvim-terminus' ", {'on': 'TerminusOpen'} call nvim from term inside nvim, with :. Can't lazy load, errors
 Plug 'kassio/neoterm' 							               					"the neovim terminal
-Plug 'rkitover/vimpager'
+" Plug 'rkitover/vimpager'
 " Plug 'lambdalisue/vim-pager' "| Plug 'lambdalisue/vim-manpager'
-if !has('nvim') | Plug 'lambdalisue/vim-rplugin' | endif
+if !has('nvim')
+  Plug 'lambdalisue/vim-rplugin'
+  Plug 'ConradIrwin/vim-bracketed-paste' 					"auto paste mode and back. not needed for nvim
+endif
 
 "{{{2 				 --- FANCY JOAN FREGERT's FORKS and originals					PLUG
-" Plug '~/Documents/CODE/VIM/forks--/incsearch.vim' "some minor nvim bugfix, prob sorted in main now? OTHER THING: sort so does zv to open folds when tabbing through hits...
-Plug '~/Documents/CODE/VIM/forks--/vim-manpager'
+" Plug '~/Documents/CODE/VIM/forks--/vim-manpager'
 Plug '~/Documents/CODE/VIM/forks--/semantic-highlight.vim', {'on': 'SemanticHighlightToggle'} 		"incl patch for guicolors 'jaxbot/semantic-highlight.vim'
 " Plug '~/.config/nvim/scripts/ColDevicons' 			"colored devicons in nerdtree, even prettier
 Plug '~/Documents/CODE/VIM/forks--/vim-numbertoggle' 		"forked 'jeffkreeftmeijer/vim-numbertoggle' auto switch on rel numbers for normal and visual?
@@ -218,15 +235,16 @@ Plug '~/Documents/CODE/VIM/forks--/vim-cursorword'
 
 " Plug '~/Documents/CODE/VIM/forks--/webcomplete.vim'		"quick fix to not auto-launch chrome if not launched, before proper webcomplete implemented...
 Plug '~/Documents/CODE/VIM/COLORS/bruvbox' 			"eventual bruvbox
-Plug '~/Documents/CODE/VIM/proper-smooth.vim'
+" Plug '~/Documents/CODE/VIM/proper-smooth.vim' "super laggy with curr nvim/iterm/tmux etc
 Plug '~/Documents/CODE/VIM/LISTA/metabuffer.nvim'
 " Plug 'tolgraven/metabuffer.nvim'
 Plug '~/Documents/CODE/VIM/proper-vim-tmux-nav'
-" Plug '~/Documents/CODE/VIM/ale-platformio.vim'
+Plug 'tolgraven/rainbow_parentheses.vim',    {'on': 'RainbowParentheses'}
 " Plug 'tolgraven/proper-vim-tmux-nav'
+" Plug '~/Documents/CODE/VIM/ale-platformio.vim'
 "{{{2					 LAST IN ORDER
 Plug 'arakashic/chromatica.nvim',	{'for': ['c', 'cpp', 'ObjC']}		"like color_coded but for nvim
-
+"}}}
 "{{{2 						PLUG END
 call plug#end()
 " set runtimepath 					 +=~/.vim/bundle/deoplete.nvim	"this doesnt even exist so def not needed lol
@@ -238,7 +256,6 @@ augroup END
 "}}}
 "⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏
 
-"
 " {{{1 				SETTINGS
 
 "{{{2					COLORSCHEME - SET EARLY so vimrc errors dont look gross
