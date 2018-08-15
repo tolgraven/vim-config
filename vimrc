@@ -2785,8 +2785,57 @@ function! GitGutterDiff(...)
 	let g:gitgutter_diff_base 		 = a:diff
 	GitGutter
 endfunction "}}}
+"{{{2    SEXP
+let g:sexp_mappings = {
+    \ 'sexp_move_to_prev_bracket':      '(',
+    \ 'sexp_move_to_next_bracket':      ')',
+    \ 'sexp_move_to_prev_element_head': '<LocalLeader>88',
+    \ 'sexp_move_to_next_element_head': '<LocalLeader>98',
+    \ 'sexp_move_to_prev_element_tail': '<LocalLeader>89',
+    \ 'sexp_move_to_next_element_tail': '<LocalLeader>99',
+    \ 'sexp_flow_to_next_open':         '',
+    \ 'sexp_flow_to_prev_open':         '',
+    \ 'sexp_flow_to_prev_close':        '',
+    \ 'sexp_flow_to_next_close':        '',
+    \ 'sexp_flow_to_prev_leaf_head':    '',
+    \ 'sexp_flow_to_next_leaf_head':    '',
+    \ 'sexp_flow_to_prev_leaf_tail':    '',
+    \ 'sexp_flow_to_next_leaf_tail':    '',
+    \ 'sexp_move_to_prev_top_element':  '<LocalLeader>p',
+    \ 'sexp_move_to_next_top_element':  '<LocalLeader>n',
+    \ 'sexp_select_prev_element':       '<LocalLeader>vp',
+    \ 'sexp_select_next_element':       '<LocalLeader>vn',
+    \ 'sexp_indent':                    '++',
+    \ 'sexp_indent_top':                '+-',
+    \ 'sexp_round_head_wrap_list':      '<LocalLeader>8',
+    \ 'sexp_round_tail_wrap_list':      '<LocalLeader>(',
+    \ 'sexp_square_head_wrap_list':     '<LocalLeader>7',
+    \ 'sexp_square_tail_wrap_list':     '<LocalLeader>/',
+    \ 'sexp_curly_head_wrap_list':      '<LocalLeader>9',
+    \ 'sexp_curly_tail_wrap_list':      '<LocalLeader>)',
+    \ 'sexp_round_head_wrap_element':   '<LocalLeader><LocalLeader>8',
+    \ 'sexp_round_tail_wrap_element':   '<LocalLeader><LocalLeader>(',
+    \ 'sexp_square_head_wrap_element':  '<LocalLeader><LocalLeader>7',
+    \ 'sexp_square_tail_wrap_element':  '<LocalLeader><LocalLeader>/',
+    \ 'sexp_curly_head_wrap_element':   '<LocalLeader><LocalLeader>9',
+    \ 'sexp_curly_tail_wrap_element':   '<LocalLeader><LocalLeader>)',
+    \ 'sexp_insert_at_list_head':       '<LocalLeader>i',
+    \ 'sexp_insert_at_list_tail':       '<LocalLeader>a',
+    \ 'sexp_splice_list':               '<LocalLeader>2',
+    \ 'sexp_convolute':                 '<LocalLeader>+',
+    \ 'sexp_raise_list':                '<LocalLeader>o',
+    \ 'sexp_raise_element':             '<LocalLeader>O',
+    \ 'sexp_swap_list_backward':        '<LocalLeader>k',
+    \ 'sexp_swap_list_forward':         '<LocalLeader>j',
+    \ 'sexp_swap_element_backward':     '<LocalLeader>h',
+    \ 'sexp_swap_element_forward':      '<LocalLeader>l',
+    \ 'sexp_emit_head_element':         '<LocalLeader><LocalLeader>j',
+    \ 'sexp_emit_tail_element':         '<LocalLeader><LocalLeader>k',
+    \ 'sexp_capture_prev_element':      '<LocalLeader><LocalLeader>h',
+    \ 'sexp_capture_next_element':      '<LocalLeader><LocalLeader>l',
+    \ }"}}}
 
-nnoremap <Leader>mks          :SSave<CR>|               "save startify session
+nnoremap <Leader>mks          :SSave<CR>y|               "save startify session
 
 nmap <silent><Leader>gv       <Plug>GoldenViewResize
 nmap <silent><Leader>gvs      <Plug>GoldenViewSwitchWithLargest
