@@ -597,6 +597,45 @@ let g:indent_detector_echolevel_enter =0				"don't spew ever actually. just set 
 
 "}}}
 
+"{{{2 				 ALE
+" linters n shit:
+" luarocks install luacheck
+" npm install -g jshint eslint "prettier-eslint(?)
+" pip install -U vim-vint yamllint
+" pip3 install -U flake8 mypy yapf pylint
+" gem install reek rubocop
+" let g:ale_emit_conflict_warnings					=0
+let g:ale_warn_about_trailing_whitespace 	=0
+let g:ale_set_signs 										 	=1
+let g:ale_sign_column_always 						 	=0
+let g:ale_sign_error 										 	=' ' 		"'!' '>>'
+let g:ale_sign_warning 									 	=' '   "' ' "' ' 			"'?' ''
+let g:ale_sign_info                       ='ℹ '  "'' '
+let g:ale_sign_style_error                =' '
+let g:ale_sign_style_warning              =' ' "''
+" let g:ale_statusline_format 						 	=['%d ', '%d ', '']
+let g:ale_statusline_format 						 	=['%d '.g:ale_sign_error, '%d '.g:ale_sign_error, '']
+let g:ale_echo_msg_format                 ='%severity% %code%: %s (%linter%)'
+let g:ale_echo_msg_error_str              =g:ale_sign_error
+let g:ale_echo_msg_warning_str            =g:ale_sign_warning
+let g:ale_echo_msg_info_str               =g:ale_sign_info
+
+let g:ale_open_list 										 	=0 "auto open loclist. too annoying
+let g:ale_lint_delay 										 	=&timeoutlen
+let g:ale_echo_delay                      =50
+
+" let g:ale_linters                         ={'cpp': ['clang', 'clangcheck', 'clangformat', 'cppcheck']}
+let g:ale_linters                         ={'cpp': []}
+" let g:ale_c_build_dir_names               =''
+" let g:ale_c_parse_makefile                =1 "gives errors. test if helps pio (with makefile from pio --ide clion)
+
+let g:ale_python_flake8_args 							='--ignore=E501,C0111'
+let g:ale_python_flake8_executable 				='python3'
+let g:ale_python_pylint_executable 				='python3'   " or 'python' for Python 2
+" let g:ale_python_pylint_options = '-rcfile /path/to/pylint.rc'
+let g:ale_python_mypy_options 						='--silent-imports'
+
+
 "{{{2 				 AIRLINE
 let g:airline_powerline_fonts 										=1      "otherwise, if doc is utf8 it uses crappy unicode ones
 let g:airline_left_sep 														=''    "  vs ⮀ ''
