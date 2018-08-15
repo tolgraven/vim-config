@@ -2495,39 +2495,104 @@ nnoremap <Leader>-- 	<C-X>| 														"math: decrement
 " }}} " }}}
 "                                        }}}
 "{{{1 				 KEY BINDINGS - FILETYPE SPECIFIC
+function! ClojureMaps()
+  nmap		<Leader>r			:write<CR>:Require<CR>| 		"reload clojure in REPL
+  nmap		<Leader>rc		:write<CR>:Require<CR>:Eval (make-cues-tol)<CR> | 		"reload clojure in REPL
+  nmap		<Leader>l			:Last<CR>| 		"open output of last eval in preview
+  nmap		<Leader>gf		:Djump | 		"Jump to def for given symbol (so need to switch this...).
+  nmap		<Leader>gfs		:Dsplit | 		"Jump to def for given symbol, in split
+  nmap		<Leader>.			cqc<Esc>k<CR>| 		"hacky way to rerun last eval
+
+  nmap		<Leader>c 	  cpiw
+
+  nmap		<Leader>go    :Eval (start)<CR>
+  nmap		<Leader>as    :Eval (activate-show)<CR>
+  nmap		<Leader>ce    :Eval (make-cues-tol)<CR>
+  nmap		<Leader>pm    :Eval (patch-moving)<CR>
+  nmap		<Leader>pl    :Eval (patch-strips)<CR>
+  nmap		<Leader>ps    :Eval (patch-static)<CR>
+  " nmap		<Leader>pu	:Eval (patch-ug)<CR>
+
+  nmap		<Leader>pai		:let g:parinfer_mode="indent"<CR>
+  nmap		<Leader>pap		:let g:parinfer_mode="paren"<CR>
+  nmap		<Leader>paf		:let g:parinfer_mode="off"<CR>
+endfunc
+
+function! HelpMaps() abort
+  nmap	<buffer><nowait> d 	        <C-D>|  "down. <nowait> so no impact from other d maps like ds vim-surround
+  nmap	<buffer>         u          <C-U>|  "up     above trick prob good in other circumstances too! always new discoveries heh
+
+  nmap	<buffer>         b          <C-B>|  "page up
+  nmap	<buffer>         f          <C-F>|  "page down
+
+  nmap	<buffer>         o          <C-O>|  "back
+  nmap	<buffer>         i          <C-I>|  "forward
+  nmap	<buffer>        <CR>        <C-]>|  "follow link
+  nmap	<buffer>        <Esc><Esc>	:q<CR>
+  " nmap		 <buffer><Space>			<Plug>proper_smooth_d
+  " nmap		 <buffer><S-Tab>			<Plug>proper_smooth_u
+endfunction
+
+function! Expand(exp) abort
+    let l:result = expand(a:exp)
+    return l:result ==# '' ? '' : "file://" . l:result
+endfunction
+
+"Language Client Server completion thingy mapping yooe
+function! LanguageClientMaps() abort
+  if !exists(':LanguageClientStart') | return | endif
+  nnoremap <silent> gc          :call LanguageClient_contextMenu()<CR>
+  nnoremap <silent> gh          :call LanguageClient#textDocument_hover()<CR>
+  " nnoremap <Leader>k 	        :call LanguageClient_textDocument_hover()<CR>
+  nnoremap <silent> <Leader>gd 	:call LanguageClient#textDocument_definition()<CR>
+
+  " nnoremap <silent> gd        :call LanguageClient#textDocument_definition()<CR>
+  nnoremap <silent> gtd 	      :call LanguageClient#textDocument_typeDefinition()<CR>
+  nnoremap <silent> <Leader>gi 	:call LanguageClient#textDocument_implementation()<CR>
+  nnoremap <silent> gr          :call LanguageClient#textDocument_references()<CR>
+
+  nnoremap <silent> gs          :call LanguageClient#textDocument_documentSymbol()<CR>
+
+  nnoremap <Leader>re           :call LanguageClient#textDocument_rename()<CR>
+
+  nnoremap <Leader>lcn 	        :LanguageClientStart<CR>
+  nnoremap <Leader>lcf 	        :LanguageClientStop<CR>
+  " set formatexpr=LanguageClient_textDocument_rangeFormatting()
+  set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
+  nnoremap <silent> crcc :call LanguageClient#workspace_executeCommand('cycle-coll', [Expand('%:p'), line('.') - 1, col('.') - 1])<CR>
+  nnoremap <silent> crth :call LanguageClient#workspace_executeCommand('thread-first', [Expand('%:p'), line('.') - 1, col('.') - 1])<CR>
+  nnoremap <silent> crtt :call LanguageClient#workspace_executeCommand('thread-last', [Expand('%:p'), line('.') - 1, col('.') - 1])<CR>
+  nnoremap <silent> crtf :call LanguageClient#workspace_executeCommand('thread-first-all', [Expand('%:p'), line('.') - 1, col('.') - 1])<CR>
+  nnoremap <silent> crtl :call LanguageClient#workspace_executeCommand('thread-last-all', [Expand('%:p'), line('.') - 1, col('.') - 1])<CR>
+  nnoremap <silent> crml :call LanguageClient#workspace_executeCommand('move-to-let', [Expand('%:p'), line('.') - 1, col('.') - 1, input('Binding name: ')])<CR>
+  nnoremap <silent> cril :call LanguageClient#workspace_executeCommand('introduce-let', [Expand('%:p'), line('.') - 1, col('.') - 1, input('Binding name: ')])<CR>
+  nnoremap <silent> crel :call LanguageClient#workspace_executeCommand('expand-let', [Expand('%:p'), line('.') - 1, col('.') - 1])<CR>
+  nnoremap <silent> cram :call LanguageClient#workspace_executeCommand('create-missing-libspec', [Expand('%:p'), line('.') - 1, col('.') - 1])<CR>
+
+endfunction
+
 
 augroup PerFileTypeBindings | autocmd!
 " test, add generic syntax-based complete omnifunc _only if no other provided_
-au FileType *			if &omnifunc == '' | 	setlocal omnifunc=syntaxcomplete#Complete |	endif
+" au FileType *			if &omnifunc == '' | 	setlocal omnifunc=syntaxcomplete#Complete |	endif
 
-au FileType clojure			nmap		 <Leader>r						:write<CR>:Require<CR>| 		"reload clojure in REPL
-au FileType clojure			nmap		 <Leader>l						:Last<CR>| 		"open output of last eval in preview
-au FileType clojure			nmap		 <Leader>gf						:Djump | 		"Jump to def for given symbol (so need to switch this...).
-au FileType clojure			nmap		 <Leader>gs						:Dsplit | 		"Jump to def for given symbol, in split
-au FileType clojure			nmap		 <Leader>.						cqc<Esc>k<CR>| 		"hacky way to rerun last eval
-
-au FileType clojure			nmap			<Leader>as	:Eval (activate-show)<CR>
-au FileType clojure			nmap			<Leader>cue	:Eval (make-cues-tol)<CR>
-au FileType clojure			nmap			<Leader>pm	:Eval (patch-moving)<CR>
-au FileType clojure			nmap			<Leader>pl	:Eval (patch-strips)<CR>
-au FileType clojure			nmap			<Leader>ps	:Eval (patch-static)<CR>
-au FileType clojure			nmap			<Leader>pu	:Eval (patch-ug)<CR>
-
-au FileType clojure			nmap		 <Leader>pai					:let g:parinfer_mode="indent"<CR>
-au FileType clojure			nmap		 <Leader>pap					:let g:parinfer_mode="paren"<CR>
-au FileType clojure			nmap		 <Leader>paf					:let g:parinfer_mode="off"<CR>
-
+au FileType clojure     call ClojureMaps()
 au FileType javascript	nnoremap <silent><buffer>gb		:TernDef<CR>
-au FileType c,cpp				nmap		 <buffer>gd 		<Plug>(clang_complete_goto_declaration)
-au FileType c,cpp				nmap		 <buffer>gdp		<Plug>(clang_complete_goto_declaration_preview)
+au FileType $LSP_FILETYPES    call LanguageClientMaps()
+au FileType cpp,ino	 nmap	 <Leader>r	:wa<CR><Leader>w6i<C-P><CR><Esc><Esc><C-w>p| 		"make pio
+au FileType cpp,ino	 nmap	 <Leader>st	?Exception<CR>me/<<<stack<<</e<CR>y'e:new<CR>P:w! exception<CR>:%!fish -c 'esp_trace d1_mini'<CR>:set syn=cpp<BAR>wincmd p| 		"hacky fix exception
 au FileType tmux				nnoremap <buffer><M-w>				:w<BAR>call system('sleep 0.1; tmux source ~/.tmux.conf; tmux display-message reloaded')<CR>| "auto-source tmux.conf when writing to it. sleep bc guess write sometimes doesnt come through properly heh
 
-au FileType help,man		nmap		 <buffer><Space>			<Plug>proper_smooth_d
-au FileType help,man		nmap		 <buffer><S-Tab>			<Plug>proper_smooth_u
-" no, below are dumb, fuck em all four
-" au FileType help				nnoremap <buffer>u						<C-u>
-au FileType	qf					nnoremap <buffer><silent>q		:close<CR>
-au CmdwinEnter *				noremap	 <buffer><M-CR>			<CR>q:
+au FileType vim         vnoremap <CR>           :<C-U>execute join(getline("'<","'>"),'<BAR>')<CR>| "eval current selection vimscript
+au FileType help,man		call HelpMaps()
+au FileType help        wincmd L | vertical resize 79
+au FileType help        set bufhidden=unload
+au FileType	qf,help,man	nnoremap <buffer><silent>q		:close<CR>
+au FileType qf          nnoremap <silent><buffer>o    :PreviewQuickfix<CR>
+au FileType qf          nnoremap <silent><buffer>O    :PreviewClose<CR>
+au CmdwinEnter *				noremap	 <buffer><M-CR>			  <CR>q:
+au CmdwinEnter *				noremap	 <buffer><Esc><Esc>		:q<CR>|   "double esc in normal closes
+" au CmdLineEnter *       cnoremap <
 
 augroup END "}}}
 
