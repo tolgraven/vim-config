@@ -520,7 +520,10 @@ let g:colorizer_colornames						=0					"dont hl regular color names, only hex. u
 
 
 let g:taboo_tabline										=0					"dont fuck with the tabline, just handle tab naming
-let g:taboo_renamed_tab_format        =' %l%m'  "default ' [%l]%m'
+let g:taboo_renamed_tab_format        ='%l' "' %l%m'  "default ' [%l]%m'
+let g:taboo_tab_format                ='%N%U%f' "N=tab nr, u=num windows unicode in active tab, f=name of first buffer, default ' %f%m ' (m=mod flag, useless since got colors for that, also default * breaks airline...)
+let g:taboo_modified_tab_flag         =''
+let g:taboo_unnamed_tab_label         ='<>'
 
 let g:autojump_executable							='/usr/local/etc/autojump.sh'
 
@@ -637,72 +640,70 @@ let g:ale_python_mypy_options 						='--silent-imports'
 
 
 "{{{2 				 AIRLINE
+"find reasonable alt for cprintf to touchbar, dump LSP stuff (auto-hover, fancy actions etc) in there...
+"investigate hammerspoons undocumented crap
 let g:airline_powerline_fonts 										=1      "otherwise, if doc is utf8 it uses crappy unicode ones
-let g:airline_left_sep 														=''    "  vs ⮀ ''
+let g:airline_left_sep 														='⮀'    "  vs ⮀ '', █ sucks bc no scaling vertically...
 let g:airline_left_alt_sep 												=' '    "'│' 	
 let g:airline_right_sep 													=''     "''
 let g:airline_right_alt_sep 											=''     "'│'
 let g:airline_skip_empty_sections 								=1      "only for active window, so pretty much requires either not having right sep or like making fg=bg otherwise
 let g:airline_exclude_preview                     =0			"(dont) let preview window be
 let g:airline_inactive_collapse										=0
+let g:airline_highlighting_cache                  =1
+" let g:airline_extensions                          =['tabline']     "test disable extensions for performance
 "{{{3          TABLINE EXTENSION
 let g:airline#extensions#tabline#enabled 					=1
-let g:airline#extensions#tabline#left_sep 				='  '      "' ' '  
-let g:airline#extensions#tabline#left_alt_sep 		='  '    "'  ' '│'
+let g:airline#extensions#tabline#left_sep 				=''      "' ' '  
+let g:airline#extensions#tabline#left_alt_sep 		=''    "'  ' '│'
 let g:airline#extensions#tabline#right_sep 				=' '     "' '
-let g:airline#extensions#tabline#right_alt_sep 		=' '       "'  ' '│'
-let g:airline#extensions#tabline#tabs_label 			=' '	"'T'
-let g:airline#extensions#tabline#buffers_label 		='B' 	"'' 
-let g:airline#extensions#tabline#show_splits			=1
+let g:airline#extensions#tabline#right_alt_sep 		=''       "'  ' '│'
+let g:airline#extensions#tabline#tabs_label 			='' "' '	"'T'
+let g:airline#extensions#tabline#buffers_label 		='' "'B' 	"'' 
+let g:airline#extensions#tabline#overflow_marker  ='…'
+
+let g:airline#extensions#tabline#show_tab_nr      =0      "taboo handles everything
 let g:airline#extensions#tabline#tab_nr_type      =1      "show both tab nr and amount of splits
-let g:airline#extensions#tabline#show_tab_type 		=1			"shows whether is displaying tabs or buffers
-let g:airline#extensions#tabline#fnamecollapse 		=1			"collapse parent dirs (if shown)
-" let g:airline#extensions#tabline#fnamemod 				=':~:.'  "gross
-let g:airline#extensions#tabline#fnamemod 				=':t' 	"Just buf/filename no path in tabs
-" let g:airline#extensions#tabline#formatter 				='unique_tail_improved'
-" let g:airline#extensions#tabline#buffer_idx_format={
-" 			\ '0': '⁰',
-"       \ '1': '¹',
-"       \ '2': '²',
-"       \ '3': '³',
-"       \ '4': '⁴',
-"       \ '5': '⁵',
-"       \ '6': '⁶',
-"       \ '7': '⁷',
-"       \ '8': '⁸',
-"       \ '9': '⁹'
-"       \ }							"is original but stopped working for some reason? Inc now when explicitly def'd
+let g:airline#extensions#tabline#show_tab_type 		=0			"shows whether is displaying tabs or buffers
+let g:airline#extensions#tabline#show_splits			=1
 let g:airline#extensions#tabline#show_close_button=0
-" let g:airline#extensions#tabline#middle_click_preserves_windows =1
+let g:airline#extensions#tabline#fnamecollapse 		=1			"collapse parent dirs (if shown)
+let g:airline#extensions#tabline#fnamemod 				=':t' 	"Just buf/filename no path in tabs
+let g:airline#extensions#tabline#fnametruncate    =10
+" let g:airline#extensions#tabline#formatter 				='unique_tail_improved'
+
+let g:airline#extensions#tabline#buffer_idx_format={'0':'⁰', '1':'¹', '2':'²', '3':'³', '4':'⁴',
+                                                \ '5':'⁵', '6':'⁶', '7':'⁷', '8':'⁸', '9':'⁹' }	"is original but stopped working for some reason? Inc now when explicitly def'd
 let g:airline#extensions#tabline#buffer_nr_show 	=1
-" let g:airline#extensions#tabline#buffer_nr_format ='%s '   "'%s  '
-let g:airline#extensions#tabline#buffer_nr_format ='%s-'
+let g:airline#extensions#tabline#buffer_nr_format ='%s '  "'%s '   "'%s  '
 " let g:airline#extensions#tabline#buffer_idx_mode 	=1 			"something about switching buffers not tabs, sux
+
 let g:airline#extensions#tabline#exclude_preview	=1
-let g:airline#extensions#tabline#excludes         =['NERD_Tree_1', '__Tagbar__.1']		"only works in buffer mode, not when got multiple tabs...
+let g:airline#extensions#tabline#excludes         =['fish', 'NERD_tree_1', 'NERD_tree', '__Tagbar__.1']		"only works in buffer mode, not when got multiple tabs...
 let g:airline#extensions#tabline#ignore_bufadd_pat=
 \'\c\vgundo|undotree|vimfiler|tagbar|nerd_tree|nerdtree|buffergator|ctrlp|fzf|vimplug|preview|previewwindow' "avoids unnessesary redraw
 "}}}
 
 "shorter mode names. has  for I, put somewhere with check for devicons first i guess
 let g:airline_mode_map 	= { '__': '-', 'n': 'N', 'i': '', 'R': 'R', 'c': 'C',
-													\ 'v': 'v', 'V': 'V  ', '': 'V ▢ ',
-													\ 's': 's', 'S': 'S  ', '': 'S ▢ '}
+													\ 'v': 'v', 'V': 'V  ', '': 'V ▢',
+													\ 's': 's', 'S': 'S  ', '': 'S ▢'}
 
 " let g:airline#extensions#default#formatter 				='unique_tail_imroved'
 let g:airline#extensions#default#formatter 				='default'
 let g:airline#extensions#default#layout=[['a', 'c', 'b', 'gutter'],
-																				\['error', 'warning', 'x', 'z']] "hide section y with filetype bs bc doesnt seem to stick when I try to repurpose it?
+																				\['error', 'warning', 'y', 'x', 'z']]
+																				" \['error', 'warning', 'x', 'z']] "hide section y with filetype bs bc doesnt seem to stick when I try to repurpose it?
 " let g:airline#extensions#default#section_truncate_width ={
 "     \ 'a': 5, 'c': 10, 'b': 50,
 " 		\ 'x': 70, 'y': 80, 'z': 60,  'warning': 50, 'error': 40 }
-" let g:airline#extensions#default#section_use_groupitems =1  "test if helps colors
+let g:airline#extensions#default#section_use_groupitems =0  "test if helps colors
 let g:airline#extensions#whitespace#enabled 			=0
 let g:airline#extensions#tagbar#enabled 					=0
-let g:airline#extensions#ale#warning_symbol 			=' '
-let g:airline#extensions#ale#error_symbol 				=' '
+let g:airline#extensions#ale#warning_symbol 			=g:ale_sign_error
+let g:airline#extensions#ale#error_symbol 				=g:ale_sign_warning
 let g:airline#extensions#hunks#non_zero_only      =1
-let g:airline#extensions#branch#enbled						=0			"temp test if can avoid git bug until i figure it out
+let g:airline#extensions#branch#enbled						=1			"0 temp test if can avoid git bug until i figure it out
 function! AirlineHunksColored()
 	call airline#parts#define_function('hunk_added',    'AirlineHunkAdded')
 	call airline#parts#define_function('hunk_changed',  'AirlineHunkChanged')
@@ -710,20 +711,17 @@ function! AirlineHunksColored()
 	call airline#parts#define_accent(  'hunk_added',    'green')
 	call airline#parts#define_accent(  'hunk_changed',  'yellow')
 	call airline#parts#define_accent(  'hunk_deleted',  'red')
-	let g:airline_section_b = airline#section#create(['hunk_added', 'hunk_changed', 'hunk_deleted'])	", 'branch', ' '])
+	let g:airline_section_b = airline#section#create(['hunk_added', 'hunk_changed', 'hunk_deleted', 'branch', ' '])
 endfunction
 function! AirlineHunkAdded()
 	let g:hunk_summary = GitGutterGetHunkSummary()      "this works but feels... uh, hacky
-	if g:hunk_summary[0] == 0 | return '' | endif
-	return g:hunk_summary[0] .' '
+	if g:hunk_summary[0] == 0 | return '' | else | return g:hunk_summary[0] .' ' | endif
 endfunction
 function! AirlineHunkChanged()
-	if g:hunk_summary[1] == 0 | return '' | endif
-	return g:hunk_summary[1] .' '
+  if g:hunk_summary[1] == 0 | return '' | else | return g:hunk_summary[1] .' ' | endif
 endfunction
 function! AirlineHunkDeleted()
-	if g:hunk_summary[2] == 0 | return '' | endif
-	return g:hunk_summary[2] .' '
+  if g:hunk_summary[2] == 0 | return '' | else | return g:hunk_summary[2] .' ' | endif
 endfunction
 
 " let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
@@ -733,7 +731,7 @@ let g:airline_symbols.linenr 				=' '    " 	''
 let g:airline_symbols.maxlinenr 		=''
 let g:airline_symbols.paste         ='ρ'       "curr 'PASTE'
 let g:airline_symbols.spell         ='Ꞩ'       " 'SPELL'
-let g:airline_symbols.modified      ='◈ '      "'+'     was trying some emoji symbols but they cause bg to bug out so no
+let g:airline_symbols.modified      ='' "'◈ ' "'+'  "no need right since color differs?   was trying some emoji symbols but they cause bg to bug out so no
 
 
 let g:airline#extensions#branch#format   =2  "truncate non-tail of branch
@@ -750,9 +748,16 @@ function! AirlineWindowNumber(...)          "adds window number to the left of s
 		call builder.add_section('airline_c', ' %{tabpagewinnr(tabpagenr())} ')
 		return 0
 endfunction
+
 function! AirlineInit()
-	let g:airline_section_z = airline#section#create_right(['%L', '%2c'])
-	call AirlineHunksColored()
+  call airline#add_statusline_func('AirlineWindowNumber')
+  call airline#add_inactive_statusline_func('AirlineWindowNumber')
+	let g:airline_section_z =airline#section#create_right(['%L', '%2v'])
+  "neither of these work...
+	let g:airline_section_y =airline#section#create_right(['%-0.25{getcwd()}'])
+  " let g:airline_section_y = airline#section#create_right('{LanguageClient_serverStatusMessage()}')
+  " let g:airline_section_y ='{LanguageClient_serverStatusMessage()}'
+	call AirlineHunksColored() "test whether fucking performance
 
 	" call airline#parts#define_function('cwd', 'AirlineStatusLineCWD') {{{3 testing/examples
 	" call airline#parts#define_condition('cwd', 'getcwd() =~ "work_dir"')
@@ -793,7 +798,7 @@ endfunction
 
 function! AirlineStatusLineCWD()
 	let l:pwd = exists('$PWD') ? $PWD : getcwd()
-	return substitute(fnamemodify(l:pwd, ':~'), '\(\~\?/[^/]*/\).*\(/.\{20\}\)', '\1...\2', '')
+	return substitute(fnamemodify(l:pwd, ':~'), '\(\~\?/[^/]*/\).*\(/.\{40\}\)', '\1...\2', '')
 endfunction
 function! AirlineThemePatch(palette)
 	if g:airline_theme == 'bubblegum'
@@ -802,7 +807,7 @@ function! AirlineThemePatch(palette)
 		" endfor
 	endif
 endfunction
-let g:airline_theme_patch_func = 'AirlineThemePatch'
+" let g:airline_theme_patch_func = 'AirlineThemePatch'
 
 " function! AccentDemo()
 "   let keys = ['+','~','-']
@@ -819,10 +824,6 @@ let g:airline_theme_patch_func = 'AirlineThemePatch'
 " "}}}
 
 augroup AirlineMods | autocmd!
-	autocmd User AirlineAfterInit call airline#add_statusline_func('AirlineWindowNumber')
-	autocmd User AirlineAfterInit call airline#add_inactive_statusline_func('AirlineWindowNumber')
-
-	" autocmd VimEnter * if !exists('g:pager_mode_so_fuckoff_all_fatasses') | call AirlineInit() | endif
 	autocmd User AirlineAfterInit call AirlineInit()
 augroup END
 
