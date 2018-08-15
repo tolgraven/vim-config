@@ -2192,10 +2192,10 @@ nnoremap <M-.>					@:| 			"rerun last command. Same as my fish binding
 
 map	<silent>q:					q:<Esc>:set nonumber norelativenumber<CR>k$
 
+" nnoremap <BS><BS> 			@:| 			"rerun last command old
+map	<silent>q.					q:<Esc>:set nonumber norelativenumber<CR>k$
 
-inoremap jk             <Esc>| 		" exit insert mode more better easier
-inoremap jj 						<C-o>5j
-inoremap kk 						<C-o>5k
+inoremap jk             <Esc>| 		" exit insert mode more better easier. XXX how exlude ranger in terminal?
 " noremap  uu							:redo<CR>| "SUCKS BALLS FUCK OFF. quick redo, super awesome except cant spam undo and generally slows to timeout
 noremap  <Leader>u 		  :redo<CR>| "leader-u instead of just uu, so no timeout bs or issue repeating regular undo. note U to undo and then U again will redo back and forth photoshop-style
 
@@ -2209,7 +2209,7 @@ nnoremap 	Y 						y$|				 "so acts same as D and C.
 nnoremap  x             "_x|       "make x not save to default "" register
 vnoremap  x             "_x
 inoremap 	<M-p>        	<C-o>p| 	 "paste in insert mode (cmd-c to paste system)
-cnoremap	<M-p>					<C-r>"|		 "paste paste yank at cmdline
+cnoremap	<C-Y>					<C-r>"|		 "paste clip at cmdline
 " xnoremap 	p 						"_dP| 	 "paste-overwrite without yanking back replaced text
 xnoremap <expr>p 				'pgv"'.v:register.'y'| "fancy version of above I think? with register support. "The result of "xp would evaluate to pgv"xy, where x is the register."
 noremap 	åp						p`[| 			    "paste without moving cursor
@@ -2217,10 +2217,14 @@ noremap 	ÅP 						P`[j| 		    "paste prepend, cursor stay, move down line
 nnoremap <Leader>p			"*p|					"paste from system shortcut, since iterm can be slow pasting in insert mode for some reason
 
 nnoremap <Leader>J 			:m-2<BAR>j<CR>| "like J but join line ABOVE after current. glitches...
+" nnoremap <silent><Leader>dt  :let g:hls =&hlsearch<BAR>set nohlsearch<CR>d/\S<CR>:set hlsearch=g:hls<CR>| "delete to first non-whitespace on any line, TODO dont touch search reg...
+" nnoremap <silent><Leader>ds  :let g:hls =&hlsearch<BAR>set nohlsearch<CR>d/\s<CR>:set hlsearch=g:hls<CR>| "delete to first non-whitespace on any line, TODO dont touch search reg...
+nnoremap <silent><Leader>dt  d/\S<CR>:nohlsearch<CR>| "delete to first non-whitespace on any line, :nohlsearch rather than :set nohlsearch clears but retains setting...
+nnoremap <silent><Leader>ds  d/\s<CR>:nohlsearch<CR>| "delete to first whitespace on any line. TODO these two, dont touch search reg...
 
 nnoremap R							gR|							"virtual replace by default
 nnoremap gV	            `[v`]|			    "highlight last inserted text (mirrors gv re-select)
-noremap   cp            yap<S-}>p|      "duplicate surrounding block
+noremap  cp             yap<S-}>p|      "duplicate surrounding block
 
 nnoremap <Leader>a 			a<Space><C-c>|  "easy insert space to left or right without changing mode. like
 nnoremap <Leader>i 			i<Space><C-c>
@@ -2228,7 +2232,6 @@ nnoremap <Leader>A 			a<Space><C-c>h
 nnoremap <Leader>I 			i<Space><C-c>l
 nnoremap <Leader><Tab> 	i<Tab><C-c>l|	 	"insert tabs from normal mode
 nmap <silent> <M-i>     "=nr2char(getchar())<CR>P|  "insert any one char from normal mode. like reverse insert C-o
-
 
 nnoremap <silent><Esc>  :nohlsearch<BAR>call sneak#hl#removehl()<Esc>| "better than specific binding: esc clears hlsearch if in normal mode
 
@@ -2317,10 +2320,8 @@ endif
 
 map Q               		:q<CR>| "gq|    "unmap ex mode, gq is "format", use quit instead atm
 
-nnoremap <Up> 					{| 				"make arrows useful!:
-nnoremap <Down> 				}| 				"move up/down to line with whitespace
-nnoremap <S-Left> 			[{
-nnoremap <S-Right> 			]}
+nnoremap <Up> 					{|    nnoremap <Down> 				}| 				"make arrows useful!: move up/down to line with whitespace
+nnoremap <S-Left> 			[{|   nnoremap <S-Right> 			]}
 map <Leader>5 					%| 				"faster than shift-5 to match pair
 map <Leader>6 					^| 				"go first non-whitespace char
 map <Leader>$ 					<C-^>| 		"toggle to alternate-buffer for window
@@ -2467,16 +2468,16 @@ nnoremap <Leader>air  :AirlineToggle<CR>
 cnoremap DOFF         call deoplete#disable()<CR>
 cnoremap DON          call deoplete#enable()<CR>
 cnoremap SFT 					set filetype=|        " just 'ft' way too annoying bc like abbs, these expand everywhere not just at beginning...
-nnoremap <Leader>v  	V`]| 									"Select pasted text
-" map <Leader>gg      	:vimgrep // ./**/*<left><left><left><left><left><left><left>| "grep globbed
-map <Leader>gg      	:grep  */*<left><left><left><left>| "grep globbed
-" map <Leader>g 				:vimgrep // <C-R>%<C-A><right><right><right><right><right><right><right><right><right>| "current file
+nnoremap <Leader>vg  	V`]| 									"Select pasted text/to last jump
+nnoremap <Leader>GG      	:grep  */*<left><left><left><left>| "grep globbed
+nnoremap <Leader>ag      	:Ag |                 "search
 
-map <silent><Leader>cc :botright cope<cr>| 	"quickfix across bottom
-map <silent><Leader>qf :cwindow<cr>|				"quickfix bottom right
-map <silent><Leader>lc :lopen<cr>|					"loclist bottom current window
-map <Leader>err					:cp<cr>| 						"check for errors
+nnoremap <silent><Leader><Leader>q   :botright copen<CR>| 	"quickfix across bottom
+nnoremap <silent><Leader><Leader>l   :lopen<CR>|					"loclist bottom current window
+nnoremap <Leader>err					:cp<cr>| 						"check for errors
 
+nnoremap <silent><Leader>bj			:bnext<CR>|":BuffergatorMruCyclePrev<cr>|	"Go to the previous buffer open
+nnoremap <silent><Leader>bk			:bprev<CR>|":BuffergatorMruCycleNext<cr>|	"Go to the next buffer open
 nnoremap <silent><Leader>bh :if &modifiable && !&readonly && &modified<BAR>w<BAR>endif<BAR>bnext<CR>
 nnoremap <silent><Leader>bl :if &modifiable && !&readonly && &modified<BAR>w<BAR>endif<BAR>bprevious<CR>
 
@@ -2495,16 +2496,16 @@ nnoremap <silent><Leader>tth	:leftabove 80vnew<BAR>Tnew<CR>|	"work around first 
 nnoremap <silent><Leader>ttj	:rightbelow 40new<BAR>Tnew<CR>|	"work around first instance erroring...
 nnoremap <silent><Leader>ttk	:leftabove 40new<BAR>Tnew<CR>|	"work around first instance erroring...
 nnoremap <silent><Leader>ttl	:rightbelow 80vnew<BAR>Tnew<CR>|	"work around first instance erroring...
-nnoremap <silent><Leader>t.		:call neoterm#do('')|		"
+nnoremap <silent><Leader>t.		:call neoterm#do('')<Left><Left>|		"
 
 nnoremap <Leader>d 		:call DuplicateLine()<CR>k:TComment<CR>j| 	"duplicate line, comment prev. retaining cursor pos and last yank...
 nnoremap <Leader>D 		:call DuplicateLine()<CR>| 									"duplicate line
 
-nnoremap <Leader>' 		``| 									"go to previous position incl column. less deal now that I changed `´ button with Ukulele to remove dead key mode and flip order. But keep for macbook
-nmap <Leader>ju 			:V jumps<CR>| 					"list previous positions
-nmap <Leader>ch 			:V changes<CR>
+" nnoremap <Leader>' 		``| 									"go to previous position incl column. less deal now that I changed `´ button with Ukulele to remove dead key mode and flip order. But keep for macbook
+nnoremap <Leader>ju 		:V jumps<CR>| 					"list previous positions
+nnoremap <Leader>ch 		:V changes<CR>
 
-nnoremap <Leader>ms 	:V mess<CR>G
+nnoremap <Leader>ms 	  :V messages<CR>G
 nnoremap <Leader>ve		:if &ve=='all'<BAR>set ve=block,onemore<BAR>else<BAR>set ve=all<BAR>endif<CR>
 vmap <C-r>		 				<C-c>:%s/<c-r>=GetVisual()<CR>//g<left><left>|"replace all instances of selected text (escape-safe)
 " map <Leader>gd 				[I:let nr = input("Which one: ")<Bar>exe "normal! " . nr ."[\t"<CR>|"list definitions, then jump
