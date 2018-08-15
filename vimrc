@@ -502,13 +502,14 @@ set viewoptions 						=cursor,curdir,folds,localoptions,slash,unix  "cursor,fold
 "}}}
 
 " {{{1 				SETTINGS FOR PLUGINS
+let g:markdown_fenced_languages = ['cpp', 'c', 'css', 'javascript', 'clojure', 'html', 'python', 'fish', 'bash=sh']
 " ###FUN IDEA###: export colorscheme and run statusline etc in lights :D no mistaking the mode
 let w:tol_sidebarWidth 								=20
 
 let g:meta#highlight_group						='IncSearch'  "default matched text highlight. set up more options!
 
 "{{{2					 ASSORTED
-let g:maximizer_restore_on_winleave		=0					"undo maximizer if switching from maximized window
+let g:maximizer_restore_on_winleave		=1					"undo maximizer if switching from maximized window
 " let g:maximizer_set_mapping_with_bang 		=1    "set default action to restore to pre-maximized state even if changed (not really relevant when vimleave opt set...)
 let g:maximizer_default_mapping_key		='<M-m>'		"shared with tmux through integration. <prefix>z to force tmux zoom from inside vim
 
@@ -574,15 +575,16 @@ let g:indent_guides_exclude_filetypes			=['help', 'nerdtree', 'undotree', 'tagba
 
 let g:linediff_buffer_type          ='scratch'
 
+let g:nvim_ipy_perform_mappings				=0
 
 let g:neoterm_repl_python             ='ptipython'
 let g:neoterm_autoinsert              =1
+augroup Terminal | autocmd!
+  autocmd BufEnter neoterm            i
+augroup END "enter terminal insert automaticallh
 " let g:neoterm_keep_term_open          =0        "
 let g:neoterm_automap_keys						=0
-let g:neoterm_split_on_tnew						=0	"do manual ting for now
-
-let g:nvim_ipy_perform_mappings				=0
-
+" let g:neoterm_split_on_tnew						=0	"deprecated
 
 
 let g:easy_align_ignore_comment				=0				"dont skip aligning comments
@@ -594,6 +596,7 @@ let g:cursorcross_mappings						=0
 " let g:cursorcross_exceptions					=[]
 
 let g:ranger_map_keys									=0
+let g:ranger_replace_netrw            =1
 
 let g:indent_detector_echolevel_write =0				"don't spew every fucking write ugH
 let g:indent_detector_echolevel_enter =0				"don't spew ever actually. just set the setsings and stfu
@@ -853,8 +856,8 @@ let NERDTreeAutoDeleteBuffer 							=1 		"delete buffer when rm file via nerd me
 let NERDTreeCreatePrefix 									='silent keepjumps'
 
 
-let g:NERDTreeDirArrowExpandable 					='' "'▸'   
-let g:NERDTreeDirArrowCollapsible 				='' "'▾'   
+let g:NERDTreeDirArrowExpandable 					='' "'▸'   
+let g:NERDTreeDirArrowCollapsible 				=''  "'' "'▾'   
 
 
 "{{{2		 			 DEVICONS
@@ -952,16 +955,6 @@ let g:startify_padding_left 							=1
 " 															\' ▕│  ▕│  █⮀│  ▕│  ▁▁    █     ◢      ',
 " 															\' 	  ▕│   █⮀◥           ‾‾‾   ▜█ ██               ',
 " 															\' 	 ▕│    █      				                        ']
-"}}}
-let g:startify_custom_header=[ '                                                     ',
-                              \'          ▕ 							                       ',
-                              \'  ██    ▕│█     ___	 ___                     ',
-															\' ▕│  ██⮀	▕│██││         █   █          ',
-															\' ▕│  ▕ █  ▕│██││▕│ ▁ ▕│    ▕│██              ',
-															\' ▕│  ▕│ █ ▕│██││▕│   ▕│    ▕│██  ◢◣  ◢      ',
-															\' ▕│  ▕│  █ │██││  ▁   ▁   █   ▜█ ██      ',
-															\' 	  ▕│   █/      ‾    ‾‾                    ',
-															\' 	 ▕│            				                     ']
 "         ︵
 "         ︶
 " ▕ ▜ ▁
@@ -1020,31 +1013,9 @@ let g:startify_skiplist 		=[
 	" \ ['.*', function('s:shit')],
 	" \ ['.*.config/fish/', 'fish/'],
 "}}}
-"{{{2 				 ALE
-" linters n shit:
-" luarocks install luacheck
-" npm install -g jshint eslint "prettier-eslint(?)
-" pip install -U vim-vint yamllint
-" pip3 install -U flake8 mypy yapf pylint
-" gem install reek rubocop
-" let g:ale_emit_conflict_warnings					=0
-let g:ale_warn_about_trailing_whitespace 	=0
-let g:ale_sign_warning 									 	=' ' 			"'?' ''
-let g:ale_sign_error 										 	=' ' 		"'!' '>>'
-let g:ale_set_signs 										 	=1
-let g:ale_sign_column_always 						 	=0
-let g:ale_open_list 										 	=0 "auto open loclist. too annoying
-let g:ale_lint_delay 										 	=250
-let g:ale_statusline_format 						 	=['%d  ', '%d ', 'OK']
-let g:ale_python_flake8_args 							='--ignore=E501,C0111'
-let g:ale_python_flake8_executable 				='python3'
-
-let g:ale_python_pylint_executable 				='python3'   " or 'python' for Python 2
-" let g:ale_python_pylint_options = '-rcfile /path/to/pylint.rc'
-let g:ale_python_mypy_options 						='--silent-imports'
 
 "{{{2 				CTRL-P
-let g:ctrlp_user_command											='ag %s -l --nocolor -g ""' "Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+let g:ctrlp_user_command											='ag --hidden --skip-vcs-ignores %s -l --nocolor -g ""' "Use ag in CtrlP for listing files. Lightning fast and respects .gitignore (**not always good... want libdeps and stuff accessible)
 let g:ctrlp_use_caching												=0			"ag is fast enough that CtrlP doesn't need to cache
 let g:ctrlp_show_hidden 											=1
 let g:ctrlp_by_filename 											=0
@@ -1058,6 +1029,7 @@ let g:ctrlp_clear_cache_on_exit 							=1 										"is annoying bc _never_ auto
 let g:ctrlp_cache_dir 												=$HOME.'/.cache/ctrlp'
 let g:ctrlp_switch_buffer 										=0 										"disable autojumping to other panes 'Et'
 let g:ctrlp_extensions=['dir', 'undo', 'line', 'changes', 'mixed', 'tag', 'buffertag'] ", 'quickfix', 'rtscript', 'bookmarkdir'
+" let g:ctrlp_match_func                        ={'match': 'cpsm#CtrlPMatch'}
 "{{{3 					PROMPT BINDINGS
 let g:ctrlp_prompt_mappings = {
 										\ 'PrtBS()':              ['<bs>', '<c-]>'],
@@ -1137,10 +1109,11 @@ let g:tagbar_silent											=1
 "{{{2 				 UNDOTREE
 let g:undotree_SplitWidth											=20 "w:tol_sidebarWidth
 let g:undotree_DiffpanelHeight 								=10
-let g:undotree_TreeNodeShape 									=''  "'▮' '∞'
+let g:undotree_TreeNodeShape 									='' "''  "'▮' '∞'
 let g:undotree_RelativeTimestamp 							=1
 let g:undotree_ShortIndicators 								=1
 let g:undotree_WindowLayout 									=2
+let g:undotree_HelpLine												=0
 " let g:undotree_HighlightSyntaxAdd 						=DiffAdd
 let g:undotree_HighlightSyntaxChange   				='UndotreeChange'
 "LastChangedLine "DiffChange
@@ -1150,13 +1123,13 @@ let g:gitgutter_override_sign_column_highlight 	=0 	"stupid asshole defaults
 " let g:gitgutter_eager 									=0 					"check how affects perf
 " let g:gitgutter_realtime 								=0
 let g:gitgutter_sign_added 							='✚'
-let g:gitgutter_sign_modified 					='✹'
+let g:gitgutter_sign_modified 					='' "'✹'
 let g:gitgutter_sign_removed 						=''
-let g:gitgutter_sign_modified_removed 	=''  "'✗'
+let g:gitgutter_sign_modified_removed 	='✹'  "'✗'
 " highlight! link GitGutterChangeDelete 	GruvboxYellowSign
-let g:gitgutter_max_signs 							=500 			"default 500. why do I hit that max when only got like 100 changes tho?
+let g:gitgutter_max_signs 							=1200 			"default 500. why do I hit that max when only got like 100 changes tho?
 let g:gitgutter_log                     =0          "massive-ass file goes straight in plugged dir lols
-" let g:gitgutter_grep_command            ='rg'
+let g:gitgutter_grep_command            ='ag'
 "{{{2 				 MULTIPLE CURSORS
 let g:multi_cursor_insert_maps 					={',':1} 		"leader shit in insert mode
 let g:multi_cursor_exit_from_insert_mode=0 					"dont instaquit
@@ -1181,8 +1154,8 @@ let g:auto_save_events 										=['InsertLeave', 'CursorHold']
 let g:EasyMotion_smartcase 								=1
 let g:EasyMotion_startofline 							=0 " keep cursor column when JK motion
 
-" let g:sexp_mappings 											={}
 let g:sexp_enable_insert_mode_mappings		=0
+
 let g:paredit_mode												=0
 let g:clj_fmt_autosave 										=0
 let g:parinfer_preview_cursor_scope =0
@@ -1219,6 +1192,7 @@ let g:semanticBlacklistOverride={
 \  ] }
 "}}}
 
+"{{{           RAINBOW
 function! SetupRainbowParensHighlights()
   " ban orange and red since ue that for syntax
   hi! link rainbowParensShell16   BruvboxFgHard
@@ -1253,8 +1227,10 @@ let g:rainbow#auto = 0
 " let g:rainbow_guifgs=['#d2845d', 'White', '#bdae93', '#a89984', '#dabd7a', '#6e916e', '#af8589', '#80a0b3', '#8b8c63', '#60906a', '#919535', '#ca782b', '#528895', '#a0a172', '#fdfbe8', '#dccca9']
 " let g:rainbow_conf={'guifgs': ['#d65d0e', '#cc241d', '#b16286', '#458588']}
 " let g:rainbow#blacklist = [stuff, #hex]
+"}}}
 "⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏
 
+let g:tinykeymap#map#windows#map      ="gw"
 
 "
 "{{{1   			ALL-TEXT VISUAL GUI CLI-INTERFACE
@@ -1360,8 +1336,6 @@ endfunction
 "}}}
 "⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏
 
-
-"
 " {{{1 				COMPLETION STUFF
 
 "{{{2 				 ABBREVIATIONS
@@ -1378,40 +1352,11 @@ let g:tern#command 													=['tern']
 let g:tern#arguments 												=['--persistent']
 let g:tern_request_timeout 									=1
 
-let g:python_host_prog 											='/usr/bin/python'
+" let g:python_host_prog 											='/usr/bin/python'
+" if hostname is absurd...
+let g:python_host_prog 											='/usr/local/bin/python2.7'
 let g:python3_host_prog 										='/usr/local/bin/python3'
 
-
-let g:SuperTabClosePreviewOnPopupClose 			=1
-" let g:SuperTabLongestEnhanced 							=1
-let g:SuperTabDefaultCompletionType 				='<C-N>' 								"so it doesnt go backwards lol
-let g:SuperTabContextDefaultCompletionType 	='<C-N>'
-let g:SuperTabNoCompleteAfter               =['^', ',', '\s']
-let g:SuperTabLongestHighlight              =1      "pre-highlight first match
-
-" let g:SuperTabDefaultCompletionType         ='context'
-let g:SuperTabContextTextOmniPrecedence     =['&completefunc', '&omnifunc']
-" let g:SuperTabRetainCompletionType          =2
-
-"{{{2 					JEDI
-" WTF? :CheckHealth gave:		g:jedi#force_py_version = '2' (default: 'auto')
-let g:jedi#force_py_version									='auto'
-let g:jedi#auto_vim_configuration 					=0
-let g:jedi#use_tabs_not_buffers 						=0
-let g:jedi#smart_auto_mappings 							=1
-let g:jedi#auto_close_doc 									=1
-
-let g:jedi#completions_enabled 							=0
-
-let g:jedi#goto_command             = '<leader>gc'  "(default: '<leader>d')
-let g:jedi#goto_assignments_command = '<leader>ga' 	"(default: '<leader>g') setup a ft autocommand...
-let g:jedi#goto_definitions_command = '<leader>gd'
-let g:jedi#documentation_command    = 'K'								
-let g:jedi#usages_command           = '<leader>gu'   "(default: '<leader>n')
-let g:jedi#rename_command           = '<leader>gr'	"(default: '<leader>r')
-" let g:jedi#completions_command      = ''	"(default: '<C-Space>')
-
-"}}}
 
 "{{{2 			  	DEOPLETE
 let g:deoplete#enable_at_startup						=0		"try defer til insertenter...
@@ -1547,6 +1492,7 @@ let g:cm_refresh_default_min_word_len 			=[[1,4],[7,2]]			"default [[1,4],[7,3]]
 " endfunc
 "}}}
 
+let g:clang_library_path                  ='/usr/local/opt/llvm/lib'
 
 "{{{2 				LANGUAGE SERVER CLIENT
 let g:LanguageClient_signColumnAlwaysOn 	=0
@@ -1557,6 +1503,7 @@ let g:LanguageClient_serverCommands ={
 			\ }
 
 "}}}
+
 
 "{{{2 				 NEOSNIPPET
 let g:neosnippet#enable_snipmate_compatibility=1
@@ -1574,6 +1521,19 @@ let g:chromatica#responsive_mode					=1
 
 
 let g:Unicode_ShowPreviewWindow						=1
+
+"{{{          SUPERTAB no more
+" let g:SuperTabClosePreviewOnPopupClose 			=1
+" " let g:SuperTabLongestEnhanced 							=1
+" let g:SuperTabDefaultCompletionType 				='<C-N>' 								"so it doesnt go backwards lol
+" let g:SuperTabContextDefaultCompletionType 	='<C-N>'
+" let g:SuperTabNoCompleteAfter               =['^', ',', '\s']
+" let g:SuperTabLongestHighlight              =1      "pre-highlight first match
+" let g:SuperTabDefaultCompletionType         ='context'
+" let g:SuperTabContextTextOmniPrecedence     =['&completefunc', '&omnifunc']
+" let g:SuperTabRetainCompletionType          =2
+"}}}
+
 
 "{{{1 				FUNCTIONS
 
@@ -2044,7 +2004,6 @@ endfunction
 
 
 "}}}  ""}}}
-
 
 "{{{1          COMMANDS
 
