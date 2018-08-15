@@ -1730,7 +1730,7 @@ function! PreviewWindowToggle()
 	for nr in range(1, winnr('$'))
 		if getwinvar(nr, "&previewwindow") == 1	" found a preview
 			pclose
-		endif  
+		endif
 	endfor
 	return 0
 endfunction
@@ -1749,7 +1749,7 @@ function! ScrollToPercent(percent)
 				let rmotion='j'
 				let movelines=-movelines
 		elseif movelines>0
-				let motion='j'	
+				let motion='j'
 				let rmotion='k'
 		else
 				return 0
@@ -1809,9 +1809,9 @@ function! TestPerformance()
 		setfiletype vim
 		normal! G
 		" per script information:
-		" let timings=[]                      
+		" let timings=[]
 		" g/^SCRIPT/call add(timings, [getline('.')[len('SCRIPT  '):], matchstr(getline(line('.')+1), '^Sourced \zs\d\+')]+map(getline(line('.')+2, line('.')+3), 'matchstr(v:val, ''\d\+\.\d\+$'')'))
-		" enew                            
+		" enew
 		" call setline('.', ['count total (s)   self (s)  script']+map(copy(timings), 'printf("%5u %9s   %8s  %s", v:val[1], v:val[2], v:val[3], v:val[0])'))
 	endif
 	" cmds are :syntime on, move around a bit, :syntime report. shows in current win so need to open new one or run from elsewhere
@@ -1872,7 +1872,7 @@ function! GetVisual() range "Get the current visual block for search and replace
 	return escaped_selection
 endfunction
 
-"{{{2 				DUPLICATE LINElet g:ale_emit_conflict_warnings = 0
+"{{{2 				DUPLICATE LINE
 function! DuplicateLine()
 	let col   = virtcol('.')
 	let stash = getreg('"')
@@ -1883,6 +1883,7 @@ function! DuplicateLine()
 endfunction
 
 "{{{2 				 FZF utils
+
 "{{{3 				 FZF NAV buffers
 function! s:buflist()
 	redir => ls
@@ -1900,6 +1901,7 @@ nnoremap <silent> <Leader><Enter> :call fzf#run({'source': reverse(<sid>buflist(
 
 " fzf locate command integration
 command! -nargs=1 -bang Locate call fzf#run(fzf#wrap({'source': 'locate <q-args>', 'options': '-m'}, <bang>0))
+
 "{{{3 					FZF LINE SEARCH OPEN BUFFERS
 function! s:line_handler(l)
 	let keys = split(a:l, ':\t')
@@ -2008,7 +2010,6 @@ augroup FZF
     autocmd! FileType fzf if strlen(g:fzf_ft) | silent! let &ft=g:fzf_ft | endif
 augroup END
 
-nmap <Leader>// :call SearchWord()<Cr>
 
 "{{{2 					RANDOM - RANGER n stuff
 function! RangerExplorer()
@@ -2231,6 +2232,7 @@ nmap <silent> <M-i>     "=nr2char(getchar())<CR>P|  "insert any one char from no
 
 nnoremap <silent><Esc>  :nohlsearch<BAR>call sneak#hl#removehl()<Esc>| "better than specific binding: esc clears hlsearch if in normal mode
 
+
 "{{{2										PUMENU / DEOPLETE / SNIPPER MAPPINGS
 "FINALLY SANITY GODDAMN. cancels comp incl removing anything already inserted, but stays in normal mode! with completeopt "longest,menuone,preview,noinsert,noselect", guess those last two are the key...
 "XXX: tho should add a check for whether anything is actually selected, in the popup. That way quick auto deoplete suggestions wont block exiting on first esc...
@@ -2433,9 +2435,10 @@ nnoremap <Leader>cib  ci(
 nnoremap <Leader>ciB  ci{
 "}}}
 
-" function! ToggleBool()
-" 	" y
-" endfunction | nnoremap <Leader>tb 	:call ToggleBool()<CR>
+function! ToggleBool()
+	" y
+endfunction
+" nnoremap <Leader>tb 	:call ToggleBool()<CR>
 function! GetPID()
 	perl VIM::DoCommand('let pid =' . $$) | return pid
 endfunction
@@ -3065,6 +3068,10 @@ augroup END "}}}
 
 "}}}
 
+" augroup testfocus | autocmd!
+"   autocmd FocusGained * echo 'hello!'
+"   autocmd FocusLost * echo 'goodbye!'
+" augroup END
 
 "{{{1 				VIMPAGER BS
 
