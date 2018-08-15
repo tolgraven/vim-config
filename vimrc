@@ -423,17 +423,19 @@ let &listchars							='tab:· ,trail:·,eol:↵'
 let &colorcolumn=join(range(100,240),',') "fade bg slightly past not 80 but 100 cols bc fuck yall, 43in display innit
 
 "}}}
-set ttimeout 		ttimeoutlen	=10					"timeout for keycode sequence
-set timeoutlen           		=350 				"timeout for mapped sequences
-set updatetime							=350 				"time idle before bg shit runs, CursorHold etc
+set ttimeout 		ttimeoutlen	=10					"timeout for keycode sequence. had at 50 earlier, why?
+set timeoutlen           		=300 				"timeout for mapped sequences
+set updatetime							=200 				"time idle before bg shit runs, CursorHold etc
 set redrawtime							=1000				"default 2000. abort hlsearch, inccommand, :match highlighting if takes more than a sec. might help with Colorizer?
 set lazyredraw 													"less crazy glitchy spasms but overall even slower?
 set shiftround
 set tabstop=2 shiftwidth=2
-" set expandtab smarttab								"converts tabs to spaces/inser spaces instead of tatebs at SOL
+set expandtab smarttab									"converts tabs to spaces/inser spaces instead of tatebs at SOL
 set textwidth 							=0 					"0 is default so dunno why the fuck mine gets set to 78
 
 set belloff									=mess,spell,wildmode
+set title         titlelen  =60         "set title of terminal window running vim. wrap title at 60 chars
+" set titlestring             =''         "figure out, statusline syntax
 
 set nowrap                              "no wrap by default, def right call, just toggle on with keybind
 set whichwrap            	 =<,>,[,],b,s "which keys also move past eol. now arrow, b, w etc
@@ -450,54 +452,55 @@ set formatoptions						=jc,ro,ql		"various but vim default =jcroql? py tcqj so n
 " j = rm comment ch on J, l = ignore if already longer, r = put comment ch on enter, o = ditto on o/O, q = format comments with gq (super fucked with or without, for inline comments...)
 
 " set sessionoptions+=globals,localoptions "blank,buffers,curdir,folds,help,tabpages,winsize,globals,localoptions
-set sessionoptions          +=globals   "blank,buffers,curdir,folds,help,tabpages,winsize,globals
-set sessionoptions          -=blank	  	"if contains "blank" windows editing a buffer without a name will be restored <-this causing eg nerdtree bs with sessions? lets try
+" set sessionoptions          +=globals   "blank,buffers,curdir,folds,help,tabpages,winsize,globals
+set sessionoptions         -=blank	  	"if contains "blank" windows editing a buffer without a name will be restored <-this causing eg nerdtree bs with sessions? lets try
 " set sessionoptions=blank,curdir,folds,help,tabpages,winpos "recommended by startify
 set undofile	undolevels 		=1000 			"cap a bit, seems to make undotree a lil happier
 set noswapfile 													"nope, swap's too annoying. how actally disable the stupid warning?		" what no ofc we want a swap file duh, as long as dir is set
-set autowriteall
+" set autowriteall                        "auto write on everything including :e :q etc. no good, use confirm instead...
+set autowrite                           "auto write on :b, jumps to other files (<C-I/O>) etc
+set confirm 														"prompt instead of error for eg :q and :e
 set fileformats 					=unix,dos,mac "default is mac first, so sort
 set hidden 															"
-set confirm 														"prompt instead of error for eg :q and :e
 " set verbosefile 		=~/.vim/verbosefile "send messages to a file to tail, but what we ought to to instead us per-session so can keep several running at once...
 
-set synmaxcol								=3000				"default 3000, stop syntax highlighting after x cols... should prob toggle it based on linewrap?
+set synmaxcol								=2000				"default 3000, stop syntax highlighting after x cols... should prob toggle it based on linewrap?
 set conceallevel=2 concealcursor=niv		"for neosnippet, according to readme? hmm shouldn't it be switching that on and off automatically like?
 " set splitbelow													" splits for help etc go below XXX how enable this for everything except preview window? because preview becomes useless when covered by pumenu...
 set splitright													"and to the right... meaning 'back... and to the left' has finally lost its staying power. I blame bee movie
 set switchbuf 							=usetab 		"open prev/next buffer in split if not already visible somewhere?
-set scrolloff=4 sidescrolloff=2 				"autoscrolls before hits end
-set sidescroll 							=1 					"dont jump a zillion columns when scrolling sideways. HOW not the default??
+set scrolloff=4 sidescrolloff=2 				"autoscrolls before hits end. XXX set smaller bufferlocal vals for preview, quickfix...
+set sidescroll 							=1 					"dont jump a zillion columns when scrolling sideways. vim default 0 is bizarre, jumping entire screen. nvim default 1... had at 8, also sorta crap
 set winminwidth 						=0 					"fully minimize to side
 set winminheight 						=0 					"fully minimize windows 			=3 "so still see some when maximizing
-set previewheight 					=15 				"regular height of preview window unless otherwise specified
+set previewheight 					=10 				"regular height of preview window unless otherwise specified
 set noequalalways 						 					"dont fuck with window sizes when I open and close others. better this way, then can just equalize w <C-w>= if needed
 set eadirection 						=ver 	      "ver or hor, default 'both'. tells when equalalways should apply
-set cmdwinheight						=15
+set cmdwinheight						=10         "default 7
 if executable('ag') " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor
 endif
 
-let mapleader								="\<Space>"	"MUST BE SET BEFORE ANY LEADER MAPPINGS ARE DEFINED
+let mapleader								='<Space>'	"\<Space> no need with single-quotes	MUST BE SET BEFORE ANY LEADER MAPPINGS ARE DEFINED
 let maplocalleader					=',' 				"localleader if I ever get on using that... might be good
 
 "{{{2 				 COMPLETELY WILD
-                                        
+
 " set completeopt             =longest,menuone,preview,noinsert,noselect "only correct way to set it
 set completeopt             =menu,preview,noinsert,noselect    "skip longest since deoplete fuzzy fucking that anyways
 " set complete               -=i                   "i (scan current and included files) isnt in defaults and seems p good anyways, dont get this
 set wildmode                =list:longest,full "tested: longest,full  longest:full  list:longest
-set wildignorecase                      
+set wildignorecase
 set wildignore+=*.o,*.obj,*.pyc,*.so,*.swp,*.pdf,*/.git/*,*/.hg/*,*/.svn/*,bower_components,LICENSE,LICEN*E.*,.DS_Store,.localized,*.zip,*/tmp/*,*/undo/*,*.pyi,__pycache__
 "}}}
 "{{{2 			 default dump, supposed already set:
 
 " set ruler 																	"show position in file, redundant with airline
 " set showcmd 																"show cmds as they are entered? + visual mode selection. apparently fucks nvim/tmux a bit
-" set viewoptions 						=folds,options,cursor  "default
+set viewoptions 						=cursor,curdir,folds,localoptions,slash,unix  "cursor,folds,slash default?
 " }}}
 "}}}
-"
+
 " {{{1 				SETTINGS FOR PLUGINS
 " ###FUN IDEA###: export colorscheme and run statusline etc in lights :D no mistaking the mode
 let w:tol_sidebarWidth 								=20
