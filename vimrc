@@ -1618,22 +1618,20 @@ let g:Unicode_ShowPreviewWindow						=1
 "{{{1 				FUNCTIONS
 
 " "{{{2 			RELOAD VIMRC
-augroup reload_vimrc | autocmd!
-		autocmd BufWritePost .vimrc,vimrc		silent!	call ReloadVimRc()
-augroup END
-
 function! ReloadVimRc()						" must call silent! and not abort, or else
 	" let saved_view = winsaveview(".")		"eh why was this working with this arg until now? :O
 	let l:saved_view = winsaveview()
-	" try
-		source $MYVIMRC
-	" catch
-	" 	echomsg 'WENT RONG SOURCING VIMRC!!!'
-	" finally
-		call winrestview(l:saved_view)
-		call RefreshUI()
-	" endtry
+	  " try
+		  source $MYVIMRC
+	  " catch
+      " echoerr 'cant source yer shit'
+	  " 	source ~/.vimrc
+	  " finally
+		  call winrestview(l:saved_view)
+		  call RefreshUI()
+	  " endtry
 endfunction
+
 function! RefreshUI()
 	if exists(':AirlineRefresh')  		| AirlineRefresh
 	else															| redraw!					| endif
@@ -1641,6 +1639,10 @@ function! RefreshUI()
 	call cursorword#highlight()
 	syntax sync fromstart
 endfunction " was airline wrecking reload. had to refresh it+reload syntax stuf. now works without? cant remember why
+
+augroup reload_vimrc | autocmd!
+		autocmd BufWritePost .vimrc,vimrc		silent!	call ReloadVimRc()
+augroup END
 
 "{{{2 				 WINDOW STUFF feat. TMUX. make plug proper-vim-tmux-integration
 
