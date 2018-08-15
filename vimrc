@@ -1469,20 +1469,19 @@ function! DeopleteEnable()
   let g:deoplete_has_been_enabled = 1
 endfunction
 "}}}
-
-"{{{2 			 	 NVIM COMPLETION MANAGER TEST
+"{{{2 			 	 NVIM COMPLETION MANAGER TEST goddamn it's so fucking fast i cant even. fuck Shougo
 let g:cm_matcher = {'module': 'cm_matchers.fuzzy_matcher', 'case': 'smartcase'} "fuzzy matcher!
-let g:cm_complete_delay 										=75 			"ms
+let g:cm_complete_start_delay 							=5 			"ms
+let g:cm_complete_delay 										=10
 
 let g:cm_completekeys												="\<Plug>(cm_complete)"
 "default. or	 "\<Plug>(cm_completefunc)" or "\<Plug>(cm_omnifunc)"
-let g:cm_refresh_default_min_word_len 			=[[1,4],[7,2]]			"default [[1,4],[7,3]]  arg[1] min prio, [2] min chars typed before refresh
+let g:cm_refresh_default_min_word_len 			=[[1,3],[7,2]]			"default [[1,4],[7,3]]  arg[1] min prio, [2] min chars typed before refresh
 
 "NCM version of neosnippet mapping below, think its just a wrapper for the <expr> thing so no need
 " inoremap <silent> <CR> <c-r>=cm#sources#neosnippet#trigger_or_popup("\<Plug>(neosnippet_expand_or_jump)")<cr>
 
 "{{{3						NCM EXAMPLE CUSTOM SOURCE
-
 " au User CmSetup call cm#register_source({'name' : 'foo bar',
 " 	\ 'abbreviation': 'foo',
 " 	\ 'priority': 8,
@@ -1495,16 +1494,74 @@ let g:cm_refresh_default_min_word_len 			=[[1,4],[7,2]]			"default [[1,4],[7,3]]
 " 	call cm#complete(a:opt['name'], a:ctx, a:ctx['startcol'], l:matches)
 " endfunc
 "}}}
+"}}}
 
 let g:clang_library_path                  ='/usr/local/opt/llvm/lib'
 
 "{{{2 				LANGUAGE SERVER CLIENT
+" defaults:
+" let g:LanguageClient_autoStart            =0
+" let g:LanguageClient_diagnosticsEnable    =0
+" let g:LanguageClient_loadSettings         =0
+let g:LanguageClient_changeThrottle       =0.10
 let g:LanguageClient_signColumnAlwaysOn 	=0
+" let g:LanguageClient_settingsPath         ='~/.config/nvim/settings.json'
+let g:LanguageClient_settingsPath         ='/Users/tolgraven/.config/nvim/settings.json'
+let g:LanguageClient_loggingLevel         ='WARN'
+let g:LanguageClient_hasSnippetSupport    =1  "until they fix their snippets to actually work...
+let g:LanguageClient_waitOutputTimeout    =5  "default 10
+" let g:LanguageClient_fzfOptions           ='figure out'
 
-let g:LanguageClient_serverCommands ={
-			\ 'javascript': ['/opt/javascript-typescript-langserver/lib/language-server-stdio.js'],
+let $LSP_FILETYPES ="c,cpp,clojure,python,lua"
+
+" augroup LanguageClient_config | au!
+"   au BufEnter * let b:Plugin_LanguageClient_started = 0
+"   au User LanguageClientStarted let b:Plugin_LanguageClient_started = 1
+"   au User LanguageClientStopped let b:Plugin_LanguageClient_stopped = 0
+"   au CursorMoved * if get(b:, "Plugin_LanguageClient_started", 0) && exists(LanguageClient_textDocument_hover) | silent! call LanguageClient_textDocument_hover() | endif
+" augroup END
+let g:Plugin_LanguageClient_running       =0
+augroup LanguageClient_config
+  autocmd!
+  autocmd User LanguageClientStarted      let g:Plugin_LanguageClient_running =1
+  autocmd User LanguageClientStopped      let g:Plugin_LanguageClient_running =0
+  " autocmd CursorMoved c,cpp,clojure,python,lua    if g:Plugin_LanguageClient_running | call LanguageClient_textDocument_hover() | endif
+  " autocmd CursorMoved $LSP_FILETYPES       if g:Plugin_LanguageClient_running == 1 | call LanguageClient_textDocument_hover() | endif
+  " autocmd CursorMoved $LSP_FILETYPES      if g:Plugin_LanguageClient_running == 1 && exists('*LanguageClient_textDocument_hover') | call LanguageClient_textDocument_hover() | endif
+  " autocmd CursorMoved $LSP_FILETYPES      if exists('*LanguageClient_textDocument_hover') | call LanguageClient_textDocument_hover() | endif
+
+augroup end
+
+let g:LanguageClient_serverCommands={
 			\ 'python': ['pyls'],
+      \ 'clojure': ['clojure-lsp'],
+      \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
+      \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
+      \ 'lua': ['lua-lsp'],
 			\ }
+" lua-lsp: luarocks install --server=http://luarocks.org/dev lua-lsp
+      " \ 'cpp': ['cquery --languageserver'],
+      " \ 'cpp': ['clangd'],
+
+let g:LanguageClient_diagnosticsDisplay ={
+    \   1: {'name':       'Error',
+    \       'texthl':     'ALEError',
+    \       'signText':   '✖_',
+    \       'signTexthl': 'ALEErrorSign',},
+    \   2: {'name':       'Warning',
+    \       'texthl':     'ALEWarning',
+    \       'signText':   '_',
+    \       'signTexthl': 'ALEWarningSign', },
+    \   3: {'name':       'Information',
+    \       'texthl':     'ALEInfo',
+    \       'signText':   'ℹ_',
+    \       'signTexthl': 'ALEInfoSign',},
+    \   4: {'name':       'Hint',
+    \       'texthl':     'ALEInfo',
+    \       'signText':   '➤_',
+    \       'signTexthl': 'ALEInfoSign', },
+    \ }
+
 
 "}}}
 
