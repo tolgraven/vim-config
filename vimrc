@@ -2188,9 +2188,86 @@ nnoremap <M-.>					@:| 			"rerun last command. Same as my fish binding
 " nnoremap <M-8>				
 " nnoremap <M-9>				
 
-" nnoremap <BS><BS> 			@:| 			"rerun last command old
+"{{{2           FIND USES
+" nnoremap <M-->				|	"something cool, pref related to comments?
+" nnoremap <M-Left>
+" nnoremap <M-*>
+" nnoremap <M-~>
+" nnoremap <M-^>
+" nnoremap <M-+>
 
-map	<silent>q:					q:<Esc>:set nonumber norelativenumber<CR>k$
+" nmap <Leader>+
+" nmap <Leader>-
+" nmap <Leader>.
+" nmap <Leader>,
+" nnoremap <M-0>
+
+
+"{{{2 				 TAB/WINDOW NAVIGATION/UTILS via airline, wintabs, taboo et al
+"rework, want sep tab and win nav... but loops for mapping is smart tho.
+augroup TabNavigationSetup | autocmd!
+	" autocmd VimEnter,TabEnter	 call TabNavigationSetup()
+augroup END
+function! TabNavigationSetup()
+	let numtabs = tabpagenr('$')
+
+	let i=1
+	if numtabs == 1
+		let maptext = 'wincmd w'
+		while i <= 4
+			execute 'nmap <Leader>'.i . i.maptext
+			let i += 1
+		endwhile
+
+	else "setup straight window jumps instead
+		let maptext = '<Plug>AirlineSelectTab'
+		while i <= 4
+			execute 'nmap <Leader>'.i . maptext.i
+			let i += 1
+		endwhile
+	endif
+	" for
+		"programatically setup what used manual stuff for before
+endfunction
+
+"{{{            WINDOW AND TAB NAVIGATION
+nmap <Leader><Leader>1				:1wincmd w<CR>
+nmap <Leader><Leader>2				:2wincmd w<CR>
+nmap <Leader><Leader>3				:3wincmd w<CR>
+nmap <Leader><Leader>4				:4wincmd w<CR>
+nmap <Leader><Leader>5				:5wincmd w<CR>
+nmap <Leader><Leader>6				:6wincmd w<CR>
+nmap <Leader><Leader>7				:7wincmd w<CR>
+nmap <Leader><Leader>8				:8wincmd w<CR>
+nmap <Leader><Leader>9				:9wincmd w<CR>
+nnoremap <M-1>          1<C-w>w|  "switch to window 1
+nnoremap <M-2>          2<C-w>w
+nnoremap <M-3>          3<C-w>w
+nnoremap <M-4>          4<C-w>w
+nnoremap <M-5>          5<C-w>w
+nnoremap <M-6>          6<C-w>w
+nnoremap <M-7>          7<C-w>w
+nnoremap <M-8>          8<C-w>w
+nnoremap <M-9>          9<C-w>w
+
+nmap <leader>t1				<Plug>AirlineSelectTab1
+nmap <leader>t2				<Plug>AirlineSelectTab2
+nmap <leader>t3				<Plug>AirlineSelectTab3
+nmap <leader>t4				<Plug>AirlineSelectTab4
+nmap <leader>t5				<Plug>AirlineSelectTab5
+nmap <leader>t6				<Plug>AirlineSelectTab6
+nmap <leader>t7				<Plug>AirlineSelectTab7
+nmap <leader>t8				<Plug>AirlineSelectTab8
+nmap <leader>t9				<Plug>AirlineSelectTab9
+
+nmap <leader>t-				<Plug>AirlineSelectPrevTab
+nmap <leader>t+				<Plug>AirlineSelectNextTab
+
+nmap <Leader>tn							:tabnew<CR>
+nmap <Leader>tr             :TabooRename |      "start rename
+
+nnoremap <Leader>b1					:b
+"}}}
 
 " nnoremap <BS><BS> 			@:| 			"rerun last command old
 map	<silent>q.					q:<Esc>:set nonumber norelativenumber<CR>k$
