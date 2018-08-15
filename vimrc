@@ -2640,14 +2640,37 @@ au CmdwinEnter *				noremap	 <buffer><Esc><Esc>		:q<CR>|   "double esc in normal
 
 augroup END "}}}
 
+" cnoremap <C-F>          <C-F>a<Tab>|    "open cmdwin with cmdline text, enter insert, complete... not working :/
+cnoremap `              /|                "easier slash for substitute etc
+cnoremap kj             /|                "easier slash for substitute etc
+cnoremap jk             <Esc>
+cnoremap jg             %
+
+
+":[range]Execute    Execute text lines as ex commands.  Handles |line-continuation|.
+" The same can be achieved via "zyy@z (or yy@" through the unnamed register); but there, the ex command must be preceded by a colon (i.e. :ex)
+command! -bar -range Execute silent <line1>,<line2>yank z | let @z = substitute(@z, '\n\s*\\', '', 'g') | @z
+" [count]<Leader>e  Execute current [count] line(s) as ex commands, then
+" {Visual}<Leader>e jump to the following line (to allow speedy sequential execution of multiple lines).
+nnoremap <silent> <Leader>ex :Execute<Bar>execute 'normal! ' . v:count1 . 'j'<CR>
+xnoremap <silent> <Leader>ex :Execute<Bar>execute 'normal! ' . v:count1 . 'j'<CR>
+
 " {{{1				 KEY BINDINGS FOR PLUGINS
 
-vnoremap <silent><CR>		:EasyAlign<CR>|							"enter does nothing useful in visual anyways
+vnoremap <silent><M-CR>		:EasyAlign<CR>|							"enter does nothing useful in visual anyways
 
-nmap <silent><Leader>en	 <Plug>(ale_next_wrap)lh
-nmap <silent><Leader>ep	 <Plug>(ale_previous_wrap)|	" adding lh to shake cursor and open folds doesnt seem to work...
-nmap <silent><Leader>ek	 <Plug>(ale_previous_wrap)
-nmap <silent><Leader>ej	 <Plug>(ale_next_wrap)
+noremap <Leader>ld        :Linediff<CR>|              "start linediff on region
+noremap <Leader>ldf       :LinediffReset<CR>|         "abort linediff
+
+nmap <silent><Leader>ah        <Plug>(ale_hover)
+nmap <silent><Leader>adt       <Plug>(ale_go_to_definition_in_tab)
+nmap <silent><Leader>ad        <Plug>(ale_go_to_definition)
+nmap <silent><Leader>ar        <Plug>(ale_find_references)
+
+nmap <silent><Leader>an        <Plug>(ale_next_wrap)lh
+nmap <silent><Leader>ap        <Plug>(ale_previous_wrap)|	" adding lh to shake cursor and open folds doesnt seem to work...
+nmap <silent><Leader>ak        <Plug>(ale_previous_wrap)
+nmap <silent><Leader>aj        <Plug>(ale_next_wrap)
 
 nnoremap <silent><Leader>tf		:TREPLSendFile<CR>
 nnoremap <silent><Leader>tl		:TREPLSendLine<CR>
@@ -2657,25 +2680,27 @@ nnoremap <silent><Leader>tcc	:call neoterm#clear()<CR>| " clear terminal
 nnoremap <silent><Leader>tk		:call neoterm#kill()<CR>| " kills the current job (send a <c-c>)
 
 " Rails commands
-command! Troutes :T rake routes
-command! -nargs=+ Troute :T rake routes | grep <args>
-command! Tmigrate :T rake db:migrate
+" command! Troutes :T rake routes
+" command! -nargs=+ Troute :T rake routes | grep <args>
+" command! Tmigrate :T rake db:migrate
 
 " Git commands
 command! -nargs=+ Tg :T git <args>
 
 ""{{{2				 LANCH DE MAD BARZ
-map <Leader>n				:NERDTreeToggle<CR>|					"
-map <Leader>N			 :NERDTreeFocus<CR>|					 "
+map <Leader>n			  :NERDTreeToggle<CR>|					"
+map <Leader>N			  :NERDTreeFocus<CR>|					 "
 map <Leader>nn			:NERDTreeClose<CR>|						"
-map <Leader>nf			 :NERDTreeFind<CR>
+map <Leader>nf			:NERDTreeFind<CR>
 let NERDTreeMapUpdirKeepOpen			 ='..'
-nnoremap <Leader>ql :call NERDTreeQuickLook()<CR>
+nnoremap <Leader>nql :call NERDTreeQuickLook()<CR>
 " let NERDTreeMapActivateNode			 ='<Space><Space>'	"['<Space><Space>', 'o']
 
-map <Leader>b			 :CtrlPBuffer<CR>|							"ctrlp buffer search, way better than buffergator etc...
-map <Leader>P			 :CtrlPMixed<CR>|							"ctrlp mixed search
-map <Leader>F			 :FZF<CR>|										 "well
+map <Leader>b			      :CtrlPBuffer<CR>|							"ctrlp buffer search, way better than buffergator etc...
+map <Leader><Leader>b	  :CtrlPMixed<CR>|							"ctrlp mixed search
+map <Leader>f			      :FZF<CR>|										 "well
+map <Leader>F			      :silent! Files<CR>|										 "well
+map <Leader>ag			    :silent! Ag<CR>|										 "well
 imap <C-x><C-l>			<Plug>(fzf-complete-line)
 imap <C-x><C-f>			<Plug>(fzf-complete-file-ag)
 vnoremap <silent> KK :call SearchVisualSelectionWithAg()<CR>
@@ -2690,8 +2715,6 @@ endfunction
 
 map <Leader><Leader>u		 :UndotreeToggle<CR>|					 "undotree
 " nnoremap <Leader>s+ :let w:f=?filetype | setlocal filetype=nowrite | setlocal syntax=w:f<CR>| "unset filetype, keep syntax (eg to get multiple help windows)
-nmap <Leader>bj			:bnext<CR>|":BuffergatorMruCyclePrev<cr>|	"Go to the previous buffer open
-nmap <Leader>bk			:bprev<CR>|":BuffergatorMruCycleNext<cr>|	"Go to the next buffer open
 nmap <Leader>t			:TagbarToggle<CR>
 nmap <Leader>tt			:TagbarOpenAutoClose<CR>/
 nmap <Leader>T			:TagbarTogglePause<CR>
@@ -2736,6 +2759,13 @@ xmap <Leader>gad 	:EasyAlign /\d/<CR>
 nnoremap <silent> <M-N> :MultipleCursorsFind <C-R>/<CR>
 vnoremap <silent> <M-N> :MultipleCursorsFind <C-R>/<CR>
 let g:multi_cursor_start_key='<C-n>' 	"seperate starting multicursor mode from selecting next
+" deoplete breaks multiple cursors
+function! g:Multiple_cursors_before()
+  call deoplete#custom#buffer_option('auto_complete', v:false)
+endfunction
+function! g:Multiple_cursors_after()
+  call deoplete#custom#buffer_option('auto_complete', v:true)
+endfunction
 
 "{{{2 				 REPEAT MOTION
 let g:repeatable_motions_default_mappings 	=0
@@ -2745,78 +2775,13 @@ map <Leader><Up> 			<Plug>RepeatMotionUp|				"use arrow keys to repeat motions i
 map <Leader><Down> 		<Plug>RepeatMotionDown
 map <Leader><Right> 	<Plug>RepeatMotionRight
 map <Leader><Left> 		<Plug>RepeatMotionLeft
-"{{{2 				 TAB/WINDOW NAVIGATION/UTILS via airline, wintabs, taboo et al
-"ideally would check if there are tabs and if not, straight win nav...
-augroup TabNavigationSetup | autocmd!
-	autocmd VimEnter,TabEnter	 call TabNavigationSetup()
-augroup END
-function! TabNavigationSetup()
-	let numtabs = tabpagenr('$')
-
-	let i=1
-	if numtabs == 1
-		let maptext = 'wincmd w'
-		while i <= 4
-			execute 'nmap <Leader>'.i . i.maptext
-			let i += 1
-		endwhile
-
-		"setup straight window jumps instead
-	else
-		let maptext = '<Plug>AirlineSelectTab'
-		while i <= 4
-			execute 'nmap <Leader>'.i . maptext.i
-			let i += 1
-		endwhile
-
-	endif
-	" for
-		"programatically setup what used manual stuff for before
-
-endfunction
-
-" nmap <leader>1				<Plug>AirlineSelectTab1
-" nmap <leader>2				<Plug>AirlineSelectTab2
-" nmap <leader>3				<Plug>AirlineSelectTab3
-" nmap <leader>4				<Plug>AirlineSelectTab4
-
-nmap <leader>t1				<Plug>AirlineSelectTab1
-nmap <leader>t2				<Plug>AirlineSelectTab2
-nmap <leader>t3				<Plug>AirlineSelectTab3
-nmap <leader>t4				<Plug>AirlineSelectTab4
-nmap <leader>t5				<Plug>AirlineSelectTab5
-nmap <leader>t6				<Plug>AirlineSelectTab6
-nmap <leader>t7				<Plug>AirlineSelectTab7
-nmap <leader>t8				<Plug>AirlineSelectTab8
-nmap <leader>t9				<Plug>AirlineSelectTab9
-
-nmap <leader>t-				<Plug>AirlineSelectPrevTab
-nmap <leader>t+				<Plug>AirlineSelectNextTab
-
-nmap <Leader>tn							:tabnew<CR>
-nmap <Leader>tr             :TabooRename |      "start rename
-" nmap <leader>w1				<Plug>(wintabs_tab1)
-" nmap <leader>w2				<Plug>(wintabs_tab2)
-" nmap <leader>w3				<Plug>(wintabs_tab3)
-" nmap <leader>w4				<Plug>(wintabs_tab4)
-" nmap <leader>w5				<Plug>(wintabs_tab5)
-" nmap <leader>w6				<Plug>(wintabs_tab6)
-" nmap <leader>w7				<Plug>(wintabs_tab7)
-" nmap <leader>w8				<Plug>(wintabs_tab8)
-" nmap <leader>w9				<Plug>(wintabs_tab9)
-" nmap <leader>w-				<Plug>(wintabs_next)
-" nmap <leader>w+				<Plug>(wintabs_previous)
-
-nnoremap <Leader>b1					:b
-
-"}}}
 "{{{2 				GITGUTTER
-nmap <Leader>ggn            <Plug>GitGutterNextHunk
-nmap <Leader>ggp            <Plug>GitGutterPreviousHunk
-nmap <Leader>ggg            <Plug>GitGutterPreviewHunk| 					"look at hunk under cursor in preview window
-nmap <Leader><Leader>gg     <Plug>GitGutterPreviewHunk| 					"look at hunk under cursor in preview window
-nmap <Leader>ggu            <Plug>GitGutterUndoHunk| 					"
-nmap <Leader>ggs            <Plug>GitGutterStageHunk| 					"
+nmap <Leader>gn            <Plug>GitGutterNextHunk
+nmap <Leader>gp            <Plug>GitGutterPreviousHunk
+nmap <Leader>gg            <Plug>GitGutterPreviewHunk| 					"look at hunk under cursor in preview window
+nmap <Leader>gu            <Plug>GitGutterUndoHunk| 					"
+nmap <Leader>gs            <Plug>GitGutterStageHunk| 					"
+nmap <Leader>GG             :GitGutterAll<CR>| 					"
 nmap <Leader>ggd            :let g:gitgutter_diff_base=''<Left>| 		"gitgutter diff-against. list commits fzf to pick would be good
 " nnoremap <Leader>ggm 				:let g:gitgutter_diff_base ='master' \| GitGutter<CR>| 	"diff against master
 nnoremap <Leader>ggm 				:call GitGutterDiff('master')<CR>| 			"test
@@ -2884,29 +2849,38 @@ nnoremap <Leader>mks          :SSave<CR>y|               "save startify session
 nmap <silent><Leader>gv       <Plug>GoldenViewResize
 nmap <silent><Leader>gvs      <Plug>GoldenViewSwitchWithLargest
 nnoremap <silent><Leader>gvt 	:ToggleGoldenViewAutoResize<CR>
-noremap <Leader>9							:let @w = float2nr(log10(line("$"))) + 82<BAR>vertical resize <C-r>w<CR>
+noremap <Leader>90						:let @w = float2nr(log10(line("$"))) + 82<BAR>vertical resize <C-r>w<CR>
 
 nnoremap <Leader>deo 				  :call deoplete#toggle()<CR>
 
 nnoremap <Leader>shl 				  :SemanticHighlightToggle<CR>| 			"toggle semantic highlight for vars..
 nnoremap <silent><Leader>ct   :silent Dispatch! ctags_gen<cr>| 		"noneed really cause tagbar handles auto
-
-map p                   <Plug>(miniyank-autoput)| 		"miniyank replaces normal paste
+"{{{2           MINIYANK
+function! MiniyankAutoCycle() abort
+  if get(g:, 'tol_miniyank_recentlyPut', 0)
+    <Plug>(miniyank-cycle)
+  else
+    <Plug>(miniyank-autoput)
+    let g:tol_miniyank_recentlyPut = 1
+endfunction
+" then make sure turns back to 0 through autocmd of some sort.
+" map <expr>p           get(g:, 'tol_miniyank_recentlyPut', 0) ? "\<Plug>(miniyank-cycle)" : "\<Plug>(miniyank-autoput)"<BAR>let g:tol_miniyank_recentlyPut = 1| 		"miniyank replaces normal paste
+map p                   <Plug>(miniyank-autoput)
 map P                   <Plug>(miniyank-autoPut)| 		"(imap paste rebound in normal section)
 map <M-y>               <Plug>(miniyank-cycle)| 			"an extra imap with <c-o> would be good to have, but doesnt seem to cycle so no go
 map <M-p> 			        <Plug>(miniyank-cycle)| 			"just a lil extra for p+m-p quick cycle
+"}}}
 let g:EasyClipUseCutDefaults		=0
 let g:EasyClipUsePasteDefaults	=0
 let g:EasyClipEnableBlackHoleRedirect =0
 let g:EasyClipEnableBlackHoleRedirectForDeleteOperator =0		"lol why do I have to set them all individually. this plug is all wrong and needs to meet a violent death.
 
 map <silent>-      				    :TComment<CR>| 					"comment/uncomment curr line even more better easier
-" map <silent><M-->    			    :TComment<CR>| 					"comment/uncomment curr line
-imap <silent><M--> 	     <C-o>:TComment<CR>| 					"while in insert
+imap <silent><M--> 	     <C-o>:TComment<CR><C-o>2l| 		"needs to first check whether was commented / how big is a comment, and move apropriately...
+
 vmap 	v 						    <Plug>(expand_region_expand)|	"yeah makes shit ton more sense. Just keep pressing v yo!
-vmap 	<C-v> 				    <Plug>(expand_region_shrink)
 vmap 	<Leader>v 		    <Plug>(expand_region_shrink)
-let g:AutoPairsShortcutToggle 		='<Leader>ap' 	"clear autopairs default binds (to free up M-p)
+let g:AutoPairsShortcutToggle 		='<Leader>apt' 	"clear autopairs default binds (to free up M-p)
 let g:AutoPairsShortcutFastWrap 	='<Leader>apw'
 let g:AutoPairsShortcutJump 			='<Leader>apj'
 let g:AutoPairsShortcutBackInsert ='<Leader>api'
@@ -2919,47 +2893,37 @@ let denite_opts						='-no-empty -auto-resize'
 nnoremap <Leader>de 			:Denite -no-empty -auto-resize <Tab>| "-auto-highlight
 nnoremap <Leader>dw 			:DeniteCursorWord -no-empty -auto-resize | "-auto-highlight
 nnoremap <Leader>deb 			:Denite -auto-resize buffer<CR>| "
+if get(g:, 'loaded_denite', 0)
+  call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
+  call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
+endif
 
-call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
+nnoremap <Leader>R 				:RangerWorkingDirectory<CR>
+"{{{2          SNEAK
+nmap , <Plug>Sneak_;|     "flipped makes much more sense on a Swedish keyboard - same shift/nonshift direction as n/N
+nmap ; <Plug>Sneak_,
 
-" nnoremap <Leader>r 				:call Ranger()<CR>
+nmap f <Plug>Sneak_f|   nmap F <Plug>Sneak_F|  "1-character enhanced 'f'
+xmap f <Plug>Sneak_f|   xmap F <Plug>Sneak_F|  "visual-mode
+omap f <Plug>Sneak_f|   omap F <Plug>Sneak_F|  "operator-pending-mode
 
-nmap ,  <Plug>Sneak_;|   "flipped makes much more sense on a Swedish keyboard - same shift/nonshift direction as n/N
-nmap ;  <Plug>Sneak_,
-" 1-character enhanced 'f'
-nmap f <Plug>Sneak_f
-nmap F <Plug>Sneak_F
-" visual-mode
-xmap f <Plug>Sneak_f
-xmap F <Plug>Sneak_F
-" operator-pending-mode
-omap f <Plug>Sneak_f
-omap F <Plug>Sneak_F
-
-" 1-character enhanced 't'
-nmap t <Plug>Sneak_t
-nmap T <Plug>Sneak_T
-" visual-mode
-xmap t <Plug>Sneak_t
-xmap T <Plug>Sneak_T
-" operator-pending-mode
-omap t <Plug>Sneak_t
-omap T <Plug>Sneak_T
+nmap t <Plug>Sneak_t|   nmap T <Plug>Sneak_T|  "1-character enhanced 't'
+xmap t <Plug>Sneak_t|   xmap T <Plug>Sneak_T|  "visual-mode
+omap t <Plug>Sneak_t|   omap T <Plug>Sneak_T|  "operator-pending-mode
 
 omap s	<Plug>Sneak_s|		"not sure why z not mapped by default like it says in readme... weird. Something is breaky with mappign z, weird.
 omap S	<Plug>Sneak_S|		"brty hack test, fix so horiz view doesnt stay all shitty after windows are resized. need silent! since craps out when returning from FZF terminal window, somehow gets executed before actually leaving terminal?ut sticking to s/S makes more sense anyways surely? cause they're free ffs
 omap z	<Plug>Sneak_s|		"somehow they don't work even when mapped tho so here's z again... argh.
 omap Z	<Plug>Sneak_S|		"
-
-" noremap # 								:Meta<CR>:call SetupRainbowParensHighlights()<CR>
-noremap # 								:Meta<CR>
-noremap ## 							  :MetaResume<CR>
-noremap ** 							  :MetaCursorWord<CR>
-noremap *** 							:MetaResumeCursorWord<CR>
-" vnoremap ** 				 <C-o>:MetaCursorWord<CR>|		"no work.	also, ought to have a "ListaWithSelection"
-noremap <Leader>** 			  :sp<CR>:MetaResumeCursorWord<CR>
-
+"{{{2         META
+noremap <silent># 								:Meta<CR>
+noremap <silent><Leader>3 			  :Meta<CR>
+" noremap ## 							  :MetaResume<CR>|    "gone so single # slightly faster...
+noremap <silent><Leader>#         :MetaResume<CR>
+noremap <silent><Leader>'				  :MetaCursorWord<CR>
+noremap <Leader><Leader>* 			  :sp<CR>:MetaResumeCursorWord<CR>
+noremap <silent><Leader><Leader>' :MetaResumeCursorWord<CR>
+vnoremap <silent><Leader>3 				"vy:Meta <C-R>v <CR>|		"visual from selection, all good. But make a "ListaWithSelection" or ListaVisual <Plug>
 "{{{2 				MULTIPAGE
 function! MultiPage() "TODO: set some register to current line pos
 	split | clearjumps | wincmd T "create split, move window to new tab
@@ -2974,14 +2938,6 @@ nnoremap <Leader>rnf 			:call DisableRelativeNumbers()<CR>
 
 nnoremap <Leader>color					:ColorClear<CR>:ColorToggle<CR>:ColorSwapFgBg<CR>| 	"highlight color names/codes with their color
 nnoremap <Leader><Leader>color 	:ColorClear<CR>| 									"off
-
-"Language Client Server completion thingy mapping yooe
-if exists(':LanguageClientStart')
-	nnoremap <silent> <Leader>K 	:call LanguageClient_textDocument_hover()<CR>
-	nnoremap <silent> <Leader>gd 	:call LanguageClient_textDocument_definition()<CR>
-	nnoremap <silent> <Leader>RE 	:call LanguageClient_textDocument_rename()<CR>
-	nnoremap          <Leader>lc 	:LanguageClientStart<CR>
-endif
 
 nnoremap <Leader>PI 			:PlugUpgrade<BAR>PlugClean!<BAR>sleep<BAR>PlugInstall<BAR>sleep<BAR>PlugUpdate<CR>| "vim-plug install+update+upgrade
 nnoremap <Leader>pi 			:PlugInstall<CR>
