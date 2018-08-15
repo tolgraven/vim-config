@@ -898,15 +898,15 @@ let g:NERDTreeExtensionHighlightColor = {}
 "}}}
 "{{{2 				 STARTIFY
 
-let g:startify_disable_at_vimenter 				=1 		"disable autoload when got own mechanism for that+nerdtree
+" let g:startify_disable_at_vimenter 				=1 		"disable autoload when got own mechanism for that+nerdtree
 let g:startify_session_autoload 					=1 		"not working afaict?
-let g:startify_session_persistence    		=1 		"too buggy? works but weird errors often enough
+let g:startify_session_persistence    		=0 		"_too buggy_, works but FUCKSEVERYTHINGonceinawhile
 let g:startify_session_sort 							=0
-let g:startify_session_before_save=['silent! NERDTreeClose', 'silent! TagbarClose', 'silent! UndotreeHide']	"'silent! BufferGatorClose', 
+let g:startify_session_before_save=['silent! NERDTreeClose', 'silent! TagbarClose', 'silent! UndotreeHide']	"'silent! BufferGatorClose',
 let g:startify_session_savevars 	=['g:startify_session_savevars', 'g:startify_session_savecmds', 'g:gitgutter_diff_base']
 let g:startify_session_remove_lines =['setlocal scrollback=-1'] "some nvim terminal bug
 
-let g:startify_files_number 							=10
+let g:startify_files_number 							=15
 let g:startify_change_to_dir          		=1
 let g:startify_change_to_vcs_root 				=1 		"same as rooter
 " let g:startify_use_env 										=1 		"shorten paths with vars. slows down start enough that it looks like shit and isnt worth it
@@ -917,43 +917,86 @@ let g:startify_enable_special 						=0 		"hide info about empty buffer / quit
 let g:startify_padding_left 							=1
 
 "{{{3 HEADER
+"{{{
+" let g:startify_custom_header=[ '	        ▕│\				▁_	                    	                       ',
+"                               \'	  █   ▕│      _ 	                                   ',
+" 															\'  │   █	▕│ ▕│  	                                        ',
+" 															\' ▕│  ▕ █  ▕│ ▕│ ▕│▁▁  ▕▕               . ▕│     █´`  .    .  ',
+" 															\' ▕│  ▕│ █ ▕│ ▕│ ▕││   ▕▕               ▕  ▕│      ▕│ ▕ ▕▕  ',
+" 															\' ▕│  ▕│  █▕│ ▕│  ▁▁                 ▕ ▁         ▕│ ▕ ´`▕´`▕  ',
+" 															\'	 ▕│   █│       				                	        ▕│             ',
+" 															\'	  ▕│    █/      				                                           ']
+" let g:startify_custom_header=[ '          ▕ 							                             ',
+"                               \'    █\   ▕│       __ 	 ____                          ',
+" 															\' ▕│   █\	▕│  ▕│  	      █         ▁    ▁  ',
+" 															\' ▕│  ▕ █\ ▕│  ▕│ ▕▁▁▁ ▕│   ▕││▕▜█         .. ▁ .. ',
+" 															\' ▕│  ▕│ █\▕│  ▕│ ▕    ▕│   ▕││▕█ ´  ▕│▕│ ▕│▕│ ',
+" 															\' ▕│  ▕│  █▕│  ▕│  ▁▁ ▁▁▁         ▕│▕│ ▕│    ▕│ ',
+" 															\' 	  ▕│   █│        		 	  	  ▕        \‾\          ',
+" 															\' 	 ▕│    █      				                           ']
+" let g:startify_custom_header=[ '          \ 							                             ',
+"                               \'     █    \│       __ 	 ____                          ',
+" 															\' ▕│    █ 	│  ▕│          █        ▁    ▁  ',
+" 															\' ▕│  ▕    █ \│  ▕│ ▕ ▁ ▕│   ▕││▕▜█     _    .. ▁ .. ',
+" 															\' ▕│  ▕│     █ │  ▕│ ▕  ̿ ̿ ▕│   ▕││▕█ ´  ▕│▕│ ▕│ ⃫▕│ ',
+" 															\' ▕│  ▕│       █ │  ▕│   ▁             ▕│▕│ ▕│    ▕│ ',
+" 															\' 	  ▕│         █         ̿      ̿ ̿    ▕        \‾\          ',
+" 															\' 	 ▕│          ██      				 ⃫                          ']
+"
+" let g:startify_custom_header=[ '                                                     ',
+"                               \'          ▕ 							                       ',
+"                               \'   █⮀   ▕│       __ 	 ___                      ',
+" 															\' ▕│  █⮀	▕│  ▕│       █   █              ',
+" 															\' ▕│  ▕ █⮀ ▕│  ▕│ ▕ ▁ ▕│    │██                  ',
+" 															\' ▕│  ▕│ █⮀▕│  ▕│ ▕  ̿  ▕│    │██             ',
+" 															\' ▕│  ▕│  █⮀│  ▕│  ▁▁    █     ◢      ',
+" 															\' 	  ▕│   █⮀◥           ‾‾‾   ▜█ ██               ',
+" 															\' 	 ▕│    █      				                        ']
+"}}}
+let g:startify_custom_header=[ '                                                     ',
+                              \'          ▕ 							                       ',
+                              \'  ██    ▕│█     ___	 ___                     ',
+															\' ▕│  ██⮀	▕│██││         █   █          ',
+															\' ▕│  ▕ █  ▕│██││▕│ ▁ ▕│    ▕│██              ',
+															\' ▕│  ▕│ █ ▕│██││▕│   ▕│    ▕│██  ◢◣  ◢      ',
+															\' ▕│  ▕│  █ │██││  ▁   ▁   █   ▜█ ██      ',
+															\' 	  ▕│   █/      ‾    ‾‾                    ',
+															\' 	 ▕│            				                     ']
+"         ︵
+"         ︶
+" ▕ ▜ ▁
+"                
+"   
+"  	    □ ■
+" / \     ● ○ ◉ ◎ ◌ ◯◣ ◢   ◤ ◥  ⮀
+" \_/     ◆ ◇ ◈         
+"
+" ‾  ⃫  𒅄    ⃒ ҃  ̿ 𐃆
 
-"original
-" let g:startify_custom_header=[ '				__  __ /\_\    ___ ___     ',		"  ||¯¯¯\ ||¯¯|' 
-" 															\'			 /\ \/\ \\/\ \ /' __` __`\  ',    "  ||  	 \||  |' 
-" 															\'			 \ \ \_/ |\ \ \/\ \/\ \/\ \  ',   "  ||   . \|  |' 
-" 															\'				\ \___/  \ \_\ \_\ \_\ \_\ ',   "  ||  |\ `   |' 
-" 															\'				 \/__/    \/_/\/_/\/_/\/_/ ']   "  ||__|\\ ___|' 
-" let g:startify_custom_header=[ ' ||¯¯\ ||¯|	__  __ /\_\    ___ ___     ',
-" 															\' ||	 	\|| |/\ \/\ \\/\ \ /´ __` __`\   ',
-" 															\' ||	|\ \| |\ \ \_/ |\ \ \︳|\ \/\ \/\  ',
-" 															\' ||	|\\   | \ \___/  \ \_\ \_\ \_\ \_\ ',
-" 															\' ||_|	\\ _|  \/__/    \/_/\/_/\/_/\/_/ ']
-" let g:startify_custom_header=[ '     _____     __          ___                  ',
-"                               \'   /[___  \  /[__]__   __ / _\     __   __     ',
-" 															\'  //|  |\  \ ||  |\ \ / /\\/\  \  /´ _\`\__`\   ',
-" 															\' *|-|  |\\  \||  | \ \_/ / \ \  \| \/\ \/\ \ \  ',
-" 															\'  \\|__|`\\  \\__|\ \___/   \ \ _\\ \_\ \_\ \_\ ',
-" 															\'   \[__] `\\_____] \/__/     \/_ / \/_/\/_/\/_/ ']
+" let g:startify_list_order 	=[ ['      '. AirlineStatusLineCWD()],  'dir',
+" 															\['      MRU'],
+" 															\ 											'files',
+" 															\['      sessions'], 		'sessions',
+" 															\ 											'bookmarks',
+" 															\ 											'commands', ]
+function! s:list_commits()
+  let git = 'git -C ' . getcwd()
+  let commits = systemlist(git .' log --oneline | head -n10')
+  let git = 'G'. git[1:]
+  return map(commits, '{"line": matchstr(v:val, "\\s\\zs.*"), "cmd": "'. git .' show ". matchstr(v:val, "^\\x\\+") }')
+endfunction
+let g:startify_lists = [
+      \ { 'type': 'files',                       'header': ['   MRU']            },
+      \ { 'type': 'dir',                         'header': ['   MRU '. getcwd()] },
+      \ { 'type': function('s:list_commits'),    'header': ['   Commits']        },
+      \ { 'type': 'sessions',                    'header': ['   Sessions']       },
+      \ { 'type': 'bookmarks',                   'header': ['   Bookmarks']      },
+      \ { 'type': 'commands',                    'header': ['   Commands']       },
+      \ ]
+" function! StartifyEntryFormat()
+"     return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
+" endfunction
 
-let g:startify_custom_header=[ '	  /|\     |\							                  ',
-                              \'	 /\| \    | \   ___				                  ',
-															\'	|  \	\	  |  | |   				 \      /         ',
-															\'	|  |\  \  |  | |__ 				  \    / .  .  .  ',
-															\'	|  | \  \ |  | |   				   \  /  |  |\/|  ',
-															\'	|  |  \  \|  | |___				    \/   |  |´`|   ',
-															\'	 \ |   \  |\/      				         |         ',
-															\'	  \|    \_|/       				                   ']
- 
-" / \
-" \_/
-
-let g:startify_list_order 	=[ ['      '. getcwd()],  'dir',
-															\['      MRU'],
-															\ 											'files',
-															\['      sessions'], 		'sessions',
-															\ 											'bookmarks',
-															\ 											'commands', ]
 "{{{3 SKIPLIST AND TRANSFORM
 let g:startify_skiplist 		=[
 	\ 'plugged/.*/doc',
