@@ -16,15 +16,17 @@ Plug 'ctrlpvim/ctrlp.vim' "| Plug 'tacahiroy/ctrlp-funky' | Plug 'sgur/ctrlp-ext
 " Plug 'nixprime/cpsm', {'do': 'set -x PY3 ON; ./install.sh'}        "matcher for ctrlp/deoplete
 " Plug 'nixprime/cpsm'         "matcher for ctrlp/deoplete
 Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim' "proper way when already have brew fzf. should check if path exists first tho, for linuxbrew etc
-Plug 'Shougo/denite.nvim' "| Plug 'Shougo/neomru.vim', {'on': 'Denite'} | Plug 'Shougo/unite.vim' "if loading denite on demand would need to check if exists before calling setup funcs...
+" Plug 'Shougo/denite.nvim' "| Plug 'Shougo/neomru.vim', {'on': 'Denite'} | Plug 'Shougo/unite.vim' "if loading denite on demand would need to check if exists before calling setup funcs...
+Plug 'liuchengxu/vim-which-key'               "show what possble
+Plug 'teto/nvim-palette', { 'do': ':UpdateRemotePlugins'}   "opts fuzzy. needs: python -mpip install --user pandas
 Plug 'francoiscabrol/ranger.vim' | Plug 'rbgrouleff/bclose.vim' "ranger integration, plus neovim dependency
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight' 	"colored devicons - better than other script?
 
-" Plug 'morhetz/gruvbox' 											"second best theme only cunts disagree c/d??
-Plug 'vim-airline/vim-airline' "| Plug 'vim-airline/vim-airline-themes'
 if !exists('g:pager_mode_so_fuckoff_all_fatasses')
+Plug 'vim-airline/vim-airline' "| Plug 'vim-airline/vim-airline-themes'
 " Plug 'mg979/vim-xtabline'                   "extra addons to airline tabline extension
 Plug 'mhinz/vim-startify'  									"nice lil start page/session manager
+Plug 'tpope/vim-obsession' | Plug 'dhruvasagar/vim-prosession' "obsession-based manager of joint session manitee to the chair(s) of people's mutual amateur persistance(leninist-revolutionary) pro forma and Bono
 Plug 'mbbill/undotree' ", {'on': 'UndotreeToggle'}
 Plug 'majutsushi/tagbar' ", {'on': 'TagbarToggle'}
 Plug 'scrooloose/nerdtree'
@@ -50,11 +52,12 @@ Plug 'jez/vim-github-hub'                   "github ft
 " Plug 'MikeCoder/markdown-preview.vim'
 Plug 'elzr/vim-json'												"proper json hl
 Plug 'cyberkov/openhab-vim' 								"openhab syntax
-" Plug 'reedes/vim-pencil' 										"natural text processing
 Plug 'jceb/vim-orgmode' | Plug 'tpope/vim-speeddating'  "orgmode a la emacs + date incr/decr support plug so it'll stop complaining...
 " Plug 'junegunn/goyo.vim' | Plug 'junegunn/limelight.vim'  "for writing normal text or some shit
+" Plug 'reedes/vim-pencil' 										"natural text processing
 Plug 'hdima/python-syntax' 									"better python syntax def
 Plug 'octol/vim-cpp-enhanced-highlight'     "modern c++
+Plug 'gauteh/vim-cppman'                    "cppman K integration...
 
 " Plug 'tweekmonster/nvim-api-viewer'
 " LANG UTILS
@@ -66,67 +69,80 @@ Plug 'powerman/vim-plugin-AnsiEsc' 					"view files with ansi escape colors.
 Plug 'chrisbra/Colorizer' 		"no {'on': 'ColorToggle'} bc use others first already, cant lazy-load 	highlight color names/hex w their actual color. mad slow, ugh
 
 Plug 'diepm/vim-rest-console'
-Plug 'stevearc/vim-arduino', 			{'for': 'arduino,cpp'}
-Plug 'sudar/vim-arduino-snippets'           "arduino upload etc, overlaps platformio i guess, do i need?
+Plug 'sophacles/vim-processing'
+" Plug 'stevearc/vim-arduino', 			{'for': 'arduino,cpp'}
+" Plug 'sudar/vim-arduino-snippets'           "arduino upload etc, overlaps platformio i guess, do i need?
 
 Plug 'othree/yajs.vim',						{'for': 'javascript'} | Plug 'othree/es.next.syntax.vim', {'for': 'javascript'} "better javascript syntax inkl ES6+ES7
 
-Plug 'tpope/vim-fireplace', 			{'for': 'clojure'} | Plug 'clojure-vim/vim-cider', 				{'for': 'clojure'}
+Plug 'tpope/vim-fireplace', 			{'for': 'clojure'} | Plug 'clojure-vim/vim-cider', {'for': 'clojure'}
 " Plug 'clojure-vim/acid.nvim',			{'for': 'clojure'}				"seems buggy. general clojure plug somehow...
-Plug 'clojure-vim/async-clj-highlight',{'for': 'clojure'}		"hl local, referred, aliased vars as guns/vim-clojure-highlight, but async for nvim
-Plug 'venantius/vim-eastwood', 		{'for': 'clojure'}
+Plug 'SevereOverfl0w/vim-replant', { 'do': ':UpdateRemotePlugins' }
+Plug 'dgrnbrg/vim-redl'
+Plug 'clojure-vim/async-clj-highlight', {'for': 'clojure'}		"hl local, referred, aliased vars as guns/vim-clojure-highlight, but async for nvim
+" Plug 'venantius/vim-eastwood', 		{'for': 'clojure'}
 Plug 'venantius/vim-cljfmt', 			{'for': 'clojure'}				"clojure formatter
-" Plug 'clojure-vim/clj-refactor.nvim'		"refactoring plug
-Plug 'tpope/vim-classpath', 			{'for':['clojure', 'java']} 	| Plug 'tpope/vim-salve', 	{'for': 'clojure'}	"auto clojure/java classpath
+Plug 'clojure-vim/clj-refactor.nvim'		"refactor-nrepl frontend
+Plug 'tpope/vim-classpath', 			{'for':['clojure', 'java']}
+Plug 'tpope/vim-salve', 	{'for': 'clojure'}	"auto clojure/java classpath. could be this fucking me?
 Plug 'guns/vim-sexp', {'for': 'clojure'} | Plug 'tpope/vim-sexp-mappings-for-regular-people', {'for': 'clojure'}
 " Plug 'snoe/nvim-parinfer.js'
 " Plug 'junegunn/rainbow_parentheses.vim' ", {'on': 'RainbowParentheses'} "active fork of kien/rainbow_parentheses.vim
 
 " Plug 'jeaye/color_coded'										"fancy clang highlighting...no neovim support yet :/
-Plug 'arakashic/chromatica.nvim'						"same but for nvim. p buggy, hl-wise
+" Plug 'arakashic/chromatica.nvim'						"same but for nvim. p buggy, hl-wise
 
-" Plug 'ervandew/supertab'
-Plug 'Shougo/neosnippet' | Plug 'Shougo/neosnippet-snippets'
-Plug 'honza/vim-snippets'
+" Plug 'Shougo/neosnippet' | Plug 'Shougo/neosnippet-snippets'
+" Plug 'honza/vim-snippets'
 
-Plug 'w0rp/ale' 														"neovim lint
-Plug 'meck/ale-platformio'                  "ale plugin for pio
-" Plug 'SevereOverfl0w/clojure-check', {'do': './install'}	"clojure lint for ALE
+" Plug 'w0rp/ale' 														"neovim lint
+" Plug 'meck/ale-platformio'                  "ale plugin for pio
+Plug 'SevereOverfl0w/clojure-check', {'do': './install'}	"clojure lint for ALE
 
 " Plug 'joonty/vdebug'												"adds itself to path again and again it seems
 
-" Plug 'roxma/nvim-completion-manager' 			 	"neovim deoplete alt with fuzzy
-Plug 'filipekiss/nvim-completion-manager' 			 	"neovim deoplete alt with fuzzy
-" Plug 'roxma/clang_complete' 							 	"clang for ncm
-Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'} 	"unified completion server spec client thingY
 
-"{{{3  						DEOPLETE SOURCES
-Plug 'Shougo/deoplete.nvim', 					{'do': ':UpdateRemotePlugins'}
+"{{{3  						COMPLETE COMPLETE SOURCES
+Plug 'ncm2/ncm2' | Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2-vim-lsp'
+Plug 'ncm2/ncm2-bufword' | Plug 'ncm2/ncm2-path'
+"Plug 'ncm2/ncm2-syntax' "shit and broken?
+Plug 'ncm2/ncm2-pyclang'
+Plug 'ncm2/ncm2-tmux'
+Plug 'ncm2/ncm2-vim'
+
+Plug 'clojure-vim/async-clj-omni' ",		{'for': 'clojure'}
+
+" Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'} 	"unified completion server spec client thingY
+Plug 'prabirshrestha/vim-lsp' | Plug 'prabirshrestha/async.vim'               "test if less shit?
+Plug 'pdavydov108/vim-lsp-cquery' "extra stuff for cquery
+
+" Plug 'Shougo/deoplete.nvim', 					{'do': ':UpdateRemotePlugins'}
 " Plug 'tweekmonster/deoplete-clang2' ", 	{'for': ['c', 'cpp', 'ObjC', 'ino']}
 " Plug 'zchee/deoplete-jedi', 					{'for': 'python'}
-Plug 'zchee/deoplete-go', 						{'for': 'go', 'do': 'make'} 		"breaking ale lol?
-Plug 'mitsuse/autocomplete-swift', 		{'for': 'swift'}
-Plug 'clojure-vim/async-clj-omni' ",		{'for': 'clojure'}
-Plug 'carlitux/deoplete-ternjs', 		  {'for': ['javascript', 'javascript.jsx']}
-Plug 'ponko2/deoplete-fish',					{'for': 'fish'}
-Plug 'Shougo/neco-vim', 							{'for': 'vim'}
-Plug 'zchee/deoplete-zsh', 						{'for': 'zsh'}
-Plug 'Shougo/neco-syntax'           "super broken keeps adding dup autocmds... filetype syntax completion
+" Plug 'zchee/deoplete-go', 						{'for': 'go', 'do': 'make'} 		"breaking ale lol?
+" Plug 'mitsuse/autocomplete-swift', 		{'for': 'swift'}
+" Plug 'carlitux/deoplete-ternjs', 		  {'for': ['javascript', 'javascript.jsx']}
+" Plug 'ponko2/deoplete-fish',					{'for': 'fish'}
+" Plug 'Shougo/neco-vim', 							{'for': 'vim'}
+" Plug 'zchee/deoplete-zsh', 						{'for': 'zsh'}
+
+" Plug 'Shougo/neco-syntax'           "super broken keeps adding dup autocmds... filetype syntax completion
 Plug 'Shougo/context_filetype.vim'
 Plug 'Shougo/neoinclude.vim' 	"complete from included files?
-Plug 'wellle/tmux-complete.vim'
+" Plug 'wellle/tmux-complete.vim'
 " Plug 'SevereOverfl0w/deoplete-github'
 " Plug 'thalesmello/webcomplete.vim'
 "}}}
 
-Plug 'Shougo/echodoc.vim' 							"show function args in msg area after completing function name
-Plug 'Shougo/neopairs.vim'      				"autopairs from shuogo?
-" Plug 'neomake/neomake' | Plug 'coddingtonbear/neomake-platformio', {'do': ':UpdateRemotePlugins'}  "koar linting
+" Plug 'Shougo/echodoc.vim' 							"show function args in msg area after completing function name
+" Plug 'Shougo/neopairs.vim'      				"autopairs from shuogo?
+Plug 'neomake/neomake' | Plug 'coddingtonbear/neomake-platformio', {'do': ':UpdateRemotePlugins'}  "koar linting
 
-Plug 'artur-shaik/vim-javacomplete2', {'for': 'java'}  "more moderny than 'cilquirm/javacomplete'
+" Plug 'artur-shaik/vim-javacomplete2', {'for': 'java'}  "more moderny than 'cilquirm/javacomplete'
 Plug 'davidhalter/jedi-vim', 					{'for': 'python'}
-Plug 'ternjs/tern_for_vim',						{'for': ['javascript', 'javascript.jsx'], 'do': 'npm install'}
-Plug 'othree/jspc.vim', 							{'for': ['javascript', 'javascript.jsx']}
+" Plug 'ternjs/tern_for_vim',						{'for': ['javascript', 'javascript.jsx'], 'do': 'npm install'}
+" Plug 'othree/jspc.vim', 							{'for': ['javascript', 'javascript.jsx']}
 
 
 Plug 'chrisbra/unicode.vim'							"unicode char completion
@@ -134,6 +150,8 @@ Plug 'chrisbra/unicode.vim'							"unicode char completion
 "{{{2  				 --- UTILNTTY																		PLUG
 Plug 'Khouba/indent-detector.vim'
 " Plug 'marcweber/vim-addon-mw-utils'   					"tinyfunc and utils. noneed?
+" Plug 'LucHermitte/vim-refactor' | Plug 'LucHermitte/lh-vim-lib' | Plug 'LucHermitte/lh-tags' | Plug 'LucHermitte/lh-dev' | Plug 'LucHermitte/lh-brackets'
+" ^ welp, fuck this asshole then. plug has four deps, some of which create mappings and yell loudly about it, with no ability to disable? fucking dick.
 Plug 'tomtom/tcomment_vim', {'on': 'TComment'} 	"toggle comments better
 Plug 'tpope/vim-surround' 											"put stuff around stuff
 Plug 'tpope/vim-repeat' 												" . for plugins
@@ -219,6 +237,7 @@ Plug 'ludovicchabant/vim-gutentags'
 " Plug 'vim-scripts/yate' 																		"taglist but from manual ctags
 " Plug 'brettanomyces/nvim-terminus' ", {'on': 'TerminusOpen'} call nvim from term inside nvim, with :. Can't lazy load, errors
 Plug 'kassio/neoterm' 							               					"the neovim terminal
+Plug 'https://gitlab.com/Lenovsky/nuake.git'                "quake term in-nvim
 " Plug 'rkitover/vimpager'
 " Plug 'lambdalisue/vim-pager' "| Plug 'lambdalisue/vim-manpager'
 if !has('nvim')
@@ -228,7 +247,7 @@ endif
 
 "{{{2 				 --- FANCY JOAN FREGERT's FORKS and originals					PLUG
 " Plug '~/Documents/CODE/VIM/forks--/vim-manpager'
-Plug '~/Documents/CODE/VIM/forks--/semantic-highlight.vim', {'on': 'SemanticHighlightToggle'} 		"incl patch for guicolors 'jaxbot/semantic-highlight.vim'
+" Plug '~/Documents/CODE/VIM/forks--/semantic-highlight.vim', {'on': 'SemanticHighlightToggle'} 		"incl patch for guicolors 'jaxbot/semantic-highlight.vim'
 " Plug '~/.config/nvim/scripts/ColDevicons' 			"colored devicons in nerdtree, even prettier
 Plug '~/Documents/CODE/VIM/forks--/vim-numbertoggle' 		"forked 'jeffkreeftmeijer/vim-numbertoggle' auto switch on rel numbers for normal and visual?
 Plug '~/Documents/CODE/VIM/forks--/vim-cursorword'
@@ -244,6 +263,7 @@ Plug 'tolgraven/rainbow_parentheses.vim',    {'on': 'RainbowParentheses'}
 " Plug '~/Documents/CODE/VIM/ale-platformio.vim'
 "{{{2					 LAST IN ORDER
 Plug 'arakashic/chromatica.nvim',	{'for': ['c', 'cpp', 'ObjC']}		"like color_coded but for nvim
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 "}}}
 "{{{2 						PLUG END
 call plug#end()
@@ -254,9 +274,9 @@ augroup VimPlug | autocmd!
 	" autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)')) | PlugInstall --sync | q | endif	"auto install missing plugins on start
 augroup END
 "}}}
-"⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏
 
-" {{{1 				SETTINGS
+
+"{{{1 				SETTINGS
 
 "{{{2					COLORSCHEME - SET EARLY so vimrc errors dont look gross
 
@@ -277,51 +297,52 @@ let g:airline_theme 								='bruvbox'
 "}}}
 
 if has('nvim') "{{{2
-	" let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1						"deprecated in >0.2.0, use guicursor, default is:
-	" set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
-	let $VISUAL =	'nvr --remote-wait'								"--remote-wait-silent
+" let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1						"deprecated in >0.2.0, use guicursor, default is:
+" set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
+" let $VISUAL =	'nvr --remote-wait'								"--remote-wait-silent
+language en_US                                  "fuckface nvim not respecting LANG erww
+if $TERM_PROGRAM != 'Apple_Terminal'
+  set termguicolors 														"24 bit color, no iterm check bc tmux
+endif
+if $TERM_PROGRAM =~? 'iTerm.app'								"some are already handled by NVIM var above
+  let &t_te 	= "\<Esc>]1337;CursorShape=1\x7" 	"reset cursor on exit (or use autocmd VimLeave)
+  " let &t_SI = "\<Esc>]1337;CursorShape=1\x7" " Vertical bar in insert mode
+  " let &t_EI = "\<Esc>]1337;CursorShape=0\x7" " Block in normal mode
+  " let &t_SR = "\<Esc>]1337;CursorShape=2\x7" " Underline in replace mode
+  " t_ti = vim start, t_te = vim exit
+else
+  " let g:webdevicons_enable 			=0 							"disable devicons on mobile etc
+endif
 
-	if $TERM_PROGRAM != 'Apple_Terminal'
-		set termguicolors 														"24 bit color, no iterm check bc tmux
-	endif
-	if $TERM_PROGRAM =~? 'iTerm.app'								"some are already handled by NVIM var above
-		let &t_te 	= "\<Esc>]1337;CursorShape=1\x7" 	"reset cursor on exit (or use autocmd VimLeave)
-		" let &t_SI = "\<Esc>]1337;CursorShape=1\x7" " Vertical bar in insert mode
-		" let &t_EI = "\<Esc>]1337;CursorShape=0\x7" " Block in normal mode
-		" let &t_SR = "\<Esc>]1337;CursorShape=2\x7" " Underline in replace mode
-		" t_ti = vim start, t_te = vim exit
-	else
-		" let g:webdevicons_enable 			=0 							"disable devicons on mobile etc
-	endif
+set noshowcmd 													"something about nvim + tmux flickering issues...
+set mouse 									=a 					"no longer autoset in neovim 0.2.0 for some reason? $TERM thing?
+set mousemodel							=popup_setpos
 
-	set noshowcmd 													"something about nvim + tmux flickering issues...
-	set mouse 									=a 					"no longer autoset in neovim 0.2.0 for some reason? $TERM thing?
-	set mousemodel							=popup_setpos
-
-	set inccommand							=split			"like incsearch but for eg :substitute, showing results on the fly. 'nosplit' same but only for curr visible / without preview window. nvim exclusive feature...
+set inccommand							=split			"like incsearch but for eg :substitute, showing results on the fly. 'nosplit' same but only for curr visible / without preview window. nvim exclusive feature...
 
 augroup NeovimSpecific | autocmd!
-autocmd BufEnter term://*		startinsert				 "check how we arrived, first. if from other tab page or something, dont...
+autocmd CompleteDone * silent! pclose!
+" autocmd BufEnter term://*		startinsert				 "check how we arrived, first. if from other tab page or something, dont...
 " autocmd TermOpen *					let g:last_terminal_job_id = b:terminal_job_id
 augroup END
-	" autocmd TermOpen
-		" autocmd CursorHold * rshada|wshada
+  " autocmd TermOpen
+    " autocmd CursorHold * rshada|wshada
 augroup END
 
 else "{{{2 					REGULAR VIM
-	if has('syntax') && !exists('g:syntax_on')
-		syntax enable
-	endif
-	if has('autocmd') | filetype plugin indent on | endif
+  if has('syntax') && !exists('g:syntax_on')
+    syntax enable
+  endif
+  if has('autocmd') | filetype plugin indent on | endif
 
-	set encoding 							=utf-8
-	set undodir								=~/.vim/undo 				"nvim = XDG_DATA_HOME used otherwise which is better anyways
-	set backupdir							=~/.vim/backup
-	set dir 									=~/.vim/swap
-	set viewdir 							=~/.vim/view
-	set autoread 																	" auto reload changed file
-	set wildmenu
-	set laststatus						=2 									"2 = statusline even if just one pane/window
+  set encoding 							=utf-8
+  set undodir								=~/.vim/undo 				"nvim = XDG_DATA_HOME used otherwise which is better anyways
+  set backupdir							=~/.vim/backup
+  set dir 									=~/.vim/swap
+  set viewdir 							=~/.vim/view
+  set autoread 																	" auto reload changed file
+  set wildmenu
+  set laststatus						=2 									"2 = statusline even if just one pane/window
 
 endif
 
@@ -345,22 +366,10 @@ function! SignScrollbarUpdate()
 endfunction
 
 augroup Focus | autocmd!
-  autocmd FocusGained,BufEnter * silent! checktime  "make autoread actually read automatically... once return to window, but that's enough
-
-	" autocmd WinEnter * normal! ze			"dirty hack test, fix so horiz view doesnt stay all shitty after windows are resized
-	"way better than nothing, esp since gets triggered by my secret window-hopping while resizing
-	"tho that triggering is actually problematic in itself, all those autocmds prob slowing shit down.
-	" also curr making it shit itself jumping to prev pos when switching windows. weird.
-
-	" also craps out depending on direction one is switching from? weird
-	" ah, happens if other window is covering cursor before switching from right
-	autocmd BufEnter		*			normal! ze
-
-	" autocmd CursorHold				call SignScrollbarUpdate()
-
-	"so basically does as well as is possible without moving cursor, but better ways, probably
-	" at least check first if current view is actually reasonable, only act if not
-	"	- compare line len, cursor pos etc
+  autocmd FocusGained,BufEnter * silent! checktime  "make autoread actually read automatically... once leave+return to window, but that's mostly enough
+	autocmd BufEnter		         * silent! normal! ze
+  "CANT PUT COMMENT ON SAME LINE. dirty hack test, fix so horiz view doesnt stay all shitty after windows are resized. need silent! since craps out when returning from FZF terminal window, somehow gets executed before actually leaving terminal?
+	" also craps out depending on direction one is switching from? weird  ah, happens if other window is covering cursor before switching from right
 augroup END
 "}}}
 
@@ -374,7 +383,7 @@ augroup VimStart | autocmd!
 autocmd VimEnter		* 	call DeopleteInit() " | normal! <Esc><Esc>
 " ^ this normal <Esc><Esc> was causing the changes-on-start, no idea why or what is was used as a workaround for in the first place... landing in insert i guess? but then why normal lol
 " autocmd InsertEnter *		call deoplete#enable() "obviouslymaes it reenable and fuck yo_
-autocmd InsertEnter *		call DeopleteEnable()
+" autocmd InsertEnter *		call DeopleteEnable()
 
 autocmd VimEnter * command! -bang -nargs=* Ag
   \ call fzf#vim#ag(<q-args>, <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
@@ -388,11 +397,8 @@ autocmd BufReadPost *		if line("'\"") >= 1 && line("'\"") <= line("$") | execute
 " autocmd User Gitgutter
 " autocmd User Startified				call ColDevicons_init()
 autocmd User AirlineAfterInit  AirlineRefresh "need extra redraw to put my mods in
-
 "below only triggers on exit, not on <C-z>. how hook on that? also not doing it properly anyways so...
 " autocmd VimLeave		*		!echo "\<Esc>]1337;CursorShape=1\x7"
-
-
 augroup END
 
 "}}}
@@ -406,13 +412,12 @@ set cursorline 													"hmm maybe turn off since iterm already has line? ap
 set showtabline 						=2 					"2 = tabline always. 1 = if multiple... tabs, not buffers :/
 set noshowmode 													"dont show normal/insert etc, cause airline does
 set shortmess               =atTcA 			"abbr cmdline msgs, truncate long ones, no completion info, no ATTENTION swapfile
-set foldminlines 						=3 					"dont fold < 3 lines. 1 is default = 2 lines
+set foldminlines 						=2 					"dont fold < 3 lines. 1 is default = 2 lines
 set foldopen							 +=jump				"open folds on jumps duh
 set foldlevelstart          =1          " default -1. 1 == open first level
 set foldcolumn              =0          "enable per filetype, where relevant
 set fillchars 							=fold:\ 		" blank space instead of dashes to fill folds. = not += lest get multiple
 set fillchars 						 +=vert:│ 		"compare '│' to the '|' default regular pipe which leaves gaps and looks like shit. but no different unless proper font / rendering? both look same on iterm 3.0, but good on nightly/3.1 (with Fira Code / ligatures). also might be the reason shit goes slowwww when using splits, both in vim and tmux..
-" set fillchars 						 +=vert:\ 		"test...
 
 set list 															"show tabs and trails. nah, annoying, autocleanup instead
 " set listchars 							=tab:░░,trail:▓
@@ -424,8 +429,8 @@ let &colorcolumn=join(range(100,240),',') "fade bg slightly past not 80 but 100 
 
 "}}}
 set ttimeout 		ttimeoutlen	=10					"timeout for keycode sequence. had at 50 earlier, why?
-set timeoutlen           		=300 				"timeout for mapped sequences
-set updatetime							=200 				"time idle before bg shit runs, CursorHold etc
+set timeoutlen           		=400 				"timeout for mapped sequences
+set updatetime							=500 				"time idle before bg shit runs, CursorHold etc
 set redrawtime							=1000				"default 2000. abort hlsearch, inccommand, :match highlighting if takes more than a sec. might help with Colorizer?
 set lazyredraw 													"less crazy glitchy spasms but overall even slower?
 set shiftround
@@ -479,9 +484,10 @@ set eadirection 						=ver 	      "ver or hor, default 'both'. tells when equala
 set cmdwinheight						=10         "default 7
 if executable('ag') " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor
+  " set grepprg='ag --vimgrep'
 endif
 
-let mapleader								='<Space>'	"\<Space> no need with single-quotes	MUST BE SET BEFORE ANY LEADER MAPPINGS ARE DEFINED
+let mapleader								="\<Space>"	"'<Space>' no go...	MUST BE SET BEFORE ANY LEADER MAPPINGS ARE DEFINED
 let maplocalleader					=',' 				"localleader if I ever get on using that... might be good
 
 "{{{2 				 COMPLETELY WILD
@@ -625,15 +631,22 @@ let g:ale_echo_msg_format                 ='%severity% %code%: %s (%linter%)'
 let g:ale_echo_msg_error_str              =g:ale_sign_error
 let g:ale_echo_msg_warning_str            =g:ale_sign_warning
 let g:ale_echo_msg_info_str               =g:ale_sign_info
+let g:sign_open_lnum =''
+let g:sign_close_lnum =' '
 
 let g:ale_open_list 										 	=0 "auto open loclist. too annoying
 let g:ale_lint_delay 										 	=&timeoutlen
-let g:ale_echo_delay                      =50
+let g:ale_echo_delay                      =75
 
-" let g:ale_linters                         ={'cpp': ['clang', 'clangcheck', 'clangformat', 'cppcheck']}
-let g:ale_linters                         ={'cpp': []}
+"eh below not working, fucking clangtidy still spewing...
+" XXX HOW THROTTLE CPPCHECK?
+" let g:ale_linters                         ={'cpp': ['clangcheck', 'clangformat', 'cppcheck']} "fuck clangtidy
+let g:ale_linters_ignore ={'cpp': ['clangtidy', 'cppcheck']}
+" let g:ale_linters                         ={'cpp': []}
 " let g:ale_c_build_dir_names               =''
-" let g:ale_c_parse_makefile                =1 "gives errors. test if helps pio (with makefile from pio --ide clion)
+let g:ale_c_parse_makefile                =0 "1 gives errors. test if helps pio (with makefile from pio --ide clion)
+let g:ale_c_parse_compile_commands        =1
+let g:ale_c_cppcheck_options              =''
 
 let g:ale_python_flake8_args 							='--ignore=E501,C0111'
 let g:ale_python_flake8_executable 				='python3'
@@ -692,19 +705,39 @@ let g:airline_mode_map 	= { '__': '-', 'n': 'N', 'i': '', 'R': 'R', 'c': 'C',
 													\ 'v': 'v', 'V': 'V  ', '': 'V ▢',
 													\ 's': 's', 'S': 'S  ', '': 'S ▢'}
 
+let g:airline#extensions#cursormode#enabled =1
+" let g:cursormode_color_map = {
+"     \   "nlight": '#333333',
+"     \   "ndark": '#BBBBBB',
+"     \   "i": g:airline#themes#{g:airline_theme}#palette.insert.airline_a[1],
+"     \   "R": g:airline#themes#{g:airline_theme}#palette.replace.airline_a[1],
+"     \   "v": g:airline#themes#{g:airline_theme}#palette.visual.airline_a[1],
+"     \   "V": g:airline#themes#{g:airline_theme}#palette.visual.airline_a[1],
+"     \   "\<C-V>": g:airline#themes#{g:airline_theme}#palette.visual.airline_a[1],
+"     \ }
+
 " let g:airline#extensions#default#formatter 				='unique_tail_imroved'
 let g:airline#extensions#default#formatter 				='default'
 let g:airline#extensions#default#layout=[['a', 'c', 'b', 'gutter'],
 																				\['error', 'warning', 'y', 'x', 'z']]
 																				" \['error', 'warning', 'x', 'z']] "hide section y with filetype bs bc doesnt seem to stick when I try to repurpose it?
-" let g:airline#extensions#default#section_truncate_width ={
-"     \ 'a': 5, 'c': 10, 'b': 50,
-" 		\ 'x': 70, 'y': 80, 'z': 60,  'warning': 50, 'error': 40 }
+let g:airline#extensions#default#section_truncate_width ={
+    \ 'a': 5, 'c': 40, 'b': 13,
+		\ 'x': 70, 'y': 15, 'z': 60,  'warning': 50, 'error': 40 }
 let g:airline#extensions#default#section_use_groupitems =0  "test if helps colors
 let g:airline#extensions#whitespace#enabled 			=0
 let g:airline#extensions#tagbar#enabled 					=0
 let g:airline#extensions#ale#warning_symbol 			=g:ale_sign_error
 let g:airline#extensions#ale#error_symbol 				=g:ale_sign_warning
+let g:airline#extensions#ale#open_lnum_symbol     =g:sign_open_lnum
+let g:airline#extensions#ale#close_lnum_symbol    =g:sign_close_lnum "')'
+
+let g:airline#extensions#languageclient#error_symbol    =g:ale_sign_error
+let g:airline#extensions#languageclient#warning_symbol  =g:ale_sign_warning
+let g:airline#extensions#languageclient#open_lnum_symbol=g:sign_open_lnum
+let g:airline#extensions#languageclient#close_lnum_symbol=g:sign_close_lnum "')'
+let g:airline#extensions#gutentags#enabled        =1
+
 let g:airline#extensions#hunks#non_zero_only      =1
 let g:airline#extensions#branch#enbled						=1			"0 temp test if can avoid git bug until i figure it out
 function! AirlineHunksColored()
@@ -757,7 +790,7 @@ function! AirlineInit()
   call airline#add_inactive_statusline_func('AirlineWindowNumber')
 	let g:airline_section_z =airline#section#create_right(['%L', '%2v'])
   "neither of these work...
-	let g:airline_section_y =airline#section#create_right(['%-0.25{getcwd()}'])
+	let g:airline_section_y =airline#section#create_right(['%-0.15{getcwd()}'])
   " let g:airline_section_y = airline#section#create_right('{LanguageClient_serverStatusMessage()}')
   " let g:airline_section_y ='{LanguageClient_serverStatusMessage()}'
 	call AirlineHunksColored() "test whether fucking performance
@@ -829,7 +862,6 @@ endfunction
 augroup AirlineMods | autocmd!
 	autocmd User AirlineAfterInit call AirlineInit()
 augroup END
-
 "}}}
 
 "{{{2					 NETRW
@@ -965,7 +997,16 @@ let g:startify_padding_left 							=1
 " \_/     ◆ ◇ ◈         
 "
 " ‾  ⃫  𒅄    ⃒ ҃  ̿ 𐃆
-
+"}}}
+let g:startify_custom_header=[ '                                                     ',
+                              \'          ▕ 							                       ',
+                              \'  ██    ▕│█     ___	 ___                     ',
+															\' ▕│  ██⮀	▕│██││         █   █          ',
+															\' ▕│  ▕ █  ▕│██││▕│ ▁ ▕│    ▕│██              ',
+															\' ▕│  ▕│ █ ▕│██││▕│   ▕│    ▕│██  ◢◣  ◢      ',
+															\' ▕│  ▕│  █ │██││  ▁   ▁   █   ▜█ ██      ',
+															\' 	  ▕│   █/      ‾    ‾‾                    ',
+															\' 	 ▕│            				                     ']
 " let g:startify_list_order 	=[ ['      '. AirlineStatusLineCWD()],  'dir',
 " 															\['      MRU'],
 " 															\ 											'files',
@@ -1110,6 +1151,14 @@ let g:tagbar_silent											=1
 let g:undotree_SplitWidth											=20 "w:tol_sidebarWidth
 let g:undotree_DiffpanelHeight 								=10
 let g:undotree_TreeNodeShape 									='' "''  "'▮' '∞'
+" signs:
+" UndotreeAdd
+" UndotreeChg
+" UndotreeDel
+" UndotreeDelEnd
+" change these in undotree-code to something nicer....
+
+
 let g:undotree_RelativeTimestamp 							=1
 let g:undotree_ShortIndicators 								=1
 let g:undotree_WindowLayout 									=2
@@ -1142,14 +1191,16 @@ let g:sneak#s_next      =1    "just mash s to navigate further...
 " let g:sneak#label				=1		"easymotion style
 
 "{{{2 				 ASSORTED RANDOM
-" if executable('ag') | let g:ackprg = 'ag --vimgrep' | endif
 " let g:rooter_use_lcd =1 														"only auto change cwd local to window
 "rm default source .vimrc files in local _or any parent dir _, causing issues in home folder...
 let g:local_vimrc = {'names':['.localvimrc'],'hash_fun':'LVRHashOfFile'}
 let g:auto_save_silent 										=1  " do not display the auto-save notification
 let g:auto_save_events 										=['InsertLeave', 'CursorHold']
 
-
+let g:org_aggressive_conceal              =1 "fuck seeing markup
+let g:org_heading_shade_leading_stars     =0
+let g:org_todo_keywords                   =['TODO', 'FIX', 'XXX', '|', 'DONE']
+let g:org_indent                          =1
 
 let g:EasyMotion_smartcase 								=1
 let g:EasyMotion_startofline 							=0 " keep cursor column when JK motion
@@ -1191,7 +1242,6 @@ let g:semanticBlacklistOverride={
 \ 	'END',
 \  ] }
 "}}}
-
 "{{{           RAINBOW
 function! SetupRainbowParensHighlights()
   " ban orange and red since ue that for syntax
@@ -1228,12 +1278,18 @@ let g:rainbow#auto = 0
 " let g:rainbow_conf={'guifgs': ['#d65d0e', '#cc241d', '#b16286', '#458588']}
 " let g:rainbow#blacklist = [stuff, #hex]
 "}}}
+
+"{{{2           CLOJURE
+"{{{3           FIREPLACE
+let g:fireplace_pprint_fn ='cider.nrepl.middleware.pprint/puget-pprint'
+"}}}
 "⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏
 
 let g:tinykeymap#map#windows#map      ="gw"
 
 "
 "{{{1   			ALL-TEXT VISUAL GUI CLI-INTERFACE
+" let g:loaded_matchparen               =1 "disable matchparens, see if helps performance...
 "{{{2 				 syntax specific settings
 let c_comment_strings									=1 		"highlight strings inside C comments.
 let c_no_bracket_error								=1
@@ -1242,17 +1298,17 @@ let c_curly_error											=1 		"highlight missing closing braces
 " let g:clojure_fold										=1 		"might not work with rainbow-parentheses
 let g:clojure_align_multiline_strings =1
 let g:clojure_align_subforms					=1
-
+let g:clj_refactor_prune_ns_form      =0    "leave ns alonnee
 let python_highlight_all							=1 		"enable all extra python syntax highlighting
 "}}}
 
 "{{{2 				 HIGHLIGHT GROUPS
 
 if has('nvim')
-	highlight! Normal cterm=None gui=None guibg=None  "ctermbg=None
+	highlight! Normal cterm=None gui=None guibg=None  "ctermbg=None  "why? some performance thing i think. fucks things. test without. //nope, fucks bg
 endif
 
-highlight! FoldOpenedMarker 	         			guifg=#076678 	guibg=#3c3836		"07 = gruv dark from the light palette
+highlight! FoldOpenedMarker 	         			guifg=#076678 	guibg=#3c3836
 highlight foldHelp 												ctermfg=238 		ctermbg=110
 highlight foldHelp 													guifg=#7777bb 	guibg=#6488bb 	"guifg=#444444 	guibg=#607eb3
 highlight! link FoldedUnderline Folded
@@ -1260,12 +1316,11 @@ highlight FoldedUnderline 		gui=underline
 
 highlight vimrcHashSep   	ctermfg=White			guifg=White
 
-augroup ModeChange | autocmd!
-	autocmd InsertEnter * 	hi CursorLine gui=underline,bold  | hi! link CursorLineNr BruvboxRedSign | hi! link VertSplit BruvboxInsertModeColor
-	" autocmd InsertEnter *   "set timeoutlen like, super short for insert mode. Then can have a bunch of leader etc shit, and all kinds of other stuff, that doesnt delay shown output from typing, but shit still working! As long as key sequence is esoteric enough not to actually be typed otherwise.
-	autocmd InsertLeave * 	hi CursorLine gui=None            | hi! link CursorLineNr BruvboxCursorLineNr | hi! link VertSplit BruvboxNormalModeColor
-	" autocmd ModeChange
-augroup END
+" augroup ModeChange | autocmd!
+" 	autocmd InsertEnter * 	hi CursorLine gui=underline,bold  | hi! link CursorLineNr BruvboxRedSign | hi! link VertSplit BruvboxInsertModeColor
+" 	autocmd InsertLeave * 	hi CursorLine gui=None            | hi! link CursorLineNr BruvboxCursorLineNr | hi! link VertSplit BruvboxNormalModeColor
+" 	" autocmd InsertEnter *   "set timeoutlen like, super short for insert mode. Then can have a bunch of leader etc shit, and all kinds of other stuff, that doesnt delay shown output from typing, but shit still working! As long as key sequence is esoteric enough not to actually be typed otherwise.
+" augroup END
 
 " syntax match OverLength /\%81v.\+/
 " highlight OverLength ctermbg=133 ctermfg=254 cterm=bold guibg=#592929
@@ -1274,42 +1329,50 @@ augroup END
 
 "}}}
 
-
 "{{{2 				 PER FILETYPE AUTOCMDS
+
+function! SetupFishAutocmds() abort
+  au TextChangedI <buffer>  <C-o>:FishIndent<CR>
+  au TextChanged  <buffer>  :FishIndent<CR>
+endfunction
+
 augroup SyntaxAutocmds | autocmd!
-" autocmd FileType 	java 					setlocal omnifunc=javacomplete#Complete
-autocmd FileType 	lisp,clojure 	RainbowParentheses
-autocmd Syntax 	   *            silent call SetupRainbowParensHighlights() "works if no orig cmd like above?
-" autocmd BufEnter 	      	      call SetupRainbowParensHighlights()
-autocmd FileType 	lisp,clojure 	let g:parinfer_mode = "off"
-autocmd FileType  help          let &colorcolumn=join(range(80,240),',')
+autocmd FileType 	java 					    setlocal omnifunc=javacomplete#Complete
+autocmd FileType  java              setlocal makeprg=javac\ % errorformat=%A%f:%l:\ %m,%-Z%p^,%-C%.%#
+autocmd FileType 	lisp,clojure,cpp 	RainbowParentheses
+autocmd BufReadPost project.clj,profiles.clj    ALEDisableBuffer
+autocmd Syntax 	   *                silent call SetupRainbowParensHighlights() "works if no orig cmd like above?
+" autocmd FileType clojure,cpp       	let w:matchhash		=matchadd('vimrcHashSep', '#')
+" autocmd FileType clojure           	let w:matchdash		=matchadd('clojureDash', '-')
+autocmd FileType 	clojure 	        let g:parinfer_mode = "off"
+autocmd Filetype  clojure		        let b:AutoPairs={'(':')','[':']','{':'}','"':'"'}
+autocmd BufReadPost /tmp*clj        set bufhidden=delete
+
+autocmd FileType  help              let &colorcolumn=join(range(80,240),',')
 
 " autocmd BufNewFile,BufRead *.py		setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 | let &colorcolumn=join(range(80,200),',')
-autocmd BufNewFile,BufRead *.py		setlocal softtabstop=2 shiftwidth=2 textwidth=79 | let &colorcolumn=join(range(80,240),',')
+autocmd BufNewFile,BufRead *.py		  setlocal softtabstop=2 shiftwidth=2 textwidth=79 | let &colorcolumn=join(range(80,240),',')
 
-" autocmd BufNewFile,BufRead 	*.applescript 	set filetype 	=applescript "gets loaded as sh??
-autocmd BufNewFile,BufRead 	*.fish 	set filetype=fish 			 "same, wtf?
-autocmd BufNewFile,BufRead 	*.tmux 	set filetype=tmux 			 "ffs?
+autocmd BufNewFile,BufRead *.fish 	set filetype=fish "| silent call SetupFishAutocmds() yeah, no. doesnt even work anyways.
+" autocmd FileType fish  nested       au TextChangedI   <C-o>:FishIndent<CR>
+" autocmd FileType fish  nested       au TextChanged    :FishIndent<CR>
 " autocmd FileType	fish			compiler fish | setlocal foldmethod=expr
+"
+autocmd BufNewFile,BufRead *.tmux 	set filetype=tmux 			 "ffs?
 
-autocmd FileType vim,fish,lua,python,ruby,go,sh,javascript    IndentGuidesEnable
+" autocmd BufNewFile,BufRead 	*.applescript 	set filetype 	=applescript "gets loaded as sh?? below same, wtf?
+" autocmd BufRead            *.scpt 	%!osadecompile | set ft=applescript
+" autocmd BufWritePost       *.scpt   !osacompile
 
-autocmd FileType vim,lua,clojure		set foldmethod=marker "| set foldcolumn=1
-autocmd Filetype vim				let b:AutoPairs={'(':')','[':']','{':'}',"'":"'",'`':'`','<':'>'} "fix comment behavior, pair <>
+" autocmd FileType fish,lua,python,ruby,go,sh,javascript    IndentGuidesEnable
 
-" autocmd FileType vim 			let w:matchmapComment		=matchadd('Comment', '|\s*".*')	"HL post-pipe comments in vimrc
-" autocmd FileType vim 			let w:matchhash					=matchadd('vimrcHashSep', '#')
-autocmd FileType vim				if !exists('w:loaded_matchadds_vim')		| call SetupMatchaddsVim()		| endif
-autocmd FileType vim,lua		if !exists('w:loaded_matchadds_folds')	| call SetupMatchaddsFolds()	| endif
-" autocmd FileType vim,lu 	let w:matchfoldlevel		=matchadd('BruvboxRedSign', '+---')
-" autocmd FileType vim,lua 	let w:matchdashes				=matchadd('Folded', '----------') 	"regular dash
-" " autocmd FileType vim,lua 	let w:matchdashes 		=matchadd('Folded', '                                        ') 	"spaces
-" autocmd FileType vim,lua 	let w:matchunderscore1	=matchadd('Folded', '__________') 	"regular underscore
-" autocmd FileType vim,lua 	let w:matchunderscore3	=matchadd('Folded', '⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏  ') "weird spacing so 19 chars + 1 space = same len
-" autocmd FileType vim,lua 	let w:matchupperscore		=matchadd('Folded', ' ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅ ̅')		"combining overline 0x305
-" autocmd FileType vim,lua	let w:matchopenfolds		=matchadd('Folded', '{\d\s*.*.*') 	"opened folds same HL style as closed when got digit like { {{2
-" autocmd FileType vim,lua	let w:matchleftbraces		=matchadd('FoldOpenedMarker', '{{{')
-" autocmd FileType vim,lua	let w:matchrightbraces	=matchadd('foldOpenedMarker', '}}}')
+autocmd FileType vim,lua		        set foldmethod=marker "| set foldcolumn=1
+autocmd Filetype vim				        let b:AutoPairs={'(':')','[':']','{':'}',"'":"'",'`':'`','<':'>'} "fix comment behavior, pair <>
+
+autocmd FileType vim,lua       	    if !get(w:, 'loaded_matchadds_vim', 0)	| call SetupMatchaddsVim()	| endif
+autocmd FileType cpp                if !get(w:, 'loaded_matchadds_cpp', 0)	| call SetupMatchaddsCpp()	| endif
+autocmd FileType cpp                set path +=**,/usr/include/c++/**
+" autocmd FileType cpp                set keywordprg=cppman
 
 augroup END "}}}2
 "{{{2					 SETUP THE CUSTOM MATCHADDS
@@ -1323,14 +1386,29 @@ function! SetupMatchaddsFolds() abort
 	let w:matchleftbraces		=matchadd('FoldOpenedMarker', '{{{')
 	let w:matchrightbraces	=matchadd('foldOpenedMarker', '}}}')
 
-	let w:loaded_matchadds_folds = 1
+	let w:loaded_matchadds_folds =1
 endfunction
 
 function! SetupMatchaddsVim() abort
 	let w:matchmapComment		=matchadd('Comment', '|\s*".*')	"HL post-pipe comments in vimrc
-	let w:matchhash					=matchadd('vimrcHashSep', '#')
+  let w:matchhash		=matchadd('vimrcHashSep', '#')
 
-	let w:loaded_matchadds_vim = 1
+  call SetupMatchaddsFolds()
+
+	let w:loaded_matchadds_vim =1
+endfunction
+
+function! SetupMatchaddsCpp() abort
+	" let w:matchpointer		=matchadd('BruvboxWhite', '\*')
+	" let w:matchreference	=matchadd('BruvboxWhite', '&')
+	" let w:matchreference	=matchadd('BruvboxWhite', '<|>')
+	" let w:matchreference	=matchadd('BruvboxWhite', '>')
+
+  syntax match cppPointerDeref    '&|*'
+  syntax match cppPunctuation     "\<|\>(|)|[|]|{|}|,|-"
+  hi! link cppPunctuation         BruvboxFgHard
+  hi! link cppPointerDeref        BruvboxFg4
+	let w:loaded_matchadds_cpp = 1
 endfunction
 "}}}
 "}}}
@@ -1344,6 +1422,13 @@ endfunction
 abbreviate 	s? 			set ?<Left><BS>
 " abbreviate  Tab  		Tabularize /
 " abbreviate 	P 	Plug ''<Left><BS><Right>
+
+abb u8 uint8_t
+abb 8* uint8_t*
+abb u6 uint16_t
+abb u2 uint32_t
+abb coS const String&
+
 
 
 "}}}
@@ -1370,11 +1455,11 @@ let g:python3_host_prog 										='/usr/local/bin/python3'
 
 let g:deoplete#ignore_sources		         ={}
 
-let g:deoplete#omni#input_patterns       ={}
-let g:deoplete#omni#input_patterns.lua   ='\w+|[^. *\t][.:]\w*'
+" let g:deoplete#omni#input_patterns       ={}
+" let g:deoplete#omni#input_patterns.lua   ='\w+|[^. *\t][.:]\w*'
 
-let g:deoplete#omni#functions            =get(g:, 'deoplete#omni#functions', {})
-let g:deoplete#omni#functions.javascript =['tern#Complete', 'jspc#omni']
+" let g:deoplete#omni#functions            =get(g:, 'deoplete#omni#functions', {})
+" let g:deoplete#omni#functions.javascript =['tern#Complete', 'jspc#omni']
 
 " let g:deoplete#sources									    =get(g:, 'deoplete#sources', {})    "only needed for scripts and whatnot, not vimrc obvs
 " let g:deoplete#sources['javascript'] 		    =['file', 'ternjs']
@@ -1398,9 +1483,9 @@ function! DeopleteInit()
 
   call deoplete#custom#option({
         \ 'enable_at_startup': 0,
-        \ 'auto_complete_delay': 50,
+        \ 'auto_complete_delay': 10,
         \ 'enable_refresh_always': 1,
-        \ 'auto_refresh_delay': 35,
+        \ 'auto_refresh_delay': 50,
         \ 'cache_limit_size': 2000000,
         \ 'smart_case': v:true,
   \ })
@@ -1459,6 +1544,7 @@ function! DeopleteInit()
   " call deoplete#custom#source('_', 'matchers', ['matcher_cpsm'])
   " call deoplete#custom#source('_', 'sorters', [])
 
+  " call DeopleteEnable()
   " call deoplete#enable()
 endfunction
 
@@ -1468,51 +1554,91 @@ function! DeopleteEnable()
   silent call deoplete#enable()
   let g:deoplete_has_been_enabled = 1
 endfunction
+
+" function! g:Multiple_cursors_before()
+"   call deoplete#custom#buffer_option('auto_complete', v:false)
+" endfunction
+" function! g:Multiple_cursors_after()
+"   call deoplete#custom#buffer_option('auto_complete', v:true)
+" endfunction
 "}}}
 "{{{2 			 	 NVIM COMPLETION MANAGER TEST goddamn it's so fucking fast i cant even. fuck Shougo
+
+let g:cm_smart_enable=1 "disable fucker
+let g:cm_auto_popup =1
+" let g:cm_matcher = {'module': 'cm_matchers.abbrev_matcher', 'case': 'smartcase'} "fuzzy matcher!
 let g:cm_matcher = {'module': 'cm_matchers.fuzzy_matcher', 'case': 'smartcase'} "fuzzy matcher!
 let g:cm_complete_start_delay 							=5 			"ms
 let g:cm_complete_delay 										=10
 
-let g:cm_completekeys												="\<Plug>(cm_complete)"
+" let g:cm_completekeys												="\<Plug>(cm_complete)"
 "default. or	 "\<Plug>(cm_completefunc)" or "\<Plug>(cm_omnifunc)"
-let g:cm_refresh_default_min_word_len 			=[[1,3],[7,2]]			"default [[1,4],[7,3]]  arg[1] min prio, [2] min chars typed before refresh
+let g:cm_refresh_length 			=[[1,3],[7,2]]			"default [[1,4],[7,3]]  arg[1] min prio, [2] min chars typed before refresh
 
 "NCM version of neosnippet mapping below, think its just a wrapper for the <expr> thing so no need
 " inoremap <silent> <CR> <c-r>=cm#sources#neosnippet#trigger_or_popup("\<Plug>(neosnippet_expand_or_jump)")<cr>
-
-"{{{3						NCM EXAMPLE CUSTOM SOURCE
-" au User CmSetup call cm#register_source({'name' : 'foo bar',
-" 	\ 'abbreviation': 'foo',
-" 	\ 'priority': 8,
-" 	\ 'cm_refresh_patterns': ['fo$'],
-" 	\ 'cm_refresh': 'g:Foo_auto_popup',
-" 	\ })
-"
-" func! g:Foo_auto_popup(opt,ctx)
-" 	let l:matches = ['foo_bar','foo_baz']
-" 	call cm#complete(a:opt['name'], a:ctx, a:ctx['startcol'], l:matches)
-" endfunc
 "}}}
+"{{{2 			 	 NCM2
+augroup NCM2 | autocmd!
+  autocmd BufEnter * call ncm2#enable_for_buffer()
+  autocmd BufEnter * imap	 <expr> <C-K>   pumvisible() ? "\<Up>" : "\<C-K>"
+  "some idiot is overwriting my C-k mapping...
+augroup END
+
+function! Multiple_cursors_before()
+    call ncm2#lock('vim-multiple-cursors')
+endfunction
+
+function! Multiple_cursors_after()
+    call ncm2#unlock('vim-multiple-cursors')
+endfunction
+" let g:ncm2#auto_popup =1 "default
+" let g:ncm2#filter ='same_word'
+let g:ncm2#popup_limit          =80
+let g:ncm2#popup_delay          =120 "default 60
+let g:ncm2#complete_length 			=[[1,3],[7,2]]			"default [[1,4],[7,3]]  arg[1] min prio, [2] min chars typed before refresh
+
+" example how to disable individual languageclient source
+" call ncm2#override_source('LanguageClient_python', {'enable': 0})
+"
+"fix below for clj if lsp keeps fucking me
+" au User Ncm2Plugin call ncm2#register_source({
+"         \ 'name' : 'fireplace', 'priority': 9, 'subscope_enable': 1,
+"         \ 'scope': ['clj','clojure'],
+"         \ 'mark': 'fire',
+"         \ 'word_pattern': ''[\w!$%&*+/:<=>?@\^_~\-\.#]*'',
+"         \ 'complete_pattern': ':\s*',
+"         \ 'on_complete': ['ncm2#on_complete#delay', 180,
+"         \                 'ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
+"         \ })
+
 "}}}
 
 let g:clang_library_path                  ='/usr/local/opt/llvm/lib'
+let g:ncm2_pyclang#library_path           =g:clang_library_path
 
 "{{{2 				LANGUAGE SERVER CLIENT
 " defaults:
 " let g:LanguageClient_autoStart            =0
-" let g:LanguageClient_diagnosticsEnable    =0
-" let g:LanguageClient_loadSettings         =0
-let g:LanguageClient_changeThrottle       =0.10
-let g:LanguageClient_signColumnAlwaysOn 	=0
+" let g:LanguageClient_diagnosticsEnable    =1
+let g:LanguageClient_loadSettings         =0
 " let g:LanguageClient_settingsPath         ='~/.config/nvim/settings.json'
-let g:LanguageClient_settingsPath         ='/Users/tolgraven/.config/nvim/settings.json'
-let g:LanguageClient_loggingLevel         ='WARN'
-let g:LanguageClient_hasSnippetSupport    =1  "until they fix their snippets to actually work...
+" let g:LanguageClient_settingsPath         ='/Users/tolgraven/.config/nvim/settings.json'
+" let g:LanguageClient_changeThrottle       =0.10
+" let g:LanguageClient_omniCompleteResults
+let g:LanguageClient_selectionUI          ="quickfix"
+let g:LanguageClient_signColumnAlwaysOn 	=0
+let g:LanguageClient_windowLogMessageLevel='Info'  "Warning
+let g:LanguageClient_completionPreferTextEdit=0 "dunno
+let g:LanguageClient_loggingLevel         ='DEBUG'
+let g:LanguageClient_loggingFile          ='/Users/tolgraven/.cache/nvim/languageclient.log'
+let g:LanguageClient_serverStderr         ='/Users/tolgraven/.cache/nvim/languageclient-err.log'
+let g:LanguageClient_hasSnippetSupport    =0  "until they fix their snippets to actually work...
 let g:LanguageClient_waitOutputTimeout    =5  "default 10
-" let g:LanguageClient_fzfOptions           ='figure out'
 
-let $LSP_FILETYPES ="c,cpp,clojure,python,lua"
+" let g:LanguageClient_fzfOptions           ='figure out'
+let g:LanguageClient_fzfContextMenu =0 "test off
+let $LSP_FTS ="c,cpp,clojure,python,lua"
 
 " augroup LanguageClient_config | au!
 "   au BufEnter * let b:Plugin_LanguageClient_started = 0
@@ -1526,19 +1652,23 @@ augroup LanguageClient_config
   autocmd User LanguageClientStarted      let g:Plugin_LanguageClient_running =1
   autocmd User LanguageClientStopped      let g:Plugin_LanguageClient_running =0
   " autocmd CursorMoved c,cpp,clojure,python,lua    if g:Plugin_LanguageClient_running | call LanguageClient_textDocument_hover() | endif
-  " autocmd CursorMoved $LSP_FILETYPES       if g:Plugin_LanguageClient_running == 1 | call LanguageClient_textDocument_hover() | endif
-  " autocmd CursorMoved $LSP_FILETYPES      if g:Plugin_LanguageClient_running == 1 && exists('*LanguageClient_textDocument_hover') | call LanguageClient_textDocument_hover() | endif
-  " autocmd CursorMoved $LSP_FILETYPES      if exists('*LanguageClient_textDocument_hover') | call LanguageClient_textDocument_hover() | endif
+  " autocmd CursorMoved $LSP_FTS       if g:Plugin_LanguageClient_running == 1 | call LanguageClient_textDocument_hover() | endif
+  " autocmd CursorMoved $LSP_FTS      if g:Plugin_LanguageClient_running == 1 && exists('*LanguageClient_textDocument_hover') | call LanguageClient_textDocument_hover() | endif
+  " autocmd CursorMoved $LSP_FTS      if exists('*LanguageClient_textDocument_hover') | call LanguageClient_textDocument_hover() | endif
 
 augroup end
 
+      " \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
 let g:LanguageClient_serverCommands={
 			\ 'python': ['pyls'],
       \ 'clojure': ['clojure-lsp'],
-      \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
-      \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
+      \ 'cpp': ['cquery', '--init={"cacheDirectory": "/tmp/cquery/"}'],
+      \ 'c': ['cquery'],
       \ 'lua': ['lua-lsp'],
 			\ }
+      " \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
+      " \ 'cpp': ['cquery', '--log-file-append=/tmp/cq.log', '--init={"cacheDirectory": "/tmp/cquery/", "progressReportFrequencyMs": -1"}'],
+" --init='{ "cacheDirectory": "/work/cquery-cache/chrome/", "progressReportFrequencyMs": -1}'
 " lua-lsp: luarocks install --server=http://luarocks.org/dev lua-lsp
       " \ 'cpp': ['cquery --languageserver'],
       " \ 'cpp': ['clangd'],
@@ -1562,13 +1692,33 @@ let g:LanguageClient_diagnosticsDisplay ={
     \       'signTexthl': 'ALEInfoSign', },
     \ }
 
-
 "}}}
+
+let g:lsp_enabled = 0 "shit aint ready for use soz
+if get(g:, 'lsp_enabled', 0)
+  if executable('cquery')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'cquery',
+        \ 'cmd': {server_info->['cquery']},
+        \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
+        \ 'initialization_options': { 'cacheDirectory': '/tmp/cquery/cache' },
+        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+        \ })
+  endif
+  if executable('clojure-lsp')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'clojure-lsp',
+        \ 'cmd': {server_info->['clojure-lsp']},
+        \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'project.clj'))},
+        \ 'whitelist': ['clj', 'clojure', 'cljs'],
+        \ })
+  endif
+endif
 
 
 "{{{2 				 NEOSNIPPET
 let g:neosnippet#enable_snipmate_compatibility=1
-let g:neosnippet#enable_completed_snippet 		=1
+" let g:neosnippet#enable_completed_snippet 		=1
 
 "}}}
 
@@ -1592,11 +1742,15 @@ let g:jedi#rename_command           = '<leader>gr'	"(default: '<leader>r')
 " let g:jedi#completions_command      = ''	"(default: '<C-Space>')
 
 "}}}
-let g:chromatica#libclang_path						='/usr/local/opt/llvm/lib'
-let g:chromatica#enable_at_startup				=1				"since restricting autoload through vimplug
-" let g:chromatica#highlight_feature_level	=1			"guess need to define all these groups for it to work...
-let g:chromatica#responsive_mode					=1
-" let g:chromatica#delay_ms									=250			"test if needed
+" semshi, python semantic hl...
+
+" let g:chromatica#libclang_path						='/usr/local/opt/llvm/lib'
+let g:chromatica#libclang_path						='/usr/local/opt/llvm/lib/libclang.dylib'
+let g:chromatica#enable_at_startup				=1			"loads for all fts but works-ish, since restricting autoload through vimplug
+let g:chromatica#highlight_feature_level	=1			"guess need to define all those extra groups for it to work...
+let g:chromatica#responsive_mode					=1      "dont wait for insert exit to update...
+let g:chromatica#delay_ms									=50			"default 80, test if needed
+let g:chromatica#enable_log								=1			"temp
 
 
 
@@ -1886,65 +2040,66 @@ endfunction
 
 "{{{3 				 FZF NAV buffers
 function! s:buflist()
-	redir => ls
-	silent ls
-	redir END
-	return split(ls, '\n')
+  redir => ls
+  silent ls
+  redir END
+  return split(ls, '\n')
 endfunction
 
 function! s:bufopen(e)
-	execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
 endfunction
 "}}}
-nnoremap <silent> <Leader><Enter> :call fzf#run({'source': reverse(<sid>buflist()),
-\ 'sink': function('<sid>bufopen'), 'options': '+m', 'down': len(<sid>buflist()) + 2 })<CR>
+nnoremap <silent> <Leader><CR>  :call fzf#run({'source': reverse(<sid>buflist()),
+                                            \ 'sink': function('<sid>bufopen'),
+                                            \ 'options': '+m', 'down': len(<sid>buflist()) + 2 })<CR>
 
 " fzf locate command integration
 command! -nargs=1 -bang Locate call fzf#run(fzf#wrap({'source': 'locate <q-args>', 'options': '-m'}, <bang>0))
 
 "{{{3 					FZF LINE SEARCH OPEN BUFFERS
 function! s:line_handler(l)
-	let keys = split(a:l, ':\t')
-	exec 'buf' keys[0]
-	exec keys[1]
-	normal! ^zz
+let keys = split(a:l, ':\t')
+exec 'buf' keys[0]
+exec keys[1]
+normal! ^zz
 endfunction
 
 function! s:buffer_lines()
-	let res = []
-	for b in filter(range(1, bufnr('$')), 'buflisted(v:val)')
-		call extend(res, map(getbufline(b,0,"$"), 'b . ":\t" . (v:key + 1) . ":\t" . v:val '))
-	endfor
-	return res
+let res = []
+for b in filter(range(1, bufnr('$')), 'buflisted(v:val)')
+  call extend(res, map(getbufline(b,0,"$"), 'b . ":\t" . (v:key + 1) . ":\t" . v:val '))
+endfor
+return res
 endfunction
 "}}}
 command! FZFLines call fzf#run({'source': <sid>buffer_lines(), 'sink': function('<sid>line_handler'), 'options': '--extended --nth=3..', 'down': '60%'})
 
 "{{{3 					FZF narrow Ag search
 function! s:ag_to_qf(line)
-	let parts = split(a:line, ':')
-	return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
-				\ 'text': join(parts[3:], ':')}
+let parts = split(a:line, ':')
+return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
+      \ 'text': join(parts[3:], ':')}
 endfunction
 
 function! s:ag_handler(lines)
-	if len(a:lines) < 2 | return | endif
+if len(a:lines) < 2 | return | endif
 
-	let cmd = get({'ctrl-x': 'split',
-							\ 'ctrl-v': 'vertical split',
-							\ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
-	let list = map(a:lines[1:], 's:ag_to_qf(v:val)')
+let cmd = get({'ctrl-x': 'split',
+            \ 'ctrl-v': 'vertical split',
+            \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
+let list = map(a:lines[1:], 's:ag_to_qf(v:val)')
 
-	let first = list[0]
-	execute cmd escape(first.filename, ' %#\')
-	execute first.lnum
-	execute 'normal!' first.col.'|zz'
+let first = list[0]
+execute cmd escape(first.filename, ' %#\')
+execute first.lnum
+execute 'normal!' first.col.'|zz'
 
-	if len(list) > 1
-		call setqflist(list)
-		copen
-		wincmd p
-	endif
+if len(list) > 1
+  call setqflist(list)
+  copen
+  wincmd p
+endif
 endfunction
 "}}}
 command! -nargs=* Ag call fzf#run({'source':  printf('ag --nogroup --column --color "%s"', escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
@@ -1952,63 +2107,66 @@ command! -nargs=* Ag call fzf#run({'source':  printf('ag --nogroup --column --co
 \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.'--multi --bind=ctrl-a:select-all,ctrl-d:deselect-all '.'--color hl:68,hl+:110',
 \ 'down':    '50%' })
 
-" Files + devicons
+" Files + devicons {{{3
 function! Fzf_dev()
-  let l:fzf_files_options=
-        \ '--preview "echo {} | tr -s \" \" \"\n\" | tail -1 | xargs highlight | head -'.&lines.'"'
-        " \ '--preview "echo {} | tr -s \" \" \"\n\" | tail -1 | xargs rougify | head -'.&lines.'"'
-  function! s:files()
-    let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
-    return s:prepend_icon(l:files)
-  endfunction
-
-  function! s:prepend_icon(candidates)
-    let l:result = []
-    for l:candidate in a:candidates
-      let l:filename = fnamemodify(l:candidate, ':p:t')
-      let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
-      call add(l:result, printf('%s %s', l:icon, l:candidate))
-    endfor
-
-    return l:result
-  endfunction
-
-  function! s:edit_file(item)
-    let l:parts = split(a:item, ' ')
-    let l:file_path = get(l:parts, 1, '')
-    execute 'silent e' l:file_path
-  endfunction
-
-  call fzf#run({
-        \ 'source': <sid>files(),
-        \ 'sink':   function('s:edit_file'),
-        \ 'options': '-m ' . l:fzf_files_options,
-        \ 'down':    '40%' })
+let l:fzf_files_options=
+      \ '--preview "echo {} | tr -s \" \" \"\n\" | tail -1 | xargs highlight | head -'.&lines.'"'
+      " \ '--preview "echo {} | tr -s \" \" \"\n\" | tail -1 | xargs rougify | head -'.&lines.'"'
+function! s:files()
+  let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
+  return s:prepend_icon(l:files)
 endfunction
+
+function! s:prepend_icon(candidates)
+  let l:result = []
+  for l:candidate in a:candidates
+    let l:filename = fnamemodify(l:candidate, ':p:t')
+    let l:icon = WebDevIconsGetFileTypeSymbol(l:filename, isdirectory(l:filename))
+    call add(l:result, printf('%s %s', l:icon, l:candidate))
+  endfor
+
+  return l:result
+endfunction
+
+function! s:edit_file(item)
+  let l:parts = split(a:item, ' ')
+  let l:file_path = get(l:parts, 1, '')
+  execute 'silent e' l:file_path
+endfunction
+
+call fzf#run({
+      \ 'source': <sid>files(),
+      \ 'sink':   function('s:edit_file'),
+      \ 'options': '-m ' . l:fzf_files_options,
+      \ 'down':    '40%' })
+endfunction
+" }}}
 command! F call Fzf_dev()
 
-function! Line_handler(l)
-  let keys = split(a:l, ':')
-  exec keys[0]
-  normal! ^zz
+" Search word {{{3
+function! FzfLineHandler(l)
+let keys = split(a:l, ':')
+exec keys[0]
+normal! ^zz
 endfunction
 
-function! SearchWord()
-    let g:fzf_ft=&ft
-    call fzf#run({
-    \   'source':  map(getline(1, '$'), '(v:key + 1) . ": " . v:val '),
-    \   'sink':    function('Line_handler'),
-    \   'options': '+s -e --ansi'
-    \})
-    let g:fzf_ft=''
+function! FzfSearchWord()
+  let g:fzf_ft=&ft
+  call fzf#run({
+  \   'source':  map(getline(1, '$'), '(v:key + 1) . ": " . v:val '),
+  \   'sink':    function('FzfLineHandler'),
+  \   'options': '+s -e --ansi'})
+  let g:fzf_ft=''
 endfunction
 
 
 let g:fzf_ft=''
 augroup FZF
-    autocmd!
-    autocmd! FileType fzf if strlen(g:fzf_ft) | silent! let &ft=g:fzf_ft | endif
+  autocmd!
+  autocmd! FileType fzf if strlen(g:fzf_ft) | silent! let &ft=g:fzf_ft | endif
 augroup END
+"}}}
+nmap <Leader>7  :call FzfSearchWord()<Cr>
 
 
 "{{{2 					RANDOM - RANGER n stuff
@@ -2083,7 +2241,7 @@ endfunction
 
 "}}}
 
-"{{{2					FUNCTIONS END *** 
+"{{{2					FUNCTIONS END ***
 
 
 "}}}  ""}}}
@@ -2091,7 +2249,15 @@ endfunction
 "{{{1          COMMANDS
 
 " :CD - change window-local CWD to dir of curr open buffer
-command! CD   lcd %:p:h|pwd
+" command! CD   lcd %:p:h|pwd
+nnoremap <Leader>cd     :cd %:p:h<CR>:pwd<CR>
+nnoremap <Leader>lcd    :lcd %:p:h<CR>:pwd<CR>
+nnoremap <Leader>ls     :ls<CR>
+nnoremap <Leader>bp     :bp<CR>
+nnoremap <Leader>bn     :bn<CR>
+nnoremap <Leader>bw     :bw<CR>
+nnoremap <Leader>bb     :b#<CR>
+nnoremap <Leader>b#     :b#<CR>
 
 "unicode plugin fix
 
@@ -2145,19 +2311,24 @@ command! -nargs=* E mkview 9 | edit | loadview 9
 "⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏
 
 
+"{{{1 				KEY BINDINGS
+"Note: remember to not set mappings that cause unnecessary timeout issues.
+"CANT USE INLINE COMMENTS HERE| 	"but can use fancy trick
+" Some `CTRL-SHIFT-...` key chords are distinguished from `CTRL-...` variants
+" (even in the terminal). Specifically, the following are known to work:
+"   <C-Tab>, <C-S-Tab>, <C-BS>, <C-S-BS>, <C-Enter>, <C-S-Enter>
 
-" {{{1 				KEY BINDINGS
-"Note: remember to not set mappings that cause unnecessary timeout issues.  CANT USE INLINE COMMENTS HERE| 	"but can use fancy trick
-noremap <expr> j				v:count ? 'j' : 'gj'
+noremap <expr> j				v:count ? 'j' : 'gj'| "move intuitively when wrap on
 noremap <expr> k				v:count ? 'k' : 'gk'
-" inoremap <Down>    <C-o>gj      "c-o:ing is too laggy :/
-nnoremap <BS>         	/| 				"good bc BS in normal is just h anyways?
-" nnoremap <CR>         	:| 				"no good. CR in normal basically just j anyways, tho also eg go to line in quickfix, command line window etc... gah!
+" nnoremap <BS>         	/| 				"good bc BS in normal is just h anyways?
+" nnoremap <CR>         	:| 				"no good. tho CR in n basically j, also go to line in quickfix, command line window etc... gah!
 nnoremap <M-CR> 			<C-]>|			"follow links. put some check so doesnt error if none, and could do other stuff...
 
 nmap		<Leader><.>			:|				"ez
 
-nnoremap <S-Tab>				<C-^>|		"toggle alternate-file. add check whether actuqlly got one...
+" nnoremap <Tab>          >>|     "no go cause it fucks <C-I>
+nnoremap <S-Tab>        <<
+" nnoremap <S-Tab>				<C-^>|		"toggle alternate-file. add check whether actuqlly got one...
 nnoremap <Leader><S-Tab> :wincmd p<CR>|"toggle last window
 
 nnoremap zz      			  za| 			"folds quick
@@ -2167,26 +2338,14 @@ nnoremap <silent><Leader>zx 		:if &foldclose == ''<BAR>set foldclose=all<BAR>els
 nnoremap <Leader>zt 		:set foldenable!<CR>|	"toggle use folds
 nnoremap <Leader>zn 		:g//foldopen<CR>| 		"open all folds with search results..
 
-nnoremap gp							g;|				"step back in changelist easier. 
+nnoremap gp							g;|				"step back in changelist easier.
 nnoremap gn							g,|				"earlier comment, not sure if relevant: 'eh why not working?'
 
 
 nnoremap <M-'>					:cd ..<BAR>pwd<CR>|			"change pwd one dir up. same as my fish binding...
-" nnoremap <M-,>					:<Up>|		"open last run command
 nnoremap <M-,>					q:k$|			"bring up last run command in insert... same as my fish binding
+nnoremap <Leader>:      q:a|      "what
 nnoremap <M-.>					@:| 			"rerun last command. Same as my fish binding
-" nnoremap <M-->					something cool, pref related to comments?
-" nnoremap <M-Left>			
-" nnoremap <M-*>				
-" nnoremap <M-~>				
-" nnoremap <M-^>				
-" nnoremap <M-+>				
-
-" nnoremap <M-0>				
-" nnoremap <M-6>				
-" nnoremap <M-7>				
-" nnoremap <M-8>				
-" nnoremap <M-9>				
 
 "{{{2           FIND USES
 " nnoremap <M-->				|	"something cool, pref related to comments?
@@ -2266,13 +2425,14 @@ nmap <leader>t+				<Plug>AirlineSelectNextTab
 nmap <Leader>tn							:tabnew<CR>
 nmap <Leader>tr             :TabooRename |      "start rename
 
-nnoremap <Leader>b1					:b
+" nnoremap <Leader>b1					:b
 "}}}
 
 " nnoremap <BS><BS> 			@:| 			"rerun last command old
 map	<silent>q.					q:<Esc>:set nonumber norelativenumber<CR>k$
 
 inoremap jk             <Esc>| 		" exit insert mode more better easier. XXX how exlude ranger in terminal?
+" inoremap kj             <C-O>u| 		"quick undo. bad fucks up k??
 " noremap  uu							:redo<CR>| "SUCKS BALLS FUCK OFF. quick redo, super awesome except cant spam undo and generally slows to timeout
 noremap  <Leader>u 		  :redo<CR>| "leader-u instead of just uu, so no timeout bs or issue repeating regular undo. note U to undo and then U again will redo back and forth photoshop-style
 
@@ -2310,49 +2470,61 @@ nnoremap <Leader>I 			i<Space><C-c>l
 nnoremap <Leader><Tab> 	i<Tab><C-c>l|	 	"insert tabs from normal mode
 nmap <silent> <M-i>     "=nr2char(getchar())<CR>P|  "insert any one char from normal mode. like reverse insert C-o
 
-nnoremap <silent><Esc>  :nohlsearch<BAR>call sneak#hl#removehl()<Esc>| "better than specific binding: esc clears hlsearch if in normal mode
+" nnoremap <silent><Esc>  :nohlsearch<BAR>call sneak#hl#removehl()<Esc>| "better than specific binding: esc clears hlsearch if in normal mode
+nnoremap <silent><Esc>  :call sneak#cancel()<CR>:nohlsearch<CR>| "better than specific binding: esc clears hlsearch if in normal mode
 
 
 "{{{2										PUMENU / DEOPLETE / SNIPPER MAPPINGS
 "FINALLY SANITY GODDAMN. cancels comp incl removing anything already inserted, but stays in normal mode! with completeopt "longest,menuone,preview,noinsert,noselect", guess those last two are the key...
 "XXX: tho should add a check for whether anything is actually selected, in the popup. That way quick auto deoplete suggestions wont block exiting on first esc...
-" inoremap <expr><Esc> pumvisible() ? "\<C-E>" : "\<Esc>"| "works even though ive rebound C-E, thanks to prior inoremap...
-inoremap <expr> <Esc> pumvisible() ? deoplete#close_popup().deoplete#undo_completion() : "\<Esc>"|		"seems to work. undo_completion() is crazy fucked when called directly/alone though.
+imap <expr><Esc> pumvisible() ? "\<C-E>" : "\<Esc>"| "works even though ive rebound C-E, thanks to prior inoremap...
+inoremap <expr><Esc><Esc> pumvisible() ? "\<C-E>\<Esc>" : "\<Esc>\<Esc>"| "ensure not get stuck with re-popups
+" inoremap <expr> <Esc> pumvisible() ? deoplete#close_popup().deoplete#undo_completion() : "\<Esc>"|		"seems to work. undo_completion() is crazy fucked when called directly/alone though.
 " "\<C-E>\<Esc>" goes back to normal no matter what, so no go...	"\<C-E>\<C-E>" need like 'C-E, wait til popup, C-E again'
-inoremap <expr> <C-Space> deoplete#complete_common_string()
-inoremap <silent><expr> <Tab>		pumvisible() ? '<C-n>'
-			\ : (neosnippet#jumpable() ? "\<Plug>(neonsippet_jump)"
-			\ : (CheckBS() ? '<Tab>'
-			\ : (deoplete#complete_common_string().deoplete#mappings#manual_complete())))
-inoremap <expr> <C-n>			pumvisible() ? '<C-n>' : '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-" inoremap <silent><expr> <S-Tab>		pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <expr> <C-Space> deoplete#complete_common_string()
+" inoremap <silent><expr> <Tab>		pumvisible() ? '<C-n>'
+imap <silent><expr> <Tab>
+      \   (pumvisible() ? "\<C-n>"
+      \ : (CheckBS() ? "\<Tab>"
+      \ : "\<Plug>(ncm2_manual_trigger)"))| "wtf's with the () ' shite
+
+			" \ : (neosnippet#jumpable() ? "\<Plug>(neonsippet_jump)"
+			" \ : (deoplete#complete_common_string().deoplete#mappings#manual_complete())))
 inoremap <expr> <S-Tab>		pumvisible() ? '<C-p>' : '<S-Tab>'
+inoremap <expr> <C-n>			pumvisible() ? '<C-n>' : '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 function! CheckBS() abort
 	let col = col('.') - 1
 	return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-imap		 <expr> <CR>	  pumvisible() ? '<C-Y>'
-			\ : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)"
-			\ : "\<CR>\<Plug>AutoPairsReturn"
-smap		 <expr> <CR>	  neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
-xmap		 <expr> <CR>	  neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
+" imap		 <expr> <CR>	  neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)"
+" imap		 <expr> <CR>	  neosnippet#expandable_or_jumpable() ? cm#sources#neosnippet#trigger_or_popup("\<Plug>(neosnippet_expand_or_jump)")
+"                                            \ : pumvisible() ? '<C-Y>'
+"                                                           \ : "\<CR>\<Plug>AutoPairsReturn"
+" vmap		 <expr> <CR>	  neosnippet#expandable_or_jumpable() ? cm#sources#neosnippet#trigger_or_popup("\<Plug>(neosnippet_expand_or_jump)") : "\<CR>"
+" smap		 <expr> <CR>	  neosnippet#expandable_or_jumpable() ? cm#sources#neosnippet#trigger_or_popup("\<Plug>(neosnippet_expand_or_jump)") : "\<CR>"
+" xmap		 <expr> <CR>	  neosnippet#expandable_or_jumpable() ? cm#sources#neosnippet#trigger_or_popup("\<Plug>(neosnippet_expand_or_jump)") : "\<CR>"
 " Note: These last few must be "imap" and "smap" due to <Plug>
 
-inoremap <expr> <C-h>   deoplete#smart_close_popup()."\<C-h>"
-inoremap <expr> <BS>		deoplete#smart_close_popup()."\<BS>"
-inoremap <expr> <C-g>		deoplete#undo_completion()
-inoremap <expr> <C-l>   deoplete#refresh()
+" inoremap <silent> <C-u> <c-r>=cm#sources#neosnippet#trigger_or_popup("\<Plug>(neosnippet_expand_or_jump)")<cr>
+" inoremap <expr> <C-u>   cm#sources#neosnippet#trigger_or_popup("\<Plug>(neosnippet_expand_or_jump)")
+
+" inoremap <expr> <C-h>   deoplete#smart_close_popup()."\<C-h>"
+" inoremap <expr> <BS>		deoplete#smart_close_popup()."\<BS>"
+" inoremap <expr> <C-g>		deoplete#undo_completion()
+" inoremap <expr> <C-l>   deoplete#refresh()
 
 " Scroll pages in menu
 imap		 <expr> <C-f>		pumvisible() ? "\<PageDown>" : "\<C-f>"
 imap		 <expr> <C-b>		pumvisible() ? "\<PageUp>" :   "\<C-b>"
 imap		 <expr> <C-d>		pumvisible() ? "\<PageDown>" : "\<C-d>"
-imap		 <expr> <C-u>		pumvisible() ? "\<PageUp>" :   "\<C-u>"
+" imap		 <expr> <C-u>		pumvisible() ? "\<PageUp>" :   "\<C-u>"
+" wtf does below do?
 inoremap <expr> <M-,>		pumvisible() ? '<C-n>' : '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
 imap		 <expr> <C-j>   pumvisible() ? "\<Down>" : "\<C-j>"
-imap		 <expr> <C-k>   pumvisible() ? "\<Up>" : "\<C-k>"
+imap		 <expr> <C-K>   pumvisible() ? "\<Up>" : "\<C-K>"
+" imap		 <expr> <C-k>   pumvisible() ? "\<Up>" : "\<C-k>"
 "}}}
 
 
@@ -2365,9 +2537,11 @@ inoremap <M-v>		 <C-o>gn<C-g>|				"select next								" select 5 nope   7 select
 snoremap <expr>.				@.|							"repeat last
 
 "{{{2 		  	Access keys found in US layout like [ ] a bit easier
-nmap ö                  [| 				"
-nmap ä                  ]
 nmap å 									/|				"search, and works recydled in other binds bc nmap
+nmap ö                  [| 				"doesnt seem to work properly :(
+nmap ä                  ]
+nmap Ö                  {| 				"
+nmap Ä                  }
 " imap Ö 									{
 " imap Ä 									\
 " imap Å 									/
@@ -2407,27 +2581,28 @@ nnoremap <Leader>vb 		viB
 
 "{{{2 					cmdline readline stuffs
 cnoremap <C-A>          <Home>| 	 "<C-B> is default, pfft
-" cnoremap <C-E>          <End>|	"default
-cnoremap <C-K>          <C-U>
+" cnoremap <C-K>          <C-U>
 " cnoremap <C-P>          <Up>
 " cnoremap <C-N>          <Down>
-cnoremap <C-Y> 					<C-r>"| 			"how paste from kill at cmdline tho?
+" cnoremap <C-Y> 					<C-r>"| 			"how paste from kill at cmdline tho?
 
 inoremap <C-A>          <Home>| 	"readline stuffs
 " inoremap <C-E>          <End>| 		"messes c-e to cancel inserted completion, but using esc for that anyways
-inoremap <C-U>        	<C-o>d0| 	"backward-kill-line, doesnt work at EOL, why?
+" inoremap <C-U>        	<C-o>d0| 	"backward-kill-line, doesnt work at EOL, why?
 " inoremap <C-Y>        	<C-o>p| 	"yank/paste
-inoremap <C-K> 		     	<C-o>D| 	"kill-line
-noremap <C-A>           0
+" inoremap <C-K> 		     	<C-o>D| 	"kill-line
+inoremap <expr><C-K> 		pumvisible() ? "\<C-K>": <C-o>D| 	"kill-line
+" noremap <C-A>           0
 " nnoremap <C-E>           $
 
 "{{{2 				 WRITE / QUIT
 noremap <M-w>    				:write<CR>
 inoremap <M-w>     <C-o>:write<CR>|
-noremap <M-w><M-a>     	:writeall<CR>
-inoremap <M-w><M-a> <C-o>:writeall<CR>|
+noremap <M-w><M-a>     	:wall<CR>
+inoremap <M-w><M-a> <C-o>:wall<CR>|
 noremap <M-w><M-1> 			:SudoWrite<CR>
 inoremap <M-w><M-1> <C-o>:SudoWrite<CR>|
+nnoremap <M-e>          :edit<CR>
 noremap <M-x>          	:x<CR>
 inoremap <M-x>     <C-o>:x<CR>
 noremap <M-q>    				:quit<CR>
@@ -2445,6 +2620,7 @@ let g:proper_tmux_navigator_disable_when_zoomed =1
 if has('nvim')
 	tnoremap  <Esc><Esc>	<C-\><C-n>|				"easier exit insert mode, but only on double press
 	tnoremap  jk					<C-\><C-n>|				"easier exit terminal illness
+  " tnoremap  <CR>        i| "XXX or like, nnoremap but on a terminal buffer - how??
 	" augroup TerminalNormalModeBindings | autocmd!
 	" 	autocmd TermOpen	nnoremap <buffer> x		"not possible since we're not sure where the cursor actually is. Was thinking enter insert -> forward delete like... Workaround?
 	" augroup END
@@ -2467,26 +2643,28 @@ map <ScrollWheelRight> za| 									"hmm not working
 " {{{1 				KEY BINDINGS - LEADER/MACRO{{{
 
 nmap <Leader>y 				ysiw| 								  "add surround word shortcut. all these need map, not nore
+nmap <Leader>yl       ys$}a<CR><C-c>$i<CR><Esc>k>>$| "wrap rest of line in brackets
 nmap <Leader>y1 			ysiW<BAR>| 						  "surround |pipes|
-nmap <Leader>y2 			ysiw"| 						      "surround "quotes"
+nmap <Leader>y2 			ysiW"| 						      "surround "quotes"
+nmap <Leader>y5 			ys%(| 						      "surround ([thing] with-parens)
 nmap <Leader>y7 			ysiW]| 						      "surround [brackets]
 nmap <Leader>y8 			ysiW)| 						      "surround (paranthesis)
 nmap <Leader>y9 			ysiW}| 						      "surround {braces}
 vmap <Leader>1				S<BAR>
 vmap <Leader>2				S"
 vmap <Leader>7				S]
-vmap <Leader>8				S)
-vmap <Leader>9				S}
+vmap <Leader>8				S)|   vmap <Leader>b				Sb
+vmap <Leader>9				S}|   vmap <Leader>b        SB
 
 nnoremap <Leader>gf		:sp<CR>gf
 
 nnoremap <Leader>yy   :let @"=@".getline('.')<CR>|    "append yank to existing unnamed register
 " XXX fix a similar vmap one for selection...
 nnoremap <Leader>dd   :let @"=@".getline('.')"\n"<CR>"_dd|"append delete to existing unnamed register: just do as above and then blackhole the line...
-nnoremap <Leader>sw						:set wrap!<CR>|					"wrap toggle	
+nnoremap <Leader>sw						:set wrap!<CR>|					"wrap toggle
 nnoremap <Leader><Leader>sw 	:windo set wrap!<CR>| 	"all wrap toggle
-nnoremap <Leader><Leader>sww 	:windo set nowrap<CR>|  "all wrap off
-nnoremap <Leader>SW						:windo set wrap<CR>
+nnoremap <Leader><Leader>swf 	:windo set nowrap<CR>|  "all wrap off
+nnoremap <Leader><Leader>swn	:windo set wrap<CR>
 
 nnoremap <leader>z1 	:<C-u>call ScrollToPercent(20)<CR>
 nnoremap <leader>z2 	:<C-u>call ScrollToPercent(50)<CR>
@@ -2514,6 +2692,9 @@ nnoremap <Leader>ciB  ci{
 "}}}
 
 function! ToggleBool()
+  let a:input = expand('<cword>')
+  if a:input = 'true'
+    let a:input = 'false'
 	" y
 endfunction
 " nnoremap <Leader>tb 	:call ToggleBool()<CR>
@@ -2526,7 +2707,11 @@ nnoremap <Leader>mh 	:wincmd h<CR>:wincmd _<CR>| "maximize window left
 nnoremap <Leader>mk 	:wincmd k<CR>:wincmd _<CR>| "maximize window above
 nnoremap <Leader>mj		:wincmd j<CR>:wincmd _<CR>| "maximize window below
 nnoremap <Leader>ml		:wincmd l<CR>:wincmd _<CR>| "maximize window right
-nmap <Leader>sh  		 	:leftabove  vnew<CR>
+nnoremap <Leader>qh   :wincmd h<CR>:q<CR>| "close to left
+nnoremap <Leader>qk   :wincmd k<CR>:q<CR>| "close above
+nnoremap <Leader>qj   :wincmd j<CR>:q<CR>| "close below
+nnoremap <Leader>ql   :wincmd l<CR>:q<CR>| "close to right
+nmap <Leader>sh  		 	:leftabove  vnew<CR>| "open windows. change from new/vnew to sp/vsp?
 nmap <Leader>sl  			:rightbelow vnew<CR>
 nmap <Leader>sk 			:leftabove   new<CR>
 nmap <Leader>sj   		:rightbelow  new<CR>
@@ -2546,8 +2731,24 @@ cnoremap DOFF         call deoplete#disable()<CR>
 cnoremap DON          call deoplete#enable()<CR>
 cnoremap SFT 					set filetype=|        " just 'ft' way too annoying bc like abbs, these expand everywhere not just at beginning...
 nnoremap <Leader>vg  	V`]| 									"Select pasted text/to last jump
-nnoremap <Leader>GG      	:grep  */*<left><left><left><left>| "grep globbed
-nnoremap <Leader>ag      	:Ag |                 "search
+nnoremap <Leader>GG   :grep  */*<left><left><left><left>| "grep globbed
+nnoremap <Leader>ag   :Ag |                 "search
+nnoremap <Leader>a'   :Ag <C-r><C-w>|       "search
+
+function! FindReplace(bang, search, replace) " Search for current word and replace with given text for files in arglist.
+  let flag = 'ge'
+  if !a:bang | let flag .= 'c' | endif
+  let replace = escape(a:replace, '/\&~')
+  execute 'argdo %s/' . a:search . '/' . replace . '/' . flag | update
+endfunction
+function! Replace(bang, replace) " Search for current word and replace with given text for files in arglist.
+  let a:search = '\<' . escape(expand('<cword>'), '/\.*$^~[') . '\>'
+  call FindReplace(a:bang, a:search, a:replace)
+endfunction
+command! -nargs=1 -bang Replace :call FindReplace(<bang>0, <q-args>)
+nnoremap <Leader>rep :call FindReplace(0, input('Find: '), input('Replace: '))<CR>
+vnoremap <Leader>rep :call FindReplace(0, GetVisual(), input('Replace: '))
+" nnoremap <Leader>rep  :silent! argdo %s//<Left>
 
 nnoremap <silent><Leader><Leader>q   :botright copen<CR>| 	"quickfix across bottom
 nnoremap <silent><Leader><Leader>l   :lopen<CR>|					"loclist bottom current window
@@ -2575,8 +2776,8 @@ nnoremap <silent><Leader>ttk	:leftabove 40new<BAR>Tnew<CR>|	"work around first i
 nnoremap <silent><Leader>ttl	:rightbelow 80vnew<BAR>Tnew<CR>|	"work around first instance erroring...
 nnoremap <silent><Leader>t.		:call neoterm#do('')<Left><Left>|		"
 
-nnoremap <Leader>d 		:call DuplicateLine()<CR>k:TComment<CR>j| 	"duplicate line, comment prev. retaining cursor pos and last yank...
-nnoremap <Leader>D 		:call DuplicateLine()<CR>| 									"duplicate line
+nnoremap <silent><Leader>d 		:call DuplicateLine()<CR>k:TComment<CR>j| 	"duplicate line, comment prev. retaining cursor pos and last yank...
+nnoremap <silent><Leader>D 		:call DuplicateLine()<CR>| 									"duplicate line
 
 " nnoremap <Leader>' 		``| 									"go to previous position incl column. less deal now that I changed `´ button with Ukulele to remove dead key mode and flip order. But keep for macbook
 nnoremap <Leader>ju 		:V jumps<CR>| 					"list previous positions
@@ -2597,6 +2798,7 @@ noremap <Leader>bg		:if &bg == 'dark'<BAR>set bg=light<BAR>else<BAR>set bg=dark<
 nnoremap <Leader>pf 	:set paste!<CR>| 										"kill paste mode when gets stuck there
 nnoremap <Leader>ico 	:call ColDevicons_init()<CR>| 			"when bugs out
 nnoremap <Leader>sss 	:syntax sync fromstart<CR>|					"fix when hl bugs out
+nnoremap <silent><Leader>rp   :RainbowParentheses<CR>:call SetupRainbowParensHighlights()<CR>
 
 nnoremap <Leader>fix  <Space>pf<Space>ico<Space>sss|			"chain fixes
 
@@ -2618,7 +2820,7 @@ nnoremap <Leader>mv   :Rename |                           "from Eunuchs.
 
 " nmap <Leader>vr				:silent! call ReloadVimRc()<CR>| 		"manually reload vimrc WITH refresh as in the autocmd, was missing that...
 nmap <silent><Leader>vr	 :silent! call ReloadVimRc()<CR>| 		"manually reload vimrc WITH refresh as in the autocmd, was missing that...
-nmap <Leader>vs 			:wincmd w<CR>:mkview! 1<CR>:wincmd l<CR>:mkview! 2<CR>:mksession! ~/.vim/sessions/vimrcSession.vim<CR>:!echo "loadview \| wincmd h \| loadview" >> ~/.vim/sessions/vimrcSession.vim<CR>
+" nmap <Leader>vs 			:wincmd w<CR>:mkview! 1<CR>:wincmd l<CR>:mkview! 2<CR>:mksession! ~/.vim/sessions/vimrcSession.vim<CR>:!echo "loadview \| wincmd h \| loadview" >> ~/.vim/sessions/vimrcSession.vim<CR>
 
 
 "{{{2 				DIFF SPECIFIC MAPPINGS
@@ -2636,7 +2838,7 @@ augroup DiffMappings | autocmd!
 augroup END
 
 "{{{2 				MATH CALCULATOR
-nnoremap <Leader>* 		ciw<C-R>=<C-R>"*| 								"math: multiply (using expression register)
+" nnoremap <Leader>* 		ciw<C-R>=<C-R>"*| 								"math: multiply (using expression register)
 nnoremap <Leader>m' 	ciw<C-R>=<C-R>"*| 								"avoids shift
 nnoremap <Leader>/ 		ciw<C-R>=<C-R>"/| 								"math: divide
 nnoremap <Leader>m7 	ciw<C-R>=<C-R>"/| 								"math: divide
@@ -2660,28 +2862,125 @@ nnoremap <Leader>-- 	<C-X>| 														"math: decrement
 " map <Leader>co      ggVGy:tabnew<cr>:set syntax=qf<cr>pgg| "what is this
 " }}} " }}}
 "                                        }}}
+
+function! KeepCursor(cmd)
+  let a:saved_cursor_pos = getpos('.')
+  execute a:cmd
+  call setpos('.', a:saved_cursor_pos)
+endfunc
+
+function! Stay()
+  if !empty(get(g:, 'saved_cursor_pos', 0))
+    call setpos('.', g:saved_cursor_pos)
+    unlet g:saved_cursor_pos
+  else
+    let g:saved_cursor_pos = getpos('.')
+  endif
+endfunc
+
+nmap <silent><Leader>j :call Stay()<CR>Jxi<CR><Esc>:call Stay()<CR>
+nmap ,<CR>      :call VimuxSendText('Enter')<CR>
+nmap <Leader>,. :VimuxRunLastCommand<CR>
+
+function! VimuxSlime()
+  call VimuxSendText(@v)
+  call VimuxSendKeys("Enter")
+endfunction
+" If text is selected, save it in the v buffer and send that buffer it to tmux
+vmap <silent>,v "vy :call VimuxSlime()<CR>
+" Select current paragraph and send it to tmux
+nmap ,v vaf,v
+" nmap ,e :call VimuxSendText("(pst)")<BAR>call VimuxRunCommand('(pst)')
+nmap <silent>,e :call VimuxRunCommand('(pst)')<CR>
+
+nnoremap dl   d%|    "delete till other side. do it so often so... tho daf/yaf etc same and more flex
+
 "{{{1 				 KEY BINDINGS - FILETYPE SPECIFIC
+
+function! ClojureCommentForm()
+  "go to beginning of form
+  normal! vafo<Esc>
+  "check characters before form
+  normal! <Left><Left>
+  normal! :let g:before =<C-r><C-w><CR>
+  echo g:before
+endfunction
+
 function! ClojureMaps()
-  nmap		<Leader>r			:write<CR>:Require<CR>| 		"reload clojure in REPL
-  nmap		<Leader>rc		:write<CR>:Require<CR>:Eval (make-cues-tol)<CR> | 		"reload clojure in REPL
-  nmap		<Leader>l			:Last<CR>| 		"open output of last eval in preview
-  nmap		<Leader>gf		:Djump | 		"Jump to def for given symbol (so need to switch this...).
-  nmap		<Leader>gfs		:Dsplit | 		"Jump to def for given symbol, in split
-  nmap		<Leader>.			cqc<Esc>k<CR>| 		"hacky way to rerun last eval
+  " nmap <Leader>r          :w<CR>:Require<CR>| 		"reload clojure in REPL
+  nmap <Leader>r          :w<CR>cpr| 		"reload clojure in REPL
+  nmap <Leader>R          :wa<CR>:Require!<CR>|   "reload all
+  nmap <Leader>l          :Last<CR>| 		          "open output of last eval in preview
+  " noremap <Leader>ea :silent! %Eval<CR>:Last!<CR>
+  noremap <Leader>cp      :silent! Eval<CR>:Last!<CR>
+  nmap gd                 :Djump <C-r><C-w><CR>| 	"Jump to def for given symbol (so need to switch this...).
+  nmap <Leader>gd         :Dsplit <C-r><C-w><CR>| "Jump to def for given symbol, in split
+  nmap <Leader>.          cqc<Esc>k<CR>|        "hacky way to rerun last eval
+  nmap <Leader>e          :Eval<CR>|            "eval outermost form for line (cpp inner)
+  nmap <Leader><Leader>e  :Eval!<CR>|           "eval/replace outermost form for line
+  nmap <Leader>E          :Eval!<CR>jyafukp|    "eval/replace outermost form for line, restore curr and paste above
+  nmap <Leader>c          c!!|                  "eval/replace innermost form
+  nmap <Leader><Leader>c  c!!yyup|              "eval innermost form, paste below
 
-  nmap		<Leader>c 	  cpiw
+  nmap ,tr  yaf:Eval (clojure.tools.trace/trace <C-r>")<CR>
+  nmap ,tv     :Eval (clojure.tools.trace/trace-vars <C-r><C-w>)<CR>
+  nmap ,uv     :Eval (clojure.tools.trace/untrace-vars <C-r><C-w>)<CR>
+  nmap ,tn     :Eval (clojure.tools.trace/trace-ns <C-r><C-w>)<CR>|   "fix grab ns for curr file?
+  nmap ,un     :Eval (clojure.tools.trace/untrace-ns <C-r><C-w>)<CR>| "fix grab ns for curr file?
+  nmap ,tf  yif:Eval (clojure.tools.trace/trace-forms <C-r>")<CR>|    "hmm
+  " <Plug>clj_repl_enter.
+  " <Plug>clj_repl_eval.
+  " <Plug>clj_repl_hat.
+  " <Plug>clj_repl_Ins.
+  " <Plug>clj_repl_uphist.
+  " <Plug>clj_repl_downhist.
+  " vmap ,<CR>  :Twrite {last}<CR>:Tmux
+  " nmap ,uf :Eval (untrace-ns <C-r><C-w>)<CR>| "fix grab ns for curr file?
 
-  nmap		<Leader>go    :Eval (start)<CR>
-  nmap		<Leader>as    :Eval (activate-show)<CR>
-  nmap		<Leader>ce    :Eval (make-cues-tol)<CR>
-  nmap		<Leader>pm    :Eval (patch-moving)<CR>
-  nmap		<Leader>pl    :Eval (patch-strips)<CR>
-  nmap		<Leader>ps    :Eval (patch-static)<CR>
-  " nmap		<Leader>pu	:Eval (patch-ug)<CR>
+  nmap <Leader>df   ysaf)adef <Esc>yafu| "make def from let, ready to paste
+  nmap <Leader>le   ysaf]a <Esc>ysaf)alet <Right>| "make let
 
-  nmap		<Leader>pai		:let g:parinfer_mode="indent"<CR>
-  nmap		<Leader>pap		:let g:parinfer_mode="paren"<CR>
-  nmap		<Leader>paf		:let g:parinfer_mode="off"<CR>
+  nmap <Leader>s 	  cpiw|             "print value of symbol under cursor
+
+  nmap <M-->        vafo<Esc>i#_<Esc>l|   "comment out form. Expand so can find and remove if already is...
+  nmap ,-           i#_<Esc>l|            "comment out symbol
+  " nmap <M-->        b<Esc>i#_<Right><Esc>|   "comment out form. Expand so can find and remove if already is...
+  " nmap ,<M--> ^<M-->w<M-->|  "comment out let
+  nmap ,<M--> ^i#_<Esc>lwi#_<Esc>l|  "comment out let
+
+  vmap <silent><CR>         :Eval <C-r>=GetVisual()<CR><CR>|"eval selected...
+  vmap <silent><Leader><CR> :Eval! <C-r>=GetVisual()<CR><CR>|"eval/replace selected...
+  " nmap <M-CR>       :let save_cursor = getpos(".")<CR>cqc<Esc>k:call setpos('.', save_cursor)<CR>|  "even better if also restores cursorpos
+  nmap <silent><M-CR>       :call KeepCursor('cqc<Esc>k')<CR>|  "even better if also restores cursorpos
+  " nmap <Leader>cw   cqiwysiw)<CR>|    "run word as fn (so only useful if takes no args)
+  nmap <Leader>cw   yiwcqp(<C-r>")<CR>|    "run word as fn (so only useful if takes no args)
+  "refactor
+  nmap crm          <Plug>RefactorResolveMissing
+  nmap rf           <Plug>CiderCountFormat|       "format innermost
+  nmap rF           <Plug>CiderFormat|            "format buffer
+  nmap rfs          <Plug>RefactorFindSymbol
+  nmap rcn          <Plug>RefactorCleanNs
+  nmap rud          <Plug>CiderUndef|             "symbol/ns
+
+  "AFTERGLOW
+  nmap <silent>,sv  :Eval (tolglow.util/avar <C-r><C-w>)<CR>| "show value of afterglow show var
+  nmap <silent>,ev  yaf:Eval (tolglow.util/value <C-r>")<CR>| "eval form, then evaluate resulting param with *show*
+  nmap <silent><Leader>as   :Eval (tolglow.core/activate-show)<CR>
+  nmap <silent><Leader>rc		:w<CR>:Require<CR>:Eval (tolglow.page/builder)<CR> | 		"reload clojure in REPL
+  nmap <silent><Leader>ce   :Eval (tolglow.page/builder)<CR>
+
+  nmap <Leader>det          ,-hhitolglow.debug/det<Space><Esc>| "insert debug-let
+
+
+  nmap <Leader>pai	:let g:parinfer_mode="indent"<CR>
+  nmap <Leader>pap	:let g:parinfer_mode="paren"<CR>
+  nmap <Leader>paf	:let g:parinfer_mode="off"<CR>
+" au CmdwinEnter *				noremap	 <buffer><M-CR>			  <CR>q:
+  " nmap <Leader>ma
+  " augroup cljCmdWin | au!
+  "   au CmdwinEnter *	noremap	<buffer><M-CR>	:let save_cursor = getpos(".")<CR>cqc<Esc>k:call setpos('.', save_cursor)<CR>|  "even better if also restores cursorpos
+  "   au CmdwinEnter *	nmap	<buffer><CR> <CR>
+  " augroup END
 endfunc
 
 function! HelpMaps() abort
@@ -2723,8 +3022,8 @@ function! LanguageClientMaps() abort
 
   nnoremap <Leader>lcn 	        :LanguageClientStart<CR>
   nnoremap <Leader>lcf 	        :LanguageClientStop<CR>
-  " set formatexpr=LanguageClient_textDocument_rangeFormatting()
-  set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
+  set formatexpr=LanguageClient_textDocument_rangeFormatting()
+  " set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
   nnoremap <silent> crcc :call LanguageClient#workspace_executeCommand('cycle-coll', [Expand('%:p'), line('.') - 1, col('.') - 1])<CR>
   nnoremap <silent> crth :call LanguageClient#workspace_executeCommand('thread-first', [Expand('%:p'), line('.') - 1, col('.') - 1])<CR>
   nnoremap <silent> crtt :call LanguageClient#workspace_executeCommand('thread-last', [Expand('%:p'), line('.') - 1, col('.') - 1])<CR>
@@ -2744,10 +3043,13 @@ augroup PerFileTypeBindings | autocmd!
 
 au FileType clojure     call ClojureMaps()
 au FileType javascript	nnoremap <silent><buffer>gb		:TernDef<CR>
-au FileType $LSP_FILETYPES    call LanguageClientMaps()
-au FileType cpp,ino	 nmap	 <Leader>r	:wa<CR><Leader>w6i<C-P><CR><Esc><Esc><C-w>p| 		"make pio
-au FileType cpp,ino	 nmap	 <Leader>st	?Exception<CR>me/<<<stack<<</e<CR>y'e:new<CR>P:w! exception<CR>:%!fish -c 'esp_trace d1_mini'<CR>:set syn=cpp<BAR>wincmd p| 		"hacky fix exception
-au FileType tmux				nnoremap <buffer><M-w>				:w<BAR>call system('sleep 0.1; tmux source ~/.tmux.conf; tmux display-message reloaded')<CR>| "auto-source tmux.conf when writing to it. sleep bc guess write sometimes doesnt come through properly heh
+au FileType $LSP_FTS    call LanguageClientMaps()
+au FileType cpp,ino     nmap	 <Leader>r	:wa<CR>:Nuake<CR><C-P><CR><Esc><Esc><C-w>p| 		"make pio
+au FileType cpp,ino     nmap	 <Leader>ch	"toggle between .cpp and .h files...
+" au FileType cpp,ino     nmap	 <Leader>str	?Exception<CR>me/<<<stack<<</e<CR>y'e:new<CR>P:w! exception<CR>:%!fish -c 'esp_trace d1_mini'<CR>:set syn=cpp<BAR>wincmd p<CR>| 		"hacky fix exception
+au FileType cpp,ino     nmap	 <Leader>str	?Exception<CR>me/<<<stack<<</e<CR>y'e<C-W>k:b exception<CR>P:w ~/Documents/CODE/MICRO/projects/artnet-ESP/exception<CR>:%!fish -c 'esp_trace d1_mini'<CR>:set syn=cpp<BAR>wincmd p<CR>| 		"hacky fix exception
+au FileType c,cpp       nnoremap <buffer>gd     :<C-u>call ncm2_pyclang#goto_declaration()<CR>
+au FileType tmux				nnoremap <buffer><M-w>	:w<BAR>call system('sleep 0.1; tmux source ~/.tmux.conf; tmux display-message reloaded')<CR>| "auto-source tmux.conf when writing to it. sleep bc guess write sometimes doesnt come through properly heh
 
 au FileType vim         vnoremap <CR>           :<C-U>execute join(getline("'<","'>"),'<BAR>')<CR>| "eval current selection vimscript
 au FileType help,man		call HelpMaps()
@@ -2800,15 +3102,34 @@ vnoremap <silent><Leader>ts		:TREPLSendSelection<CR>
 nnoremap <silent><Leader>tc		:call neoterm#close()<CR>| " hide/close terminal
 nnoremap <silent><Leader>tcc	:call neoterm#clear()<CR>| " clear terminal
 nnoremap <silent><Leader>tk		:call neoterm#kill()<CR>| " kills the current job (send a <c-c>)
+nnoremap <silent><M-t>		    :Nuake<CR><Esc>| "quick quaaaack-e
+inoremap <silent><M-t>		    <C-O>:Nuake<CR>| "quick quaaaack-e
+tnoremap <silent><M-t>		    <C-\><C-n>:Nuake<CR>| "quick quaaaack-e
+let g:nuake_position          =1 "vertical
+let g:nuake_size              =0.3 "fraction
 
 " Rails commands
 " command! Troutes :T rake routes
 " command! -nargs=+ Troute :T rake routes | grep <args>
 " command! Tmigrate :T rake db:migrate
-
-" Git commands
 command! -nargs=+ Tg :T git <args>
 
+
+" Git commands
+nnoremap <Leader>gs           :Gstatus<CR>|    "git status
+nnoremap <Leader>gc           :Gcommit<CR>|    "git commit
+nnoremap <Leader>gl           :Glog<CR>|       "git, all prev revisions of curr buffer in quickfix!
+nnoremap <Leader>gb           :Gblame<CR>|     "git blame per-line scroll-locked
+"  ^^ also takes range to use git-log L
+nnoremap <Leader>gm           :Gmerge<CR>|     "git merge
+nnoremap <Leader>gp           :Gpull<CR>|      "git pull
+nnoremap <Leader>gff          :Gfetch<CR>|     "git fetch
+nnoremap <Leader>gP           :Gpush<CR>|      "git push
+nnoremap <Leader>gr           :Grebase<CR>|    "git rebase
+nnoremap <Leader>mv           :Grename<CR>
+
+
+nnoremap <Leader>urp          :UpdateRemotePlugins<CR>|  "mm
 ""{{{2				 LANCH DE MAD BARZ
 map <Leader>n			  :NERDTreeToggle<CR>|					"
 map <Leader>N			  :NERDTreeFocus<CR>|					 "
@@ -2818,14 +3139,17 @@ let NERDTreeMapUpdirKeepOpen			 ='..'
 nnoremap <Leader>nql :call NERDTreeQuickLook()<CR>
 " let NERDTreeMapActivateNode			 ='<Space><Space>'	"['<Space><Space>', 'o']
 
-map <Leader>b			      :CtrlPBuffer<CR>|							"ctrlp buffer search, way better than buffergator etc...
-map <Leader><Leader>b	  :CtrlPMixed<CR>|							"ctrlp mixed search
+" map <Leader>b			      :CtrlPBuffer<CR>|							"ctrlp buffer search, way better than buffergator etc...
+map <Leader>b			      :Buffer<CR>|							"FZF rulz
+" map <Leader><Leader>b	  :CtrlPMixed<CR>|							"ctrlp mixed search
 map <Leader>f			      :FZF<CR>|										 "well
 map <Leader>F			      :silent! Files<CR>|										 "well
 map <Leader>ag			    :silent! Ag<CR>|										 "well
+nnoremap <Leader>a'      	:silent! Ag <C-r><C-w><CR>|                 "search word
+nmap <Leader><Leader>'  yiw:silent! Ag <C-r>"<CR>
 imap <C-x><C-l>			<Plug>(fzf-complete-line)
 imap <C-x><C-f>			<Plug>(fzf-complete-file-ag)
-vnoremap <silent> KK :call SearchVisualSelectionWithAg()<CR>
+vnoremap <silent>ag     :call SearchVisualSelectionWithAg()<CR>
 function! SearchVisualSelectionWithAg() range
 	let old_reg = getreg('"') | let old_regtype = getregtype('"') | let old_clipboard = &clipboard
 	set clipboard&
@@ -2859,17 +3183,22 @@ noremap <silent><expr> z? 				incsearch#go(<SID>config_fuzzyall({'command': '?'}
 noremap <silent><expr> zg? 				incsearch#go(<SID>config_fuzzyall({'is_stay': 1}))
 
 "{{{2 				TEXTMANIP
+xmap <C-k>       		 	<Plug>(textmanip-move-up)
 xmap <C-h>        		<Plug>(textmanip-move-left)
 xmap <C-j>        		<Plug>(textmanip-move-down)
-xmap <C-k>       		 	<Plug>(textmanip-move-up)
 xmap <C-l>        		<Plug>(textmanip-move-right)
-nmap <Leader>o 				<Plug>(textmanip-blank-below)
-nmap <Leader>O 				<Plug>(textmanip-blank-above)
+" nmap <Leader>o 				<Plug>(textmanip-blank-below)
+" nmap <Leader>O 				<Plug>(textmanip-blank-above)
+" nmap <Leader>o 				oo<BS><Esc>k|   "insert empty line, correctly indented
+nmap <Leader>o 				:call Stay()<CR>oo<BS><Esc>:call Stay()<CR>|   "insert empty line, correctly indented
+nmap <Leader>O 				:call Stay()<CR>Oo<BS><Esc>:call Stay()<CR>|   "insert empty line, correctly indented
+" nmap <Leader>O 				Oo<BS><Esc>j|   "insert empty line, correctly indented
+
 "{{{2 				EASYALIGN
 xmap 		ga 				<Plug>(LiveEasyAlign)|	" Start interactive EasyAlign in visual mode (e.g. vipga)
 nmap 		ga 				<Plug>(EasyAlign)|			" Start interactive EasyAlign for a motion/text object (e.g. gaip)
 map <Leader>gat 	:EasyAlign /\t/<CR>|		" shortcut to align first tab
-map <Tab>ga 	    :EasyAlign /\t/<CR>|		" shortcut to align first tab
+" map <Tab>ga 	    :EasyAlign /\t/<CR>|		" shortcut to align first tab
 xmap <Leader>gat 	:EasyAlign /\t/<CR>
 map <Leader>gas 	:EasyAlign /\s/<CR>|		" first whitespace
 map <Space>ga			:EasyAlign /\s/<CR>|		" first whitespace
@@ -2882,12 +3211,6 @@ nnoremap <silent> <M-N> :MultipleCursorsFind <C-R>/<CR>
 vnoremap <silent> <M-N> :MultipleCursorsFind <C-R>/<CR>
 let g:multi_cursor_start_key='<C-n>' 	"seperate starting multicursor mode from selecting next
 " deoplete breaks multiple cursors
-function! g:Multiple_cursors_before()
-  call deoplete#custom#buffer_option('auto_complete', v:false)
-endfunction
-function! g:Multiple_cursors_after()
-  call deoplete#custom#buffer_option('auto_complete', v:true)
-endfunction
 
 "{{{2 				 REPEAT MOTION
 let g:repeatable_motions_default_mappings 	=0
@@ -2920,10 +3243,10 @@ endfunction "}}}
 let g:sexp_mappings = {
     \ 'sexp_move_to_prev_bracket':      '(',
     \ 'sexp_move_to_next_bracket':      ')',
-    \ 'sexp_move_to_prev_element_head': '<LocalLeader>88',
-    \ 'sexp_move_to_next_element_head': '<LocalLeader>98',
-    \ 'sexp_move_to_prev_element_tail': '<LocalLeader>89',
-    \ 'sexp_move_to_next_element_tail': '<LocalLeader>99',
+    \ 'sexp_move_to_prev_element_head': ',88',
+    \ 'sexp_move_to_next_element_head': ',98',
+    \ 'sexp_move_to_prev_element_tail': ',89',
+    \ 'sexp_move_to_next_element_tail': ',99',
     \ 'sexp_flow_to_next_open':         '',
     \ 'sexp_flow_to_prev_open':         '',
     \ 'sexp_flow_to_prev_close':        '',
@@ -2932,38 +3255,38 @@ let g:sexp_mappings = {
     \ 'sexp_flow_to_next_leaf_head':    '',
     \ 'sexp_flow_to_prev_leaf_tail':    '',
     \ 'sexp_flow_to_next_leaf_tail':    '',
-    \ 'sexp_move_to_prev_top_element':  '<LocalLeader>p',
-    \ 'sexp_move_to_next_top_element':  '<LocalLeader>n',
-    \ 'sexp_select_prev_element':       '<LocalLeader>vp',
-    \ 'sexp_select_next_element':       '<LocalLeader>vn',
+    \ 'sexp_move_to_prev_top_element':  ',p',
+    \ 'sexp_move_to_next_top_element':  ',n',
+    \ 'sexp_select_prev_element':       ',vp',
+    \ 'sexp_select_next_element':       ',vn',
     \ 'sexp_indent':                    '++',
     \ 'sexp_indent_top':                '+-',
-    \ 'sexp_round_head_wrap_list':      '<LocalLeader>8',
-    \ 'sexp_round_tail_wrap_list':      '<LocalLeader>(',
-    \ 'sexp_square_head_wrap_list':     '<LocalLeader>7',
-    \ 'sexp_square_tail_wrap_list':     '<LocalLeader>/',
-    \ 'sexp_curly_head_wrap_list':      '<LocalLeader>9',
-    \ 'sexp_curly_tail_wrap_list':      '<LocalLeader>)',
-    \ 'sexp_round_head_wrap_element':   '<LocalLeader><LocalLeader>8',
-    \ 'sexp_round_tail_wrap_element':   '<LocalLeader><LocalLeader>(',
-    \ 'sexp_square_head_wrap_element':  '<LocalLeader><LocalLeader>7',
-    \ 'sexp_square_tail_wrap_element':  '<LocalLeader><LocalLeader>/',
-    \ 'sexp_curly_head_wrap_element':   '<LocalLeader><LocalLeader>9',
-    \ 'sexp_curly_tail_wrap_element':   '<LocalLeader><LocalLeader>)',
-    \ 'sexp_insert_at_list_head':       '<LocalLeader>i',
-    \ 'sexp_insert_at_list_tail':       '<LocalLeader>a',
-    \ 'sexp_splice_list':               '<LocalLeader>2',
-    \ 'sexp_convolute':                 '<LocalLeader>+',
-    \ 'sexp_raise_list':                '<LocalLeader>o',
-    \ 'sexp_raise_element':             '<LocalLeader>O',
-    \ 'sexp_swap_list_backward':        '<LocalLeader>k',
-    \ 'sexp_swap_list_forward':         '<LocalLeader>j',
-    \ 'sexp_swap_element_backward':     '<LocalLeader>h',
-    \ 'sexp_swap_element_forward':      '<LocalLeader>l',
-    \ 'sexp_emit_head_element':         '<LocalLeader><LocalLeader>j',
-    \ 'sexp_emit_tail_element':         '<LocalLeader><LocalLeader>k',
-    \ 'sexp_capture_prev_element':      '<LocalLeader><LocalLeader>h',
-    \ 'sexp_capture_next_element':      '<LocalLeader><LocalLeader>l',
+    \ 'sexp_round_head_wrap_list':      ',8',
+    \ 'sexp_round_tail_wrap_list':      ',(',
+    \ 'sexp_square_head_wrap_list':     ',7',
+    \ 'sexp_square_tail_wrap_list':     ',/',
+    \ 'sexp_curly_head_wrap_list':      ',9',
+    \ 'sexp_curly_tail_wrap_list':      ',)',
+    \ 'sexp_round_head_wrap_element':   ',,8',
+    \ 'sexp_round_tail_wrap_element':   ',,(',
+    \ 'sexp_square_head_wrap_element':  ',,7',
+    \ 'sexp_square_tail_wrap_element':  ',,/',
+    \ 'sexp_curly_head_wrap_element':   ',,9',
+    \ 'sexp_curly_tail_wrap_element':   ',,)',
+    \ 'sexp_insert_at_list_head':       ',i',
+    \ 'sexp_insert_at_list_tail':       ',a',
+    \ 'sexp_splice_list':               ',2',
+    \ 'sexp_convolute':                 ',+',
+    \ 'sexp_raise_list':                ',o',
+    \ 'sexp_raise_element':             ',O',
+    \ 'sexp_swap_list_backward':        ',k',
+    \ 'sexp_swap_list_forward':         ',j',
+    \ 'sexp_swap_element_backward':     ',h',
+    \ 'sexp_swap_element_forward':      ',l',
+    \ 'sexp_emit_head_element':         ',,j',
+    \ 'sexp_emit_tail_element':         ',,k',
+    \ 'sexp_capture_prev_element':      ',,h',
+    \ 'sexp_capture_next_element':      ',,l',
     \ }"}}}
 
 nnoremap <Leader>mks          :SSave<CR>y|               "save startify session
@@ -2976,7 +3299,7 @@ noremap <Leader>90						:let @w = float2nr(log10(line("$"))) + 82<BAR>vertical r
 nnoremap <Leader>deo 				  :call deoplete#toggle()<CR>
 
 nnoremap <Leader>shl 				  :SemanticHighlightToggle<CR>| 			"toggle semantic highlight for vars..
-nnoremap <silent><Leader>ct   :silent Dispatch! ctags_gen<cr>| 		"noneed really cause tagbar handles auto
+nnoremap <silent><Space>ct   :silent Dispatch! ctags_gen<cr>| 		"noneed really cause tagbar handles auto
 "{{{2           MINIYANK
 function! MiniyankAutoCycle() abort
   if get(g:, 'tol_miniyank_recentlyPut', 0)
@@ -3021,6 +3344,7 @@ if get(g:, 'loaded_denite', 0)
 endif
 
 nnoremap <Leader>R 				:RangerWorkingDirectory<CR>
+nnoremap <Leader>ra				:RangerWorkingDirectory<CR>
 "{{{2          SNEAK
 nmap , <Plug>Sneak_;|     "flipped makes much more sense on a Swedish keyboard - same shift/nonshift direction as n/N
 nmap ; <Plug>Sneak_,
@@ -3043,8 +3367,8 @@ noremap <silent><Leader>3 			  :Meta<CR>
 " noremap ## 							  :MetaResume<CR>|    "gone so single # slightly faster...
 noremap <silent><Leader>#         :MetaResume<CR>
 noremap <silent><Leader>'				  :MetaCursorWord<CR>
-noremap <Leader><Leader>* 			  :sp<CR>:MetaResumeCursorWord<CR>
-noremap <silent><Leader><Leader>' :MetaResumeCursorWord<CR>
+noremap <silent><Leader>* :MetaResumeCursorWord<CR>
+noremap <Leader><Leader><Leader>* 			  :sp<CR>:MetaResumeCursorWord<CR>
 vnoremap <silent><Leader>3 				"vy:Meta <C-R>v <CR>|		"visual from selection, all good. But make a "ListaWithSelection" or ListaVisual <Plug>
 "{{{2 				MULTIPAGE
 function! MultiPage() "TODO: set some register to current line pos
@@ -3143,7 +3467,6 @@ augroup PlugGx | autocmd!
 	autocmd FileType vim-plug  nnoremap <buffer><silent>gx :call <sid>plug_gx()<cr>
 	" autocmd BufReadPost .vimrc nnoremap <buffer><silent>gx :call <sid>vimrc_gx()<cr>
 augroup END "}}}
-
 "}}}
 
 " augroup testfocus | autocmd!
@@ -3152,13 +3475,16 @@ augroup END "}}}
 " augroup END
 
 "{{{1 				VIMPAGER BS
-
+"PAGE, another pager
+let g:page_icon_instance  ='§'
+let g:page_icon_redirect  ='>§'
+let g:page_icon_pipe      ='|§'
 
 let g:vimpager = {}
 let g:less     = {}
 " if exists('g:vimpager.enabled') 						"vimpager specific settings...
 " 	set nocursorline nowrap  showtabline 			=1
-	" set 
+	" set
 " 	set nowrap
 " 	sign unplace *
 " 	AirlineToggle
