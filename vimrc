@@ -75,7 +75,8 @@ Plug 'sophacles/vim-processing'
 
 Plug 'othree/yajs.vim',						{'for': 'javascript'} | Plug 'othree/es.next.syntax.vim', {'for': 'javascript'} "better javascript syntax inkl ES6+ES7
 
-Plug 'tpope/vim-fireplace', 			{'for': 'clojure'} | Plug 'clojure-vim/vim-cider', {'for': 'clojure'}
+Plug 'tpope/vim-fireplace', 			{'for': 'clojure'}
+Plug 'clojure-vim/vim-cider', {'for': 'clojure'} "more refactor/cider...
 " Plug 'clojure-vim/acid.nvim',			{'for': 'clojure'}				"seems buggy. general clojure plug somehow...
 Plug 'SevereOverfl0w/vim-replant', { 'do': ':UpdateRemotePlugins' }
 Plug 'dgrnbrg/vim-redl'
@@ -508,13 +509,15 @@ set viewoptions 						=cursor,curdir,folds,localoptions,slash,unix  "cursor,fold
 "}}}
 
 " {{{1 				SETTINGS FOR PLUGINS
-let g:markdown_fenced_languages = ['cpp', 'c', 'css', 'javascript', 'clojure', 'html', 'python', 'fish', 'bash=sh']
+"{{{2					 ASSORTED
 " ###FUN IDEA###: export colorscheme and run statusline etc in lights :D no mistaking the mode
 let w:tol_sidebarWidth 								=20
 
+let g:markdown_fenced_languages = ['cpp', 'c', 'css', 'javascript', 'clojure', 'html', 'python', 'fish', 'bash=sh']
 let g:meta#highlight_group						='IncSearch'  "default matched text highlight. set up more options!
 
-"{{{2					 ASSORTED
+let g:tinykeymap#map#windows#map      ="gw"
+
 let g:maximizer_restore_on_winleave		=1					"undo maximizer if switching from maximized window
 " let g:maximizer_set_mapping_with_bang 		=1    "set default action to restore to pre-maximized state even if changed (not really relevant when vimleave opt set...)
 let g:maximizer_default_mapping_key		='<M-m>'		"shared with tmux through integration. <prefix>z to force tmux zoom from inside vim
@@ -1283,11 +1286,8 @@ let g:rainbow#auto = 0
 "{{{3           FIREPLACE
 let g:fireplace_pprint_fn ='cider.nrepl.middleware.pprint/puget-pprint'
 "}}}
-"⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏
 
-let g:tinykeymap#map#windows#map      ="gw"
 
-"
 "{{{1   			ALL-TEXT VISUAL GUI CLI-INTERFACE
 " let g:loaded_matchparen               =1 "disable matchparens, see if helps performance...
 "{{{2 				 syntax specific settings
@@ -1327,6 +1327,8 @@ highlight vimrcHashSep   	ctermfg=White			guifg=White
 
 " syntax match nonascii "[^\x00-\x7F]" containedin=cComment,vimLineComment "some example
 
+highlight! link FugitiveblameNotCommittedYet  BruvboxBg3
+highlight! link FugitiveblameUncommitted      BruvboxbgHard
 "}}}
 
 "{{{2 				 PER FILETYPE AUTOCMDS
@@ -1412,7 +1414,6 @@ function! SetupMatchaddsCpp() abort
 endfunction
 "}}}
 "}}}
-"⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏
 
 " {{{1 				COMPLETION STUFF
 
@@ -1914,6 +1915,22 @@ function! ScrollToPercent(percent)
 		execute 'normal! zz'.movelines.motion.'zz'.movelines.rmotion
 endfunction
 
+"{{{2 				 STAY STILL, STUPID CURSOR
+function! KeepCursor(cmd)
+  let a:saved_cursor_pos = getpos('.')
+  execute a:cmd
+  call setpos('.', a:saved_cursor_pos)
+endfunc
+
+function! Stay()
+  if !empty(get(g:, 'saved_cursor_pos', 0))
+    call setpos('.', g:saved_cursor_pos)
+    unlet g:saved_cursor_pos
+  else
+    let g:saved_cursor_pos = getpos('.')
+  endif
+endfunc
+
 "  {{{2 				 CAPTURE OUTPUT TO BUFFER
 function! CaptureOutput(runCmd) "so can search map and other shit that otherwise ends up in more
 	tabnew
@@ -2245,8 +2262,7 @@ endfunction
 
 
 "}}}  ""}}}
-
-"{{{1          COMMANDS
+"{{{1         COMMANDS
 
 " :CD - change window-local CWD to dir of curr open buffer
 " command! CD   lcd %:p:h|pwd
@@ -2308,8 +2324,6 @@ command! -nargs=* E mkview 9 | edit | loadview 9
 "}}}
 "}}}
 
-"⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏
-
 
 "{{{1 				KEY BINDINGS
 "Note: remember to not set mappings that cause unnecessary timeout issues.
@@ -2334,7 +2348,7 @@ nnoremap <Leader><S-Tab> :wincmd p<CR>|"toggle last window
 nnoremap zz      			  za| 			"folds quick
 nnoremap <Leader>z 			zA| 			"recursive toggle folds
 noremap  <M-Right> 			za
-nnoremap <silent><Leader>zx 		:if &foldclose == ''<BAR>set foldclose=all<BAR>else<BAR>set foldclose=<BAR>endif<CR>| 	"toggle autofold, read up how to do...
+" nnoremap <silent><Leader>zx 		:if &foldclose == ''<BAR>set foldclose=all<BAR>else<BAR>set foldclose=<BAR>endif<CR>| 	"toggle autofold, read up how to do...
 nnoremap <Leader>zt 		:set foldenable!<CR>|	"toggle use folds
 nnoremap <Leader>zn 		:g//foldopen<CR>| 		"open all folds with search results..
 
@@ -2344,7 +2358,10 @@ nnoremap gn							g,|				"earlier comment, not sure if relevant: 'eh why not wor
 
 nnoremap <M-'>					:cd ..<BAR>pwd<CR>|			"change pwd one dir up. same as my fish binding...
 nnoremap <M-,>					q:k$|			"bring up last run command in insert... same as my fish binding
-nnoremap <Leader>:      q:a|      "what
+nnoremap <Leader>,:            q:a|      "open cmd prompt silly...
+nnoremap ,,:            :Commands<CR>|      "open cmd prompt silly...
+nnoremap <Leader>:      :History:<CR>|      "open cmd prompt silly...
+nnoremap <Leader>/      :History/<CR>|      "open cmd prompt silly...
 nnoremap <M-.>					@:| 			"rerun last command. Same as my fish binding
 
 "{{{2           FIND USES
@@ -2639,10 +2656,11 @@ nmap  <Leader>w					<Plug>(choosewin)
 map <ScrollWheelRight> za| 									"hmm not working
 "}}}
 "}}}
-"
-" {{{1 				KEY BINDINGS - LEADER/MACRO{{{
 
-nmap <Leader>y 				ysiw| 								  "add surround word shortcut. all these need map, not nore
+" {{{1 				KEY BINDINGS - LEADER/MACRO
+
+"{{{2         SURROUND WORDS SHORTCUTS
+nmap <Leader>y 				ysiw| 								  "add surround word shortcut. all these need map, not nore{{{
 nmap <Leader>yl       ys$}a<CR><C-c>$i<CR><Esc>k>>$| "wrap rest of line in brackets
 nmap <Leader>y1 			ysiW<BAR>| 						  "surround |pipes|
 nmap <Leader>y2 			ysiW"| 						      "surround "quotes"
@@ -2655,6 +2673,7 @@ vmap <Leader>2				S"
 vmap <Leader>7				S]
 vmap <Leader>8				S)|   vmap <Leader>b				Sb
 vmap <Leader>9				S}|   vmap <Leader>b        SB
+"}}}
 
 nnoremap <Leader>gf		:sp<CR>gf
 
@@ -2671,9 +2690,6 @@ nnoremap <leader>z2 	:<C-u>call ScrollToPercent(50)<CR>
 nnoremap <leader>z3 	:<C-u>call ScrollToPercent(80)<CR>
 
 "{{{2          DELETE / CHANGE TO / IN shortcuts
-
-
-
 nnoremap <Leader>dp   dt<BAR>|                 "delete to <x> shortcuts
 nnoremap <Leader>db   dt(|                     "using b/B for (/{, so same as surround
 nnoremap <Leader>dB   dt{
@@ -2701,6 +2717,11 @@ endfunction
 function! GetPID()
 	perl VIM::DoCommand('let pid =' . $$) | return pid
 endfunction
+
+nnoremap <Leader>PI 			:PlugUpgrade<BAR>PlugClean!<BAR>sleep<BAR>PlugInstall<BAR>sleep<BAR>PlugUpdate<CR>| "vim-plug install+update+upgrade
+nnoremap <Leader>pi 			:PlugInstall<CR>
+nnoremap <Leader>urp      :UpdateRemotePlugins<CR>|  "mm
+
 " {{{2 				SPLIT AND MAXIMIZE
 nnoremap <Leader>m  	:wincmd _<CR>| 							"
 nnoremap <Leader>mh 	:wincmd h<CR>:wincmd _<CR>| "maximize window left
@@ -2721,6 +2742,7 @@ nmap <Leader>SK  		 	:topleft  	 new<CR>
 nmap <Leader>SJ  			:botright 	 new<CR>
 nmap <Leader>0 				<C-w>=| 							"equalize windows
 nmap <Leader>8 				:vertical resize 84<CR>| 	"make window 80col wide XXX needs to check for numbercolumn and shit }}}
+
 
 cnoremap w!!         	SudoWrite<CR>| 				"aka sudo tee %, via vim.eunuch
 cnoremap hg 					helpgrep
@@ -2809,7 +2831,7 @@ nnoremap <Leader>syn 	:call ShowSyntaxColors()<CR>
 
 nnoremap <Leader>pro 	:call TestPerformance()<CR>| 				"start :profile, press again to stop
 
-nnoremap <Leader>ft   :set filetype?
+" nnoremap <Leader>ft   :set filetype?
 nnoremap <Leader>ssh 	:setfiletype sh<CR>
 nnoremap <Leader>vim 	:setfiletype vim<CR>
 
@@ -2861,24 +2883,9 @@ nnoremap <Leader>-- 	<C-X>| 														"math: decrement
 " map <Leader>tag  		:sp tags<CR>:%s/^\([^	:]*:\)\=\([^	]*\).*/syntax keyword Tag \2/<CR>:wq! tags.vim<CR>/^<CR><Leader>ugh<CR>
 " map <Leader>co      ggVGy:tabnew<cr>:set syntax=qf<cr>pgg| "what is this
 " }}} " }}}
-"                                        }}}
-
-function! KeepCursor(cmd)
-  let a:saved_cursor_pos = getpos('.')
-  execute a:cmd
-  call setpos('.', a:saved_cursor_pos)
-endfunc
-
-function! Stay()
-  if !empty(get(g:, 'saved_cursor_pos', 0))
-    call setpos('.', g:saved_cursor_pos)
-    unlet g:saved_cursor_pos
-  else
-    let g:saved_cursor_pos = getpos('.')
-  endif
-endfunc
 
 nmap <silent><Leader>j :call Stay()<CR>Jxi<CR><Esc>:call Stay()<CR>
+
 nmap ,<CR>      :call VimuxSendText('Enter')<CR>
 nmap <Leader>,. :VimuxRunLastCommand<CR>
 
@@ -2886,14 +2893,12 @@ function! VimuxSlime()
   call VimuxSendText(@v)
   call VimuxSendKeys("Enter")
 endfunction
-" If text is selected, save it in the v buffer and send that buffer it to tmux
-vmap <silent>,v "vy :call VimuxSlime()<CR>
-" Select current paragraph and send it to tmux
-nmap ,v vaf,v
+vmap <silent> ,v    "vy :call VimuxSlime()<CR>| "If text is selected, save it in the v buffer and send that buffer it to tmux
+nmap          ,v    vaf,v|  " Select current paragraph and send it to tmux
 " nmap ,e :call VimuxSendText("(pst)")<BAR>call VimuxRunCommand('(pst)')
-nmap <silent>,e :call VimuxRunCommand('(pst)')<CR>
+nmap <silent> ,e    :call VimuxRunCommand('(pst)')<CR>
 
-nnoremap dl   d%|    "delete till other side. do it so often so... tho daf/yaf etc same and more flex
+nnoremap      dl    d%|    "delete till other side. do it so often so... tho daf/yaf etc same and more flex
 
 "{{{1 				 KEY BINDINGS - FILETYPE SPECIFIC
 
@@ -2958,6 +2963,7 @@ function! ClojureMaps()
   nmap crm          <Plug>RefactorResolveMissing
   nmap rf           <Plug>CiderCountFormat|       "format innermost
   nmap rF           <Plug>CiderFormat|            "format buffer
+  nmap cff          <Plug>CiderFormat|            "format buffer
   nmap rfs          <Plug>RefactorFindSymbol
   nmap rcn          <Plug>RefactorCleanNs
   nmap rud          <Plug>CiderUndef|             "symbol/ns
@@ -3081,10 +3087,10 @@ xnoremap <silent> <Leader>ex :Execute<Bar>execute 'normal! ' . v:count1 . 'j'<CR
 
 " {{{1				 KEY BINDINGS FOR PLUGINS
 
-vnoremap <silent><M-CR>		:EasyAlign<CR>|							"enter does nothing useful in visual anyways
+vnoremap <silent><M-CR>		    :EasyAlign<CR>|							"enter does nothing useful in visual anyways
 
-noremap <Leader>ld        :Linediff<CR>|              "start linediff on region
-noremap <Leader>ldf       :LinediffReset<CR>|         "abort linediff
+noremap <Leader>ld            :Linediff<CR>|              "start linediff on region
+noremap <Leader>ldf           :LinediffReset<CR>|         "abort linediff
 
 nmap <silent><Leader>ah        <Plug>(ale_hover)
 nmap <silent><Leader>adt       <Plug>(ale_go_to_definition_in_tab)
@@ -3115,21 +3121,6 @@ let g:nuake_size              =0.3 "fraction
 command! -nargs=+ Tg :T git <args>
 
 
-" Git commands
-nnoremap <Leader>gs           :Gstatus<CR>|    "git status
-nnoremap <Leader>gc           :Gcommit<CR>|    "git commit
-nnoremap <Leader>gl           :Glog<CR>|       "git, all prev revisions of curr buffer in quickfix!
-nnoremap <Leader>gb           :Gblame<CR>|     "git blame per-line scroll-locked
-"  ^^ also takes range to use git-log L
-nnoremap <Leader>gm           :Gmerge<CR>|     "git merge
-nnoremap <Leader>gp           :Gpull<CR>|      "git pull
-nnoremap <Leader>gff          :Gfetch<CR>|     "git fetch
-nnoremap <Leader>gP           :Gpush<CR>|      "git push
-nnoremap <Leader>gr           :Grebase<CR>|    "git rebase
-nnoremap <Leader>mv           :Grename<CR>
-
-
-nnoremap <Leader>urp          :UpdateRemotePlugins<CR>|  "mm
 ""{{{2				 LANCH DE MAD BARZ
 map <Leader>n			  :NERDTreeToggle<CR>|					"
 map <Leader>N			  :NERDTreeFocus<CR>|					 "
@@ -3138,26 +3129,6 @@ map <Leader>nf			:NERDTreeFind<CR>
 let NERDTreeMapUpdirKeepOpen			 ='..'
 nnoremap <Leader>nql :call NERDTreeQuickLook()<CR>
 " let NERDTreeMapActivateNode			 ='<Space><Space>'	"['<Space><Space>', 'o']
-
-" map <Leader>b			      :CtrlPBuffer<CR>|							"ctrlp buffer search, way better than buffergator etc...
-map <Leader>b			      :Buffer<CR>|							"FZF rulz
-" map <Leader><Leader>b	  :CtrlPMixed<CR>|							"ctrlp mixed search
-map <Leader>f			      :FZF<CR>|										 "well
-map <Leader>F			      :silent! Files<CR>|										 "well
-map <Leader>ag			    :silent! Ag<CR>|										 "well
-nnoremap <Leader>a'      	:silent! Ag <C-r><C-w><CR>|                 "search word
-nmap <Leader><Leader>'  yiw:silent! Ag <C-r>"<CR>
-imap <C-x><C-l>			<Plug>(fzf-complete-line)
-imap <C-x><C-f>			<Plug>(fzf-complete-file-ag)
-vnoremap <silent>ag     :call SearchVisualSelectionWithAg()<CR>
-function! SearchVisualSelectionWithAg() range
-	let old_reg = getreg('"') | let old_regtype = getregtype('"') | let old_clipboard = &clipboard
-	set clipboard&
-	normal! ""gvy
-	let selection = getreg('"')
-	call setreg('"', old_reg, old_regtype) | let &clipboard = old_clipboard
-	execute 'Ag' selection
-endfunction
 
 map <Leader><Leader>u		 :UndotreeToggle<CR>|					 "undotree
 " nnoremap <Leader>s+ :let w:f=?filetype | setlocal filetype=nowrite | setlocal syntax=w:f<CR>| "unset filetype, keep syntax (eg to get multiple help windows)
@@ -3176,7 +3147,7 @@ map g/             		<Plug>(incsearch-stay)
 " noremap <silent><expr> /  				incsearch#go(<SID>incsearch_config())
 " noremap <silent><expr> ?  				incsearch#go(<SID>incsearch_config({'command': '?'}))
 " noremap <silent><expr> g/ 				incsearch#go(<SID>incsearch_config({'is_stay': 1}))
-noremap <silent><expr> <Leader>/ 	incsearch#go(<SID>config_easyfuzzymotion())
+noremap <silent><expr> <Leader><Leader>/ 	incsearch#go(<SID>config_easyfuzzymotion())
 
 noremap <silent><expr> z/ 				incsearch#go(<SID>config_fuzzyall())
 noremap <silent><expr> z? 				incsearch#go(<SID>config_fuzzyall({'command': '?'}))
@@ -3238,7 +3209,60 @@ function! GitGutterDiff(...)
 	let g:gitgutter_diff_base_last = g:gitgutter_diff_base 			"stash so can go back quickly...
 	let g:gitgutter_diff_base 		 = a:diff
 	GitGutter
-endfunction "}}}
+endfunction
+"{{{2          GIT FUGITIVE
+nnoremap <Leader>gs           :Gstatus<CR>|    "git status
+nnoremap <Leader>gC           :Gcommit<CR>|    "git commit
+nnoremap <Leader>gl           :Glog<CR>|       "git, all prev revisions of curr buffer in quickfix!
+nnoremap <Leader>gb           :Gblame<CR>|     "git blame per-line scroll-locked
+"  ^^ also takes range to use git-log L
+nnoremap <Leader>gm           :Gmerge<CR>|     "git merge
+nnoremap <Leader>gp           :Gpull<CR>|      "git pull
+nnoremap <Leader>gff          :Gfetch<CR>|     "git fetch
+nnoremap <Leader>gP           :Gpush<CR>|      "git push
+nnoremap <Leader>gr           :Grebase<CR>|    "git rebase
+nnoremap <Leader>mv           :Grename<CR>
+"}}}
+
+"{{{2          FZF lists
+nnoremap <Leader>gc           :Commits<CR>|    "list git commits
+nnoremap <Leader>lgc          :BCommits<CR>|   "for buffer
+
+nnoremap <Leader>ft           :Filetypes<CR>|   "list/set ft
+" :Line:Liness
+nnoremap <Leader>b			      :Buffer<CR>|							"FZF rulz
+nnoremap <Leader>B			      :CtrlPBuffer<CR>|							"ctrlp buffer search, way better than buffergator etc...
+" nnoremap <Leader><Leader>b	  :CtrlPMixed<CR>|							"ctrlp mixed search
+nnoremap <Leader>f			      :FZF<CR>|										 "well
+nnoremap <Leader>F			      :silent! Files<CR>|										 "well
+nnoremap <Leader>ag			      :silent! Ag<CR>|										 "well
+nnoremap <Leader>a'      	    :silent! Ag <C-r><C-w><CR>|                 "search word
+nnoremap <Leader><Leader>'    yiw:silent! Ag <C-r>"<CR>
+" imap     <C-x><C-f>			<Plug>(fzf-complete-file-ag)
+nmap     <Leader>ma           <Plug>(fzf-maps-n)
+nmap     <Leader>ima          <Plug>(fzf-maps-i)
+xmap     <Leader>ma           <Plug>(fzf-maps-x)
+omap     <Leader>ma           <Plug>(fzf-maps-o)
+imap     <C-x><C-l>           <Plug>(fzf-complete-line)
+" imap     <C-x><C-b>           <Plug>(fzf-complete-buffer-line)|   "only from same buf, dumb...
+" Global line completion (not just open buffers. ripgrep required.)
+inoremap <expr> <c-x><c-b>    fzf#vim#complete(fzf#wrap({
+  \ 'prefix': '^.*$',
+  \ 'source': 'rg -n ^ --color always',
+  \ 'options': '--ansi --delimiter : --nth 3..',
+  \ 'reducer': { lines -> join(split(lines[0], ':\zs')[2:], '') }}))
+
+vnoremap <silent>ag           :call SearchVisualSelectionWithAg()<CR>
+function! SearchVisualSelectionWithAg() range
+	let old_reg = getreg('"') | let old_regtype = getregtype('"') | let old_clipboard = &clipboard
+	set clipboard&
+	normal! ""gvy
+	let selection = getreg('"')
+	call setreg('"', old_reg, old_regtype) | let &clipboard = old_clipboard
+	execute 'Ag' selection
+endfunction
+
+"}}}
 "{{{2    SEXP
 let g:sexp_mappings = {
     \ 'sexp_move_to_prev_bracket':      '(',
@@ -3296,7 +3320,6 @@ nmap <silent><Leader>gvs      <Plug>GoldenViewSwitchWithLargest
 nnoremap <silent><Leader>gvt 	:ToggleGoldenViewAutoResize<CR>
 noremap <Leader>90						:let @w = float2nr(log10(line("$"))) + 82<BAR>vertical resize <C-r>w<CR>
 
-nnoremap <Leader>deo 				  :call deoplete#toggle()<CR>
 
 nnoremap <Leader>shl 				  :SemanticHighlightToggle<CR>| 			"toggle semantic highlight for vars..
 nnoremap <silent><Space>ct   :silent Dispatch! ctags_gen<cr>| 		"noneed really cause tagbar handles auto
@@ -3315,10 +3338,10 @@ map P                   <Plug>(miniyank-autoPut)| 		"(imap paste rebound in norm
 map <M-y>               <Plug>(miniyank-cycle)| 			"an extra imap with <c-o> would be good to have, but doesnt seem to cycle so no go
 map <M-p> 			        <Plug>(miniyank-cycle)| 			"just a lil extra for p+m-p quick cycle
 "}}}
-let g:EasyClipUseCutDefaults		=0
-let g:EasyClipUsePasteDefaults	=0
-let g:EasyClipEnableBlackHoleRedirect =0
-let g:EasyClipEnableBlackHoleRedirectForDeleteOperator =0		"lol why do I have to set them all individually. this plug is all wrong and needs to meet a violent death.
+let g:EasyClipUseCutDefaults		                      =0
+let g:EasyClipUsePasteDefaults	                      =0
+let g:EasyClipEnableBlackHoleRedirect                 =0
+let g:EasyClipEnableBlackHoleRedirectForDeleteOperator=0		"lol why do I have to set them all individually. this plug is all wrong and needs to meet a violent death.
 
 map <silent>-      				    :TComment<CR>| 					"comment/uncomment curr line even more better easier
 imap <silent><M--> 	     <C-o>:TComment<CR><C-o>2l| 		"needs to first check whether was commented / how big is a comment, and move apropriately...
@@ -3333,6 +3356,7 @@ let g:AutoPairsShortcutBackInsert ='<Leader>api'
 nnoremap <silent><M-m> 	 	:MaximizerToggle!<CR>| 	"maximize/restore window
 
 " nnoremap <Leader>pio 			:call SetupPlatformioEnvironment(expand("%:p:h"))<CR>
+nnoremap <Leader>deo 			:call deoplete#toggle()<CR>
 
 let denite_opts						='-no-empty -auto-resize'
 nnoremap <Leader>de 			:Denite -no-empty -auto-resize <Tab>| "-auto-highlight
@@ -3385,10 +3409,7 @@ nnoremap <Leader>rnf 			:call DisableRelativeNumbers()<CR>
 nnoremap <Leader>color					:ColorClear<CR>:ColorToggle<CR>:ColorSwapFgBg<CR>| 	"highlight color names/codes with their color
 nnoremap <Leader><Leader>color 	:ColorClear<CR>| 									"off
 
-nnoremap <Leader>PI 			:PlugUpgrade<BAR>PlugClean!<BAR>sleep<BAR>PlugInstall<BAR>sleep<BAR>PlugUpdate<CR>| "vim-plug install+update+upgrade
-nnoremap <Leader>pi 			:PlugInstall<CR>
 "}}}
-"⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏⸏
 
 
 "{{{1 				 VIM-PLUG EXTRAS
@@ -3435,7 +3456,6 @@ augroup VimAwesomeComplete | autocmd!
 	autocmd FileType vim		inoremap <c-x><c-p> 	<c-r>=VimAwesomeComplete()<cr>
 	" steals completion in cmdline window etc, fuck off... changed to x-p
 augroup END
-
 
 "{{{2 				OPEN PLUG UNDER CURSOR (gx) + shitty tol attempt at generalizing
 function! s:plug_gx() "open plug under cursor in repo
