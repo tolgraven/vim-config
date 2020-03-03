@@ -63,8 +63,9 @@ Plug 'martong/vim-compiledb-path'
 
 " Plug 'tweekmonster/nvim-api-viewer'
 " LANG UTILS
-Plug 'metakirby5/codi.vim'                  "real-time double-pane REPL
-Plug 'bfredl/nvim-ipy'											"ipython integration
+" Plug 'metakirby5/codi.vim'                  "real-time double-pane REPL
+" Plug 'bfredl/nvim-ipy'											"ipython integration
+" Plug 'Vigemus/iron.nvim',  {'branch': 'legacy'}                   "more python/repl stuff
 " Plug 'klen/python-mode', 				{'for': 'python'}
 Plug 'Shougo/vinarise.vim', 			{'on': 'Vinarise'}	"hex viewer
 Plug 'powerman/vim-plugin-AnsiEsc' 					"view files with ansi escape colors.
@@ -77,18 +78,28 @@ Plug 'sophacles/vim-processing'
 
 Plug 'othree/yajs.vim',						{'for': 'javascript'} | Plug 'othree/es.next.syntax.vim', {'for': 'javascript'} "better javascript syntax inkl ES6+ES7
 
-Plug 'tpope/vim-fireplace', 			{'for': 'clojure'}
+Plug 'tpope/vim-fireplace' 			            "try rm for clojure because keeps dropping and having to reload files ugh
+" Plug 'clojure-vim/acid.nvim',		{'for': 'clojure', 'do': 'UpdateRemotePlugins'}				"seems buggy. general clojure plug somehow...
+" Plug 'clojure-vim/acid.nvim',		{'do': 'UpdateRemotePlugins'}				"seems buggy. general clojure plug somehow...
+Plug 'liquidz/vim-iced' ", {'for': 'clojure'}
+" Plug 'markwoodhall/vim-aurepl'
+
 Plug 'clojure-vim/vim-cider', {'for': 'clojure'} "more refactor/cider...
-" Plug 'clojure-vim/acid.nvim',			{'for': 'clojure'}				"seems buggy. general clojure plug somehow...
-Plug 'SevereOverfl0w/vim-replant', { 'do': ':UpdateRemotePlugins' }
-Plug 'dgrnbrg/vim-redl'
-Plug 'clojure-vim/async-clj-highlight', {'for': 'clojure'}		"hl local, referred, aliased vars as guns/vim-clojure-highlight, but async for nvim
-" Plug 'venantius/vim-eastwood', 		{'for': 'clojure'}
+Plug 'arsenerei/vim-sayid'
+" Plug 'SevereOverfl0w/vim-replant', { 'do': ':UpdateRemotePlugins' }
+" Plug 'dgrnbrg/vim-redl'
+" Plug 'clojure-vim/async-clj-highlight', {'for': 'clojure'}		"hl local, referred, aliased vars as guns/vim-clojure-highlight, but async for nvim
+" then fork and put as different eg clojureUserFunc clojureUserVar etc....
+Plug 'venantius/vim-eastwood', 		{'for': 'clojure'}
+Plug 'humorless/vim-kibit'
 Plug 'venantius/vim-cljfmt', 			{'for': 'clojure'}				"clojure formatter
 Plug 'clojure-vim/clj-refactor.nvim'		"refactor-nrepl frontend
 Plug 'tpope/vim-classpath', 			{'for':['clojure', 'java']}
 Plug 'tpope/vim-salve', 	{'for': 'clojure'}	"auto clojure/java classpath. could be this fucking me?
 Plug 'guns/vim-sexp', {'for': 'clojure'} | Plug 'tpope/vim-sexp-mappings-for-regular-people', {'for': 'clojure'}
+" Plug 'kotarak/vimpire', {'for': 'clojure'}    "prepl-based ide functionality. maybe worth using one day...
+" Plug 'clojure-vim/async-clj-omni' ",		{'for': 'clojure'}
+
 " Plug 'snoe/nvim-parinfer.js'
 " Plug 'junegunn/rainbow_parentheses.vim' ", {'on': 'RainbowParentheses'} "active fork of kien/rainbow_parentheses.vim
 
@@ -1319,19 +1330,19 @@ function! SetupRainbowParensHighlights()
   hi! link rainbowParensShell16   BruvboxFgHard
   hi! link rainbowParensShell15   BruvboxPurpleNeutral
   hi! link rainbowParensShell14   BruvboxGreenNeutral
-  hi! link rainbowParensShell13   BruvboxOrangeNeutral
-  hi! link rainbowParensShell12   BruvboxBlueNeutral
-  hi! link rainbowParensShell11   BruvboxYellowNeutral
-  hi! link rainbowParensShell10   BruvboxAquaNeutral
-  hi! link rainbowParensShell9    BruvboxRedNeutral
+  hi! link rainbowParensShell13   BruvboxBlueNeutral
+  hi! link rainbowParensShell12   BruvboxYellowNeutral
+  hi! link rainbowParensShell11   BruvboxAquaNeutral
+  hi! link rainbowParensShell10   BruvboxOrangeSpecial
+  hi! link rainbowParensShell9    BruvboxFg4
   hi! link rainbowParensShell8    BruvboxPurpleSign
   hi! link rainbowParensShell7    BruvboxGreenSign
   hi! link rainbowParensShell6    BruvboxOrangeSign
   hi! link rainbowParensShell5    BruvboxBlueSign
   hi! link rainbowParensShell4    BruvboxYellowSign
   hi! link rainbowParensShell3    BruvboxAquaSign
-  hi! link rainbowParensShell2    BruvboxRedSign
-  hi! link rainbowParensShell1    BruvboxFgSign
+  hi! link rainbowParensShell2    BruvboxFgSign
+  hi! link rainbowParensShell1    BruvboxPurpleSpecial
 endfunction
 " let g:rbpt_colorpairs = [
 " \ ['brown',       'RoyalBlue3'],  ['Darkblue',    'SeaGreen3'],
@@ -1366,7 +1377,12 @@ let c_curly_error											=1 		"highlight missing closing braces
 " let g:clojure_fold										=1 		"might not work with rainbow-parentheses
 let g:clojure_align_multiline_strings =1
 let g:clojure_align_subforms					=1
+let g:clojure_syntax_keywords ={
+    \ 'clojureMacro': ["defproject", "defcustom", "deftest"],
+    \ 'clojureFunc': ["string/join", "string/replace"]
+    \ }
 let g:clj_refactor_prune_ns_form      =0    "leave ns alonnee
+
 let python_highlight_all							=1 		"enable all extra python syntax highlighting
 "}}}
 
@@ -1414,11 +1430,10 @@ autocmd Syntax 	  clojure,cpp 	    RainbowParentheses
 autocmd Syntax 	  clojure,cpp       silent call SetupRainbowParensHighlights() "works if no orig cmd like above?
 " autocmd Syntax 	   *                silent call SetupRainbowParensHighlights() "works if no orig cmd like above?
 autocmd BufReadPost project.clj,profiles.clj    ALEDisableBuffer
-autocmd Syntax 	   *                silent call SetupRainbowParensHighlights() "works if no orig cmd like above?
 " autocmd FileType clojure,cpp       	let w:matchhash		=matchadd('vimrcHashSep', '#')
 " autocmd FileType clojure           	let w:matchdash		=matchadd('clojureDash', '-')
-autocmd FileType 	clojure 	        let g:parinfer_mode = "off"
-autocmd Filetype  clojure		        let b:AutoPairs={'(':')','[':']','{':'}','"':'"'}
+" autocmd FileType 	clojure 	        let g:parinfer_mode = "off"
+autocmd FileType  clojure		        let b:AutoPairs={'(':')','[':']','{':'}','"':'"'}
 autocmd BufReadPost /tmp*clj        set bufhidden=delete
 
 autocmd FileType  help              let &colorcolumn=join(range(80,240),',')
@@ -1519,6 +1534,118 @@ let g:tern_request_timeout 									=1
 let g:python_host_prog 											='/usr/local/bin/python2.7'
 let g:python3_host_prog 										='/usr/local/bin/python3'
 
+" luafile $HOME/.vim/.ln/iron-config.lua
+"iron repl config, broken import...
+let g:iron_repl_open_cmd ='topleft 70vsplit'
+augroup ironmapping
+    autocmd!
+    " autocmd Filetype python nmap <buffer> cpp 0<Plug>(iron-send-motion)$
+    autocmd Filetype python nmap <buffer> cp <Plug>(iron-send-motion)
+    autocmd Filetype python nmap <buffer> cpp <Plug>(iron-send-motion)<Plug>(textobj-line-a)
+    " or fix textobj-line or yeah
+    " autocmd Filetype python vmap <buffer> <localleader>t <Plug>(iron-send-motion)
+    " autocmd Filetype python nmap <buffer> <localleader>p <Plug>(iron-repeat-cmd)
+augroup END
+
+"{{{2 			 	 COC
+nmap <silent><Leader>gd <Plug>(coc-definition)
+nmap gr                 <Plug>(coc-references)| "very nice, bit laggy. shows proper auto preview for each occurance
+nmap <silent> gy        <Plug>(coc-type-definition)
+nmap <silent> gi        <Plug>(coc-implementation)
+nmap ,mv                <Plug>(coc-rename)|      "real good with clojure-lsp
+nnoremap <silent> gh    :call CocAction('doHover')<CR>
+" command! -nargs=0 Format :call CocAction('format')
+vmap <leader>F <Plug>(coc-format-selected)
+" nmap <leader>f <Plug>(coc-format-selected)
+
+" these all need to be wrapped around something checking that Coc is loaded...
+function! CocUserInit() abort "not sure what to hook on?
+  " autocmd CursorHold * silent cll CocActionAsync('highlight')
+  autocmd CursorHoldI * silent call CocActionAsync('showSignatureHelp')
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  
+endfunction
+
+" let g:coc_enable_locationlist = 0
+" autocmd User CocLocationsChange CocList --normal location
+
+" inoremap <silent><expr> <c-space> coc#refresh()
+nmap <silent> <Leader>,k <Plug>(coc-diagnostic-prev)
+nmap <silent> <Leader>,j <Plug>(coc-diagnostic-next)
+nmap <silent> <Leader>ck :CocPrev<CR>
+nmap <silent> <Leader>cj :CocNext<CR>
+nnoremap <silent> <Leader>K :call <SID>show_documentation()<CR>| "should be other way around, first check theres an LS for file...
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+function! Expand(exp) abort
+    let l:result = expand(a:exp)
+    return l:result ==# '' ? '' : 'file://' . l:result
+endfunction
+
+function! CocClojureCommand(command)
+  let l:arguments = [Expand('%:p'), line('.') - 1, col('.') - 1]
+  if a:command == 'move-to-let' || a:command == 'introduce-let' || a:command == 'extract-function'
+    let l:arguments += [input('Name: ')]
+  endif
+  call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command':  a:command, 'arguments': l:arguments})
+endfunction
+nnoremap <silent> crcc       :call CocClojureCommand('cycle-coll')<CR>
+nnoremap <silent> crcp       :call CocClojureCommand('cycle-privacy')<CR>
+nnoremap <silent> crth       :call CocClojureCommand('thread-first')<CR>
+nnoremap <silent> crtf       :call CocClojureCommand('thread-first-all')<CR>
+nnoremap <silent> crtt       :call CocClojureCommand('thread-last')<CR>
+nnoremap <silent> crtl       :call CocClojureCommand('thread-last-all')<CR>
+nnoremap <silent> cruw       :call CocClojureCommand('unwind-thread')<CR>       
+nnoremap <silent> crua       :call CocClojureCommand('unwind-all')<CR>
+nnoremap <silent> cref       :call CocClojureCommand('extract-function')<CR>
+nnoremap <silent> crml       :call CocClojureCommand('move-to-let')<CR>
+nnoremap <silent> cril       :call CocClojureCommand('introduce-let')<CR>
+nnoremap <silent> crel       :call CocClojureCommand('expand-let')<CR>|     "move let "up" one level
+nnoremap <silent> cris       :call CocClojureCommand('inline-symbol')<CR>|  "opposite move to let
+nnoremap <silent> cram       :call CocClojureCommand('add-missing-libspec')<CR> 
+" nnoremap <silent> crcn :call CocClojureCommand('clean-ns')<CR>|     "not yet in lsp...           
+
+" not sure what these do...
+vmap <Leader>a      <Plug>(coc-codeaction-selected)| " o pending codeAction on selected region, ex: `<leader>aap` for current paragraph
+nmap <Leader>ca     <Plug>(coc-codeaction-selected)| "
+nmap <Leader>cca    <Plug>(coc-codeaction)| " codeAction on current line
+nmap <Leader>cf     <Plug>(coc-fix-current)| " autofix problem on current line
+
+nnoremap <silent> <space>cd   :<C-u>CocList diagnostics<cr>
+nnoremap <silent> <space>ce   :<C-u>CocList extensions<cr> |" Manage extensions
+nnoremap <silent> <space>cc   :<C-u>CocList commands<cr> |  " Show commands
+nnoremap <silent> <space>co   :<C-u>CocList outline<cr> |   " Find symbol of current document
+nnoremap <silent> <space>cs   :<C-u>CocList -I symbols<cr> |" Search workspace symbols
+nnoremap <silent> <space>clr  :<C-u>CocListResume<CR> |     " Resume latest coc list
+
+"something about browsing code from packaged jars...
+" autocmd BufReadCmd,FileReadCmd,SourceCmd jar:file://* call s:LoadClojureContent(expand("<amatch>"))
+"  function! s:LoadClojureContent(uri)
+"   setfiletype clojure
+"   let content = CocRequest('clojure-lsp', 'clojure/dependencyContents', {'uri': a:uri})
+"   call setline(1, split(content, "\n"))
+"   setl nomodified
+"   setl readonly
+" endfunction
+
+" config stash, cant be bothered with it atm...
+    ""clojure-lsp": {
+    "  "command": "bash",
+    "  "args": ["-c", "clojure-lsp"],
+    "  "filetypes": ["clojure"],
+    "  "rootPatterns": ["project.clj"],
+    "  "additionalSchemes": ["jar", "zipfile"],
+    "  "trace.server": "verbose",
+    "  "initializationOptions": {
+    "  }
+    "}
 
 "{{{2 			  	DEOPLETE
 " let g:deoplete#enable_at_startup						=0		"try defer til insertenter...
@@ -2967,14 +3094,11 @@ nmap <Leader>,. :VimuxRunLastCommand<CR>
 
 function! VimuxSlime()
   call VimuxSendText(@v)
-  call VimuxSendKeys("Enter")
+  call VimuxSendKeys('Enter')
 endfunction
-vmap <silent> ,v    "vy :call VimuxSlime()<CR>| "If text is selected, save it in the v buffer and send that buffer it to tmux
-nmap          ,v    vaf,v|  " Select current paragraph and send it to tmux
+vmap <silent> ,cp    "vy :call VimuxSlime()<CR>| "If text is selected, save it in the v buffer and send that buffer it to tmux
+nmap          ,cp,vcp    vaf,v|  " Select current paragraph and send it to tmux
 " nmap ,e :call VimuxSendText("(pst)")<BAR>call VimuxRunCommand('(pst)')
-nmap <silent> ,e    :call VimuxRunCommand('(pst)')<CR>
-
-nnoremap      dl    d%|    "delete till other side. do it so often so... tho daf/yaf etc same and more flex
 
 "{{{1 				 KEY BINDINGS - FILETYPE SPECIFIC
 
@@ -2987,21 +3111,118 @@ function! ClojureCommentForm()
   echo g:before
 endfunction
 
+let g:iced#nrepl#auto#does_switch_session =v:true "switch clj/cljs session on winenter
+let g:iced#debug#value_max_length         =200  "defautl -1 which sounds pot scary
+let g:iced#refactor#prefix_rewriting      =v:true "prefix-form in clean-ns. as long as deals with cljs properly?
+let g:iced_enable_auto_linting            =v:true
+let g:iced#lint#use_virtual_text          =v:true
+" let g:iced_enable_auto_indent = false
+let g:iced#popup#time =60000 "time before virtualtext hides. does -1 or 0 work?
+" let g:iced#popup#time =-1 "time before virtualtext hides. does -1 or 0 work?
+
 function! ClojureMaps()
-  " nmap <Leader>r          :w<CR>:Require<CR>| 		"reload clojure in REPL
-  nmap <Leader>r          :w<CR>cpr| 		"reload clojure in REPL
+  
+  nmap <Leader>K :IcedClojureDocsOpen<CR>
+" <Plug>(acid-virtualtext-clear-all)
+" <Plug>(acid-virtualtext-toggle)
+" <Plug>(acid-virtualtext-clear-line)
+" <Plug>(acid-eval-print)
+" <Plug>(acid-eval-expr)
+" <Plug>(acid-eval-top-expr)
+" <Plug>(acid-eval-visual)
+" <Plug>(acid-eval-symbol)
+" <Plug>(acid-motion-op)
+" <Plug>(acid-eval-cmdline)
+" <Plug>(acid-docs)
+" <Plug>(acid-go-to)
+	" " nmap <buffer> <silent> <Leader>K      <Plug>(acid-docs)
+	" nmap <buffer> <silent> gd      <Plug>(acid-go-to)
+	" " imap <buffer> <silent> <Leader><C-c>x <Plug>(acid-eval-cmdline)
+	" nmap <buffer> <silent> <Leader>cp     <Plug>(acid-motion-op)
+	" nmap <buffer> <silent> <Leader>cpp    <Plug>(acid-eval-expr)
+	" nmap <buffer> <silent> <Leader>cqp    <Plug>(acid-eval-print)
+
+  nmap <Leader>r          :w<CR>:Require<CR>| 		"reload clojure in REPL
+  " nmap <Leader>r          :w<CR>cpr| 		"reload clojure in REPL and run tests and also fuck up layout??
   nmap <Leader>R          :wa<CR>:Require!<CR>|   "reload all
   nmap <Leader>l          :Last<CR>| 		          "open output of last eval in preview
   " noremap <Leader>ea :silent! %Eval<CR>:Last!<CR>
   noremap <Leader>cp      :silent! Eval<CR>:Last!<CR>
+  nmap cr              <Plug>FireplaceCountPrint| "til macbook p key gets fixed
+  " nmap <Leader>cr              <Plug>FireplaceCountPrint| "til macbook p key gets fixed
   nmap gd                 :Djump <C-r><C-w><CR>| 	"Jump to def for given symbol (so need to switch this...).
   nmap <Leader>gd         :Dsplit <C-r><C-w><CR>| "Jump to def for given symbol, in split
   nmap <Leader>.          cqc<Esc>k<CR>|        "hacky way to rerun last eval
-  nmap <Leader>e          :Eval<CR>|            "eval outermost form for line (cpp inner)
+  nmap cpl                :Eval<CR>|            "eval outermost form for line (cpp inner)
   nmap <Leader><Leader>e  :Eval!<CR>|           "eval/replace outermost form for line
   nmap <Leader>E          :Eval!<CR>jyafukp|    "eval/replace outermost form for line, restore curr and paste above
   nmap <Leader>c          c!!|                  "eval/replace innermost form
   nmap <Leader><Leader>c  c!!yyup|              "eval innermost form, paste below
+  " nmap <Leader>gq         ,8<Esc>ds)|           "hacky way to format form lol, til sort cljfmt...
+  " nmap <Leader>gq         ysaf)ds)|           "hacky way to format form lol, til sort cljfmt...
+  nmap <Leader>gq         ++|           "nvm use ++ haha
+" :IcedCljsRepl (figwheel-sidecar.repl-api/repl-env)
+  " nma <Leader>cci :IcedCljsRepl (do (require 'figwheel-sidecar.repl-api) (figwheel-sidecar.repl-api/cljs-repl))<CR>
+  nma <Leader>cci :IcedCljsRepl (do (require 'figwheel-sidecar.repl-api) (figwheel-sidecar.repl-api/repl-env))<CR>
+  " nma <Leader>cci :IcedStartCljsRepl<CR>| "uses defaul.t whoops apparently not
+  nma <Leader>cc  :CljEval (do (require 'figwheel-sidecar.repl-api) (figwheel-sidecar.repl-api/cljs-repl))<CR>
+  nma <Leader>ccs :CljEval (do (require 'figwheel-sidecar.repl-api) (figwheel-sidecar.repl-api/start-figwheel!) (figwheel-sidecar.repl-api/cljs-repl))<CR>
+  nma <Leader>cg  :CljEval (do (user/go) (user/cljs-repl))<CR>
+  nmap      <Leader>cr   <Plug>(iced_connect)
+  nmap      <Leader>ei   <Plug>(iced_eval)<Plug>(sexp_inner_element)
+  nmap      <Leader>ee   <Plug>(iced_eval)<Plug>(sexp_outer_list)
+  " nmap      <Leader>et   <Plug>(iced_eval_outer_top_list)
+  nmap      <Leader>er   <Plug>(iced_eval_repl)<Plug>(sexp_outer_top_list)
+  nmap      <Leader>en   <Plug>(iced_eval_ns)
+  vmap      <Leader>ee   <Plug>(iced_eval_visual)
+  vmap      <Leader>er   <Plug>(iced_eval_repl_visual)
+  nmap      <Leader>ep   <Plug>(iced_print_last)
+  nmap      <Leader>ir   <Plug>(iced_require)
+  nmap      <Leader>iR   <Plug>(iced_require_all)
+  nmap      <Leader>cru   <Plug>(iced_undef)
+  nmap      <Leader>eM   <Plug>(iced_macroexpand_outer_list)
+  nmap      <Leader>c1m   <Plug>(iced_macroexpand_1_outer_list)
+  " nmap      <Leader>tt   <Plug>(iced_test_under_cursor)
+  " nmap      <Leader>tl   <Plug>(iced_test_rerun_last)
+  " nmap      <Leader>ts   <Plug>(iced_test_spec_check)
+  " nmap      <Leader>to   <Plug>(iced_test_buffer_open)
+  " nmap      <Leader>tn   <Plug>(iced_test_ns)
+  " nmap      <Leader>tp   <Plug>(iced_test_all)
+  " nmap      <Leader>tr   <Plug>(iced_test_redo)
+  nmap      <Leader>ss   <Plug>(iced_stdout_buffer_open)
+  nmap      <Leader>sl   <Plug>(iced_stdout_buffer_clear)
+  nmap      <Leader>sq   <Plug>(iced_stdout_buffer_close)
+  nmap      <Leader>crcn  <Plug>(iced_clean_ns)
+  nmap      <Leader>crca  <Plug>(iced_clean_all)
+  nmap      <Leader>craa  <Plug>(iced_add_arity)
+  nmap      <Leader>cram  <Plug>(iced_add_missing)
+  nmap      <Leader>cran  <Plug>(iced_add_ns)
+  nmap      <Leader>crtf  <Plug>(iced_thread_first)
+  nmap      <Leader>crtl  <Plug>(iced_thread_last)
+  nmap      <Leader>cref  <Plug>(iced_extract_function)
+  nmap      <Leader>crml  <Plug>(iced_move_to_let)
+  nmap      <Leader>K     <Plug>(iced_popup_document_open)
+  nmap      <Leader>,gb   <Plug>(iced_document_open)
+  nmap      <Leader>,gs   <Plug>(iced_popup_source_show)
+  nmap      <Leader>,gS   <Plug>(iced_source_show)
+  nmap      <Leader>,gk   <Plug>(iced_clojuredocs_open)
+  nmap      <Leader>,hh   <Plug>(iced_command_palette)
+  nmap      <Leader>bn   <Plug>(iced_browse_related_namespace)
+  nmap      <Leader>bs   <Plug>(iced_browse_spec)
+  nmap      <Leader>bt   <Plug>(iced_browse_test_under_cursor)
+  nmap      <Leader>br   <Plug>(iced_browse_references)
+  nmap      <Leader>bd   <Plug>(iced_browse_dependencies)
+  nmap      <Leader>gd   <Plug>(iced_def_jump)
+  " nmap      <C-t>        <Plug>(iced_def_back)
+  " nmap      <Leader>jn   <Plug>(iced_jump_to_next_sign)
+  " nmap      <Leader>jN   <Plug>(iced_jump_to_prev_sign)
+  nmap      <Leader>jl   <Plug>(iced_jump_to_let)
+  nmap      <Leader>dtl  <Plug>(iced_list_tapped)
+  nmap      <Leader>dtc  <Plug>(iced_clear_tapped)
+  " nmap      <Leader>*    <Plug>(iced_grep)
+  " nmap      <Leader>/    :<C-u>IcedGrep<Space>
+  nmap      ==           <Plug>(iced_format)
+  nmap      =G           <Plug>(iced_format_all)
 
   nmap ,tr  yaf:Eval (clojure.tools.trace/trace <C-r>")<CR>
   nmap ,tv     :Eval (clojure.tools.trace/trace-vars <C-r><C-w>)<CR>
@@ -3021,42 +3242,52 @@ function! ClojureMaps()
   nmap <Leader>df   ysaf)adef <Esc>yafu| "make def from let, ready to paste
   nmap <Leader>le   ysaf]a <Esc>ysaf)alet <Right>| "make let
 
-  nmap <Leader>s 	  cpiw|             "print value of symbol under cursor
+  nmap <Leader>s 	  cpiw|                       "print value of symbol under cursor
+  nmap <Leader>sr	  :Source <C-R><C-W><CR>|     "show source of fn under cursor
+  " nmap ,cpp         yaf:Eval (wa )<left><C-R>"<CR>|   "wrap quil call in with-applet... already sorted
 
-  nmap <M-->        vafo<Esc>i#_<Esc>l|   "comment out form. Expand so can find and remove if already is...
-  nmap ,-           i#_<Esc>l|            "comment out symbol
+  nmap <M-->        (i#_<Esc>l|   "comment out form. Expand so can find and remove if already is...
+  " nmap \u2030        (i#_<Esc>l|   "comment out form. Expand so can find and remove if already is...
+  nmap ,-           lbi#_<Esc>l|            "comment out symbol even in middle of word, works even if 1char
+  nmap ,,-          lbi#_<Esc>lw,-|            "comment out symbol even in middle of word, works even if 1char
   " nmap <M-->        b<Esc>i#_<Right><Esc>|   "comment out form. Expand so can find and remove if already is...
   " nmap ,<M--> ^<M-->w<M-->|  "comment out let
-  nmap ,<M--> ^i#_<Esc>lwi#_<Esc>l|  "comment out let
+  nmap ,<M-->       ^i#_<Esc>lwi#_<Esc>l|  "comment out let
 
   vmap <silent><CR>         :Eval <C-r>=GetVisual()<CR><CR>|"eval selected...
   vmap <silent><Leader><CR> :Eval! <C-r>=GetVisual()<CR><CR>|"eval/replace selected...
   " nmap <M-CR>       :let save_cursor = getpos(".")<CR>cqc<Esc>k:call setpos('.', save_cursor)<CR>|  "even better if also restores cursorpos
   nmap <silent><M-CR>       :call KeepCursor('cqc<Esc>k')<CR>|  "even better if also restores cursorpos
   " nmap <Leader>cw   cqiwysiw)<CR>|    "run word as fn (so only useful if takes no args)
-  nmap <Leader>cw   yiwcqp(<C-r>")<CR>|    "run word as fn (so only useful if takes no args)
+  nmap ,fn   yiwcqp(<C-r>")<CR>|    "run word as fn (so only useful if takes no args)
+  nmap ,re          :Eval (do (mount.core/stop #'<C-r><C-w>) (mount.core/start #'<C-r><C-w>))<CR>
+  nmap ,mn          :Eval (mount.core/stop #'<C-r><C-w>)<CR>
+  nmap ,mf          :Eval (mount.core/start #'<C-r><C-w>)<CR>
   "refactor
   nmap crm          <Plug>RefactorResolveMissing
-  nmap rf           <Plug>CiderCountFormat|       "format innermost
-  nmap rF           <Plug>CiderFormat|            "format buffer
+  nmap ccf          <Plug>CiderCountFormat|       "format innermost
+  " nmap rF           <Plug>CiderFormat|            "format buffer
   nmap cff          <Plug>CiderFormat|            "format buffer
-  nmap rfs          <Plug>RefactorFindSymbol
-  nmap rcn          <Plug>RefactorCleanNs
-  nmap rud          <Plug>CiderUndef|             "symbol/ns
+  nmap cfs          <Plug>RefactorFindSymbol
+  nmap ccn          <Plug>RefactorCleanNs
+  nmap cud          <Plug>CiderUndef|             "symbol/ns
 
   "AFTERGLOW
-  nmap <silent>,sv  :Eval (tolglow.util/avar <C-r><C-w>)<CR>| "show value of afterglow show var
-  nmap <silent>,ev  yaf:Eval (tolglow.util/value <C-r>")<CR>| "eval form, then evaluate resulting param with *show*
-  nmap <silent><Leader>as   :Eval (tolglow.core/activate-show)<CR>
-  nmap <silent><Leader>rc		:w<CR>:Require<CR>:Eval (tolglow.page/builder)<CR> | 		"reload clojure in REPL
-  nmap <silent><Leader>ce   :Eval (tolglow.page/builder)<CR>
+  nmap ,V           :Eval (tolglow.util/avar <C-r><C-w>)<CR>| "show value of afterglow show var
+  nmap ,v           :Eval (tolglow.util/value <C-r><C-w>)<CR>| "get value for symbol
+  nmap ,vf          yaf:Eval (tolglow.util/value <C-r>")<CR>| "eval form, then evaluate resulting param with *show*
+  nmap <silent>,rc	:w<CR>:Require<CR>:Eval (tolglow.setup/cue-pages)<CR> | 		"reload clojure in REPL
+  nmap <silent>,ce  :Eval (tolglow.setup/cue-pages)<CR>
 
-  nmap <Leader>det          ,-hhitolglow.debug/det<Space><Esc>| "insert debug-let
+  nmap <Leader>det    ,-hhitolglow.debug/det<Space><Esc>| "insert debug-let
 
 
   nmap <Leader>pai	:let g:parinfer_mode="indent"<CR>
   nmap <Leader>pap	:let g:parinfer_mode="paren"<CR>
   nmap <Leader>paf	:let g:parinfer_mode="off"<CR>
+  
+  
+  nmap <silent> ,e    :call VimuxRunCommand('(pst)')<CR>
 " au CmdwinEnter *				noremap	 <buffer><M-CR>			  <CR>q:
   " nmap <Leader>ma
   " augroup cljCmdWin | au!
@@ -3340,27 +3571,29 @@ endfunction
 
 "}}}
 "{{{2    SEXP
+" let g:sexp
+let g:sexp_insert_after_wrap =1
 let g:sexp_mappings = {
     \ 'sexp_move_to_prev_bracket':      '(',
     \ 'sexp_move_to_next_bracket':      ')',
-    \ 'sexp_move_to_prev_element_head': ',88',
-    \ 'sexp_move_to_next_element_head': ',98',
-    \ 'sexp_move_to_prev_element_tail': ',89',
-    \ 'sexp_move_to_next_element_tail': ',99',
-    \ 'sexp_flow_to_next_open':         '',
-    \ 'sexp_flow_to_prev_open':         '',
-    \ 'sexp_flow_to_prev_close':        '',
-    \ 'sexp_flow_to_next_close':        '',
-    \ 'sexp_flow_to_prev_leaf_head':    '',
-    \ 'sexp_flow_to_next_leaf_head':    '',
-    \ 'sexp_flow_to_prev_leaf_tail':    '',
-    \ 'sexp_flow_to_next_leaf_tail':    '',
-    \ 'sexp_move_to_prev_top_element':  ',p',
-    \ 'sexp_move_to_next_top_element':  ',n',
-    \ 'sexp_select_prev_element':       ',vp',
-    \ 'sexp_select_next_element':       ',vn',
+    \ 'sexp_move_to_prev_element_head': ',mk',
+    \ 'sexp_move_to_next_element_head': ',mj',
+    \ 'sexp_move_to_prev_element_tail': ',mh',
+    \ 'sexp_move_to_next_element_tail': ',ml',
+    \ 'sexp_move_to_prev_top_element':  ',mp',
+    \ 'sexp_move_to_next_top_element':  ',mn',
+    \ 'sexp_flow_to_prev_open':         ',fd',
+    \ 'sexp_flow_to_next_open':         ',fs',
+    \ 'sexp_flow_to_prev_close':        ',fa',
+    \ 'sexp_flow_to_next_close':        ',ff',
+    \ 'sexp_flow_to_prev_leaf_head':    ',fk',
+    \ 'sexp_flow_to_next_leaf_head':    ',fj',
+    \ 'sexp_flow_to_prev_leaf_tail':    ',fh',
+    \ 'sexp_flow_to_next_leaf_tail':    ',fl',
+    \ 'sexp_select_prev_element':       ',sk',
+    \ 'sexp_select_next_element':       ',sk',
     \ 'sexp_indent':                    '++',
-    \ 'sexp_indent_top':                '+-',
+    \ 'sexp_indent_top':                '+0',
     \ 'sexp_round_head_wrap_list':      ',8',
     \ 'sexp_round_tail_wrap_list':      ',(',
     \ 'sexp_square_head_wrap_list':     ',7',
@@ -3388,6 +3621,21 @@ let g:sexp_mappings = {
     \ 'sexp_capture_prev_element':      ',,h',
     \ 'sexp_capture_next_element':      ',,l',
     \ }"}}}
+    " \ 'sexp_move_to_prev_element_head': ',88',
+    " \ 'sexp_move_to_next_element_head': ',98',
+    " \ 'sexp_move_to_prev_element_tail': ',89',
+    " \ 'sexp_move_to_next_element_tail': ',99',
+    " ^ these were slowing me down. map timeout strikes again...
+    " \ 'sexp_flow_to_next_open':         ',no',
+    " \ 'sexp_flow_to_prev_open':         ',po',
+    " \ 'sexp_flow_to_prev_close':        ',pc',
+    " \ 'sexp_flow_to_next_close':        ',nc',
+    " \ 'sexp_flow_to_prev_leaf_head':    ',ph',
+    " \ 'sexp_flow_to_next_leaf_head':    ',nh',
+    " \ 'sexp_flow_to_prev_leaf_tail':    ',pt',
+    " \ 'sexp_flow_to_next_leaf_tail':    ',nt',
+"}}}
+
 
 nnoremap <Leader>mks          :SSave<CR>y|               "save startify session
 
