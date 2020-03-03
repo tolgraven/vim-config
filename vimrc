@@ -2619,31 +2619,41 @@ nmap <Leader><Leader>6				:6wincmd w<CR>
 nmap <Leader><Leader>7				:7wincmd w<CR>
 nmap <Leader><Leader>8				:8wincmd w<CR>
 nmap <Leader><Leader>9				:9wincmd w<CR>
-nnoremap <M-1>          1<C-w>w|  "switch to window 1
-nnoremap <M-2>          2<C-w>w
-nnoremap <M-3>          3<C-w>w
-nnoremap <M-4>          4<C-w>w
-nnoremap <M-5>          5<C-w>w
-nnoremap <M-6>          6<C-w>w
-nnoremap <M-7>          7<C-w>w
-nnoremap <M-8>          8<C-w>w
-nnoremap <M-9>          9<C-w>w
+nnoremap <M-1>                1<C-w>w|  "switch to window 1
+nnoremap <M-2>                2<C-w>w
+nnoremap <M-3>                3<C-w>w
+nnoremap <M-4>                4<C-w>w
+nnoremap <M-5>                5<C-w>w
+nnoremap <M-6>                6<C-w>w
+nnoremap <M-7>                7<C-w>w
+nnoremap <M-8>                8<C-w>w
+nnoremap <M-9>                9<C-w>w
 
-nmap <leader>t1				<Plug>AirlineSelectTab1
-nmap <leader>t2				<Plug>AirlineSelectTab2
-nmap <leader>t3				<Plug>AirlineSelectTab3
-nmap <leader>t4				<Plug>AirlineSelectTab4
-nmap <leader>t5				<Plug>AirlineSelectTab5
-nmap <leader>t6				<Plug>AirlineSelectTab6
-nmap <leader>t7				<Plug>AirlineSelectTab7
-nmap <leader>t8				<Plug>AirlineSelectTab8
-nmap <leader>t9				<Plug>AirlineSelectTab9
+" shouldnt need since got {count}gt but tinykeymap fucks that
+nmap <silent><Leader>t1				:tabnext 1<CR>
+nmap <silent><Leader>t2				:tabnext 2<CR>
+nmap <silent><Leader>t3				:tabnext 3<CR>
+nmap <silent><Leader>t4				:tabnext 4<CR>
+nmap <silent><Leader>t5				:tabnext 5<CR>
+nmap <silent><Leader>t6				:tabnext 6<CR>
+nmap <silent><Leader>t7				:tabnext 7<CR>
+nmap <silent><Leader>t8				:tabnext 8<CR>
+nmap <silent><Leader>t9				:tabnext 9<CR>
 
-nmap <leader>t-				<Plug>AirlineSelectPrevTab
-nmap <leader>t+				<Plug>AirlineSelectNextTab
+if !exists('g:lasttab') " Switch to last-active tab. dont overwrite if session already has
+    let g:lasttab = 1 | let g:lasttab_before = g:lasttab
+endif
+augroup LastTab | autocmd!
+  autocmd! TabLeave   *   let g:lasttab_before = g:lasttab | let g:lasttab = tabpagenr()
+  autocmd! TabClosed  *   let g:lasttab = g:lasttab_before
+augroup END
+nmap <silent><Leader>tt   :exe "tabn " . g:lasttab<CR>
 
-nmap <Leader>tn							:tabnew<CR>
-nmap <Leader>tr             :TabooRename |      "start rename
+nnoremap <leader>t-				gT
+nnoremap <leader>t+				gt
+
+nmap <silent><Leader>tn			:tabnew<CR>
+nmap <silent><Leader>tr     :TabooRename |      "start rename
 
 " nnoremap <Leader>b1					:b
 "}}}
@@ -2666,7 +2676,7 @@ nnoremap 	Y 						y$|				 "so acts same as D and C.
 nnoremap  x             "_x|       "make x not save to default "" register
 vnoremap  x             "_x
 inoremap 	<M-p>        	<C-o>p| 	 "paste in insert mode (cmd-c to paste system)
-cnoremap	<C-Y>					<C-r>"|		 "paste clip at cmdline
+" cnoremap	<C-Y>					<C-r>"|		 "paste clip at cmdline. but eh accept completion
 " xnoremap 	p 						"_dP| 	 "paste-overwrite without yanking back replaced text
 xnoremap <expr>p 				'pgv"'.v:register.'y'| "fancy version of above I think? with register support. "The result of "xp would evaluate to pgv"xy, where x is the register."
 noremap 	åp						p`[| 			    "paste without moving cursor
@@ -2683,11 +2693,11 @@ nnoremap R							gR|							"virtual replace by default
 nnoremap gV	            `[v`]|			    "highlight last inserted text (mirrors gv re-select)
 noremap  cp             yap<S-}>p|      "duplicate surrounding block
 
-nnoremap <Leader>a 			a<Space><C-c>|  "easy insert space to left or right without changing mode. like
-nnoremap <Leader>i 			i<Space><C-c>
-nnoremap <Leader>A 			a<Space><C-c>h
-nnoremap <Leader>I 			i<Space><C-c>l
-nnoremap <Leader><Tab> 	i<Tab><C-c>l|	 	"insert tabs from normal mode
+nnoremap <Leader>a 			a<Space><Esc>|  "easy insert space to left or right without changing mode. like
+nnoremap <Leader>i 			i<Space><Esc>|  "C-c was since means no au insertleave, but esc slower, seems to have gotten better tho
+nnoremap <Leader>A 			a<Space><Esc>h 
+nnoremap <Leader>I 			i<Space><Esc>l
+nnoremap <Leader><Tab> 	i<Tab><Esc>l|	 	"insert tabs from normal mode
 nmap <silent> <M-i>     "=nr2char(getchar())<CR>P|  "insert any one char from normal mode. like reverse insert C-o
 
 " nnoremap <silent><Esc>  :nohlsearch<BAR>call sneak#hl#removehl()<Esc>| "better than specific binding: esc clears hlsearch if in normal mode
@@ -2811,7 +2821,6 @@ inoremap <C-A>          <Home>| 	"readline stuffs
 " inoremap <C-U>        	<C-o>d0| 	"backward-kill-line, doesnt work at EOL, why?
 " inoremap <C-Y>        	<C-o>p| 	"yank/paste
 " inoremap <C-K> 		     	<C-o>D| 	"kill-line
-inoremap <expr><C-K> 		pumvisible() ? "\<C-K>": <C-o>D| 	"kill-line
 " noremap <C-A>           0
 " nnoremap <C-E>           $
 
@@ -2912,10 +2921,36 @@ nnoremap <Leader>ciB  ci{
 
 function! ToggleBool()
   let a:input = expand('<cword>')
-  if a:input = 'true'
+  if a:input =~ 'true'
     let a:input = 'false'
-	" y
+  elseif a:input =~ 'false'
+    let a:input = 'true'
+    
+  elseif a:input =~ '0'
+    let a:input = '1'
+  elseif a:input =~ '1'
+    let a:input = '0'
+    
+  elseif a:input =~ 'yes'
+    let a:input = 'no'
+  elseif a:input =~ 'no'
+    let a:input = 'yes'
+    
+  elseif a:input =~ 'on'
+    let a:input = 'off'
+  elseif a:input =~ 'off'
+    let a:input = 'on'
+    
+  elseif a:input =~ 'enabled'
+    let a:input = 'disabled'
+  elseif a:input =~ 'disabled'
+    let a:input = 'enabled'
+  endif
+  "then put in register and paste, or can we put in place?
+	" normal! viwp
+	" replace()
 endfunction
+
 " nnoremap <Leader>tb 	:call ToggleBool()<CR>
 function! GetPID()
 	perl VIM::DoCommand('let pid =' . $$) | return pid
@@ -2945,6 +2980,15 @@ nmap <Leader>SK  		 	:topleft  	 new<CR>
 nmap <Leader>SJ  			:botright 	 new<CR>
 nmap <Leader>0 				<C-w>=| 							"equalize windows
 nmap <Leader>8 				:vertical resize 84<CR>| 	"make window 80col wide XXX needs to check for numbercolumn and shit }}}
+function! StartAutoWrite()
+  augroup AutoWrite | autocmd!
+    " autocmd TextChanged,TextChangedI <buffer> write
+    autocmd TextChanged,TextChangedI <buffer> silent write
+    " no auto write on undo plz, how?
+  augroup END
+endfunction
+nnoremap <Leader>aw   call StartAutoWrite()<CR>
+nnoremap <Leader>awf  autocmd! AutoWrite<CR>
 
 
 cnoremap w!!         	SudoWrite<CR>| 				"aka sudo tee %, via vim.eunuch
@@ -3001,7 +3045,8 @@ nnoremap <silent><Leader>ttk	:leftabove 40new<BAR>Tnew<CR>|	"work around first i
 nnoremap <silent><Leader>ttl	:rightbelow 80vnew<BAR>Tnew<CR>|	"work around first instance erroring...
 nnoremap <silent><Leader>t.		:call neoterm#do('')<Left><Left>|		"
 
-nnoremap <silent><Leader>d 		:call DuplicateLine()<CR>k:TComment<CR>j| 	"duplicate line, comment prev. retaining cursor pos and last yank...
+" nnoremap <silent><Leader>d 		:call DuplicateLine()<CR>k:TComment<CR>j| 	"duplicate line, comment prev. retaining cursor pos and last yank...
+nnoremap <silent><Leader>d 		:call DuplicateLine()<CR>k:Commentary<CR>j| 	"duplicate line, comment prev. retaining cursor pos and last yank...
 nnoremap <silent><Leader>D 		:call DuplicateLine()<CR>| 									"duplicate line
 
 " nnoremap <Leader>' 		``| 									"go to previous position incl column. less deal now that I changed `´ button with Ukulele to remove dead key mode and flip order. But keep for macbook
@@ -3305,8 +3350,8 @@ function! HelpMaps() abort
 
   nmap	<buffer>         o          <C-O>|  "back
   nmap	<buffer>         i          <C-I>|  "forward
-  nmap	<buffer>        <CR>        <C-]>|  "follow link
   nmap	<buffer>        <Esc><Esc>	:q<CR>
+  nmap	<buffer>        <CR>        <C-]>|  "follow link
   " nmap		 <buffer><Space>			<Plug>proper_smooth_d
   " nmap		 <buffer><S-Tab>			<Plug>proper_smooth_u
 endfunction
@@ -3365,17 +3410,19 @@ au FileType cpp,ino     nmap	 <Leader>str	?Exception<CR>me/<<<stack<<</e<CR>y'e<
 au FileType tmux				nnoremap <buffer><M-w>	:w<BAR>call system('sleep 0.1; tmux source ~/.tmux.conf; tmux display-message reloaded')<CR>| "auto-source tmux.conf when writing to it. sleep bc guess write sometimes doesnt come through properly heh
 
 au FileType vim         vnoremap <CR>           :<C-U>execute join(getline("'<","'>"),'<BAR>')<CR>| "eval current selection vimscript
-au FileType help,man		call HelpMaps()
-au FileType help        wincmd L | vertical resize 79
-au FileType help        set bufhidden=unload
-au FileType	qf,help,man	nnoremap <buffer><silent>q		:close<CR>
+" au FileType help,man		call HelpMaps()
+au FileType help,man	call HelpMaps()
+" cant have <CR> with qf, fucks jumping
+" au FileType qf          silent unmap <Buffer><CR>
+au FileType help        wincmd L | vertical resize 79 | set bufhidden=unload
+" au FileType	qf,help,man	nnoremap <buffer><silent>q		:close<CR>
 au FileType qf          nnoremap <silent><buffer>o    :PreviewQuickfix<CR>
 au FileType qf          nnoremap <silent><buffer>O    :PreviewClose<CR>
 au CmdwinEnter *				noremap	 <buffer><M-CR>			  <CR>q:
 au CmdwinEnter *				noremap	 <buffer><Esc><Esc>		:q<CR>|   "double esc in normal closes
 " au CmdLineEnter *       cnoremap <
 
-augroup END "}}}
+augroup END 
 
 " cnoremap <C-F>          <C-F>a<Tab>|    "open cmdwin with cmdline text, enter insert, complete... not working :/
 cnoremap `              /|                "easier slash for substitute etc
@@ -3654,6 +3701,7 @@ function! MiniyankAutoCycle() abort
   else
     <Plug>(miniyank-autoput)
     let g:tol_miniyank_recentlyPut = 1
+  endif
 endfunction
 " then make sure turns back to 0 through autocmd of some sort.
 " map <expr>p           get(g:, 'tol_miniyank_recentlyPut', 0) ? "\<Plug>(miniyank-cycle)" : "\<Plug>(miniyank-autoput)"<BAR>let g:tol_miniyank_recentlyPut = 1| 		"miniyank replaces normal paste
@@ -3667,7 +3715,8 @@ let g:EasyClipUsePasteDefaults	                      =0
 let g:EasyClipEnableBlackHoleRedirect                 =0
 let g:EasyClipEnableBlackHoleRedirectForDeleteOperator=0		"lol why do I have to set them all individually. this plug is all wrong and needs to meet a violent death.
 
-map <silent>-      				    :TComment<CR>| 					"comment/uncomment curr line even more better easier
+" map <silent>-      				    :TComment<CR>| 					"comment/uncomment curr line even more better easier
+map <silent>-      				  <Plug>CommentaryLine| 					"comment/uncomment curr line even more better easier
 imap <silent><M--> 	     <C-o>:TComment<CR><C-o>2l| 		"needs to first check whether was commented / how big is a comment, and move apropriately...
 
 vmap 	v 						    <Plug>(expand_region_expand)|	"yeah makes shit ton more sense. Just keep pressing v yo!
@@ -3730,9 +3779,21 @@ nnoremap <Leader>mp 			:call MultiPage()<CR>| 	"}}}
 let g:NumberToggleTrigger	='<Leader>rn'
 nnoremap <Leader>rnf 			:call DisableRelativeNumbers()<CR>
 
-nnoremap <Leader>color					:ColorClear<CR>:ColorToggle<CR>:ColorSwapFgBg<CR>| 	"highlight color names/codes with their color
-nnoremap <Leader><Leader>color 	:ColorClear<CR>| 									"off
+" nnoremap <Leader>color					:ColorClear<CR>:ColorToggle<CR>:ColorSwapFgBg<CR>| 	"highlight color names/codes with their color
+" nnoremap <Leader><Leader>color 	:ColorClear<CR>| 									"off
+nnoremap <Leader>color					:HexokinaseToggle<CR>| 	"highlight color names/codes with their color
 
+function! HighlightGroupAutoEcho() "continiously echo hi group under cursor, using zS from whatever tpope plug....
+  if !get(g:, 'highlightGroupBeingEchoed', 0)
+    let g:highlightGroupBeingEchoed = 1
+    autocmd HighlightEcho CursorMoved * normal zS
+  else
+    unlet g:highlightGroupBeingEchoed
+    autocmd! HighlightEcho CursorMoved *
+  endif
+endfunction
+
+nnoremap <silent><Leader>zS   :call HighlightGroupAutoEcho()<CR>
 "}}}
 
 
@@ -3904,3 +3965,30 @@ let g:less     = {}
 "     autocmd VimLeave * call RestoreCursor()
 " augroup END
 "}}}
+" "{{{2 			RELOAD VIMRC
+function! ReloadVimRc()						" must call silent! and not abort, or else
+	" let saved_view = winsaveview(".")		"eh why was this working with this arg until now? :O
+	let l:saved_view = winsaveview()
+  try
+    source $MYVIMRC
+  catch
+    " echoerr 'cant source yer shit'
+  " 	source ~/.vimrc
+  finally
+    call winrestview(l:saved_view)
+    call RefreshUI()
+  endtry
+  echo 'vimrc loaded'
+endfunction
+
+function! RefreshUI()
+	if exists(':AirlineRefresh')  		| AirlineRefresh
+	else															| redraw!					| endif
+	if exists('g:loaded_webdevicons') | call webdevicons#softRefresh()  | endif "helps fix NERDTree window when it shows line numbers and shit post-reload
+	call cursorword#highlight()
+	syntax sync fromstart
+endfunction " was airline wrecking reload. had to refresh it+reload syntax stuf. now works without? cant remember why
+
+augroup reload_vimrc | autocmd!
+		autocmd BufWritePost .vimrc,vimrc		silent!	call ReloadVimRc()
+augroup END
