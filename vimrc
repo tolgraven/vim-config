@@ -57,7 +57,9 @@ Plug 'jceb/vim-orgmode' | Plug 'tpope/vim-speeddating'  "orgmode a la emacs + da
 " Plug 'reedes/vim-pencil' 										"natural text processing
 Plug 'hdima/python-syntax' 									"better python syntax def
 Plug 'octol/vim-cpp-enhanced-highlight'     "modern c++
-Plug 'gauteh/vim-cppman'                    "cppman K integration...
+" Plug 'gauteh/vim-cppman'                    "cppman K integration... does the nomodifiable bug dance + fucks w word settings
+" Plug 'skywind3000/vim-cppman'                 "is this fucking stuff??
+Plug 'martong/vim-compiledb-path'
 
 " Plug 'tweekmonster/nvim-api-viewer'
 " LANG UTILS
@@ -96,8 +98,8 @@ Plug 'guns/vim-sexp', {'for': 'clojure'} | Plug 'tpope/vim-sexp-mappings-for-reg
 " Plug 'Shougo/neosnippet' | Plug 'Shougo/neosnippet-snippets'
 " Plug 'honza/vim-snippets'
 
-" Plug 'w0rp/ale' 														"neovim lint
-" Plug 'meck/ale-platformio'                  "ale plugin for pio
+Plug 'w0rp/ale' 														"neovim lint
+" Plug 'meck/ale-platformio'                  "ale plugin for pio. but ale can parse compile_commands so fuck it
 Plug 'SevereOverfl0w/clojure-check', {'do': './install'}	"clojure lint for ALE
 
 " Plug 'joonty/vdebug'												"adds itself to path again and again it seems
@@ -501,8 +503,10 @@ let maplocalleader					=',' 				"localleader if I ever get on using that... migh
 set completeopt             =menu,preview,noinsert,noselect    "skip longest since deoplete fuzzy fucking that anyways
 " set complete               -=i                   "i (scan current and included files) isnt in defaults and seems p good anyways, dont get this
 set wildmode                =list:longest,full "tested: longest,full  longest:full  list:longest
+" set wildmode                =longest,list "tested: longest,full  longest:full  list:longest
 set wildignorecase
-set wildignore+=*.o,*.obj,*.pyc,*.so,*.swp,*.pdf,*/.git/*,*/.hg/*,*/.svn/*,bower_components,LICENSE,LICEN*E.*,.DS_Store,.localized,*.zip,*/tmp/*,*/undo/*,*.pyi,__pycache__
+set wildignore+=*.o,*.obj,*.pyc,*.so,*.swp,*.pdf,*/.git/*,*/.hg/*,*/.svn/*,bower_components,LICENSE,LICEN*E.*,.DS_Store,.localized,*.zip,*/tmp/*,*/undo/*,*.pyi,__pycache__,*.clj[sc].cache.json,*.cljs.cache.json,*.cljc.cache.json
+set wildoptions             =pum,tagfile
 "}}}
 "{{{2 			 default dump, supposed already set:
 
@@ -667,12 +671,34 @@ let g:ale_echo_delay                      =100
 "eh below not working, fucking clangtidy still spewing...
 " XXX HOW THROTTLE CPPCHECK?
 " let g:ale_linters                         ={'cpp': ['clangcheck', 'clangformat', 'cppcheck']} "fuck clangtidy
-let g:ale_linters_ignore ={'cpp': ['clangtidy', 'cppcheck']}
-" let g:ale_linters                         ={'cpp': []}
-" let g:ale_c_build_dir_names               =''
+let g:ale_linters                         ={
+      \ 'clojure': ['clj-kondo'],
+      \ 'javascript': [],
+      \ 'cpp': ['gcc']}
+      " \ 'clojure': ['clojure_check', 'clj-kondo']} "fuck clangtidy
+      " eastwood makes mount reload shit (bad) then clojure_check reads logs as errors loll
+
+" let g:ale_linters_ignore={
+"       \'cpp': ['cppcheck', 'clang', 'ccls', 'clangtidy'],
+"       \'clojure': ['joker']}
+" clangtidy ofc has clang attr errors, figure out what clion does that makes it work...
+      " \'cpp': ['cquery', 'cppcheck', 'clang'],
+      " \'cpp': ['clangtidy', 'cppcheck', 'gcc'],
+let g:ale_linters                         ={'cpp': ['gcc']}
+" let g:ale_cpp_gcc_executable  ='xtensa-lx106-elf-gcc' 
+let g:ale_cpp_gcc_executable  ='xtensa-esp32-elf-gcc'
+let g:ale_cpp_gcc_options    ='-std=c++17 -fsyntax-only -fno-rtti -Wno-unused-function -Wno-unused-variable -fexceptions -mlongcalls -mtext-section-literals -falign-functions=4 -U__STRICT_ANSI__ -ffunction-sections -fdata-sections -Wall -Wextra'
+" let g:ale_cpp_gcc_options    ='-std=c++17 -fsyntax-only -fno-rtti -fexceptions -U__STRICT_ANSI__ -Wall -Wextra -Wno-unused-function -Wno-unused-variable'
+" on start also gotta do:
+" CompileDbPathIfExists compile_commands.json
+" 
+" autocmd FileType cpp                let g:ale_cpp_gcc_executable='xtensa-lx106-elf-gcc'
+" autocmd FileType cpp                let g:ale_cpp_gcc_options=''
 let g:ale_c_parse_makefile                =0 "1 gives errors. test if helps pio (with makefile from pio --ide clion)
-let g:ale_c_parse_compile_commands        =1
-let g:ale_c_cppcheck_options              =''
+let g:ale_c_parse_compile_commands        =1 "1 parses but fucks up with spaces...
+let g:ale_c_build_dir_names               =['build']
+" let g:ale_c_clang_options                 ='--std=c++11'
+" let g:ale_c_cppcheck_options              =''
 
 let g:ale_python_flake8_args 							='--ignore=E501,C0111'
 let g:ale_python_flake8_executable 				='python3'
@@ -1258,8 +1284,8 @@ let g:parinfer_preview_cursor_scope =0
 
 
 let g:AutoPairsMultilineClose 						=0
-let g:AutoPairsMapCR 											=0 		"manual mapping so works with neosnippets/deoplete etc
-let g:AutoPairsMapBS 											=0
+let g:AutoPairsMapCR 											=1 		"manual mapping so works with neosnippets/deoplete etc
+let g:AutoPairsMapBS 											=1
 
 " let g:AbsoluteNumberWhenOpening 					=1
 
@@ -1384,6 +1410,9 @@ augroup SyntaxAutocmds | autocmd!
 autocmd FileType 	java 					    setlocal omnifunc=javacomplete#Complete
 autocmd FileType  java              setlocal makeprg=javac\ % errorformat=%A%f:%l:\ %m,%-Z%p^,%-C%.%#
 autocmd FileType 	lisp,clojure,cpp 	RainbowParentheses
+autocmd Syntax 	  clojure,cpp 	    RainbowParentheses
+autocmd Syntax 	  clojure,cpp       silent call SetupRainbowParensHighlights() "works if no orig cmd like above?
+" autocmd Syntax 	   *                silent call SetupRainbowParensHighlights() "works if no orig cmd like above?
 autocmd BufReadPost project.clj,profiles.clj    ALEDisableBuffer
 autocmd Syntax 	   *                silent call SetupRainbowParensHighlights() "works if no orig cmd like above?
 " autocmd FileType clojure,cpp       	let w:matchhash		=matchadd('vimrcHashSep', '#')
@@ -1415,7 +1444,12 @@ autocmd Filetype vim				        let b:AutoPairs={'(':')','[':']','{':'}',"'":"'"
 
 autocmd FileType vim,lua       	    if !get(w:, 'loaded_matchadds_vim', 0)	| call SetupMatchaddsVim()	| endif
 autocmd FileType cpp                if !get(w:, 'loaded_matchadds_cpp', 0)	| call SetupMatchaddsCpp()	| endif
-autocmd FileType cpp                set path +=**,/usr/include/c++/**
+autocmd FileType cpp                set path +=**,/usr/include/c++/**,src/**
+autocmd FileType cpp,c,java         setlocal commentstring=//\ %s
+autocmd Filetype cpp,c,objc,rust		let b:AutoPairs={'(':')','[':']','{':'}',"'":"'",'"':'"','<':'>'} "fix <templates>
+" autocmd FileType cpp                CompileDbPathIfExists compile_commands.json
+" autocmd BufReadPost *.cpp,*.h       let g:ale_gcc_executable='xtensa-lx106-elf-gcc'
+"only for platformio tho...local vimrc?
 " autocmd FileType cpp                set keywordprg=cppman
 
 augroup END "}}}2
@@ -1789,13 +1823,13 @@ let g:jedi#rename_command           = '<leader>gr'	"(default: '<leader>r')
 
 " let g:chromatica#libclang_path						='/usr/local/opt/llvm/lib'
 let g:chromatica#libclang_path						='/usr/local/opt/llvm/lib/libclang.dylib'
-let g:chromatica#enable_at_startup				=1			"loads for all fts but works-ish, since restricting autoload through vimplug
+let g:chromatica#enable_at_startup				=0			"loads for all fts but works-ish, since restricting autoload through vimplug
 let g:chromatica#highlight_feature_level	=1			"guess need to define all those extra groups for it to work...
 let g:chromatica#responsive_mode					=1      "dont wait for insert exit to update...
-let g:chromatica#delay_ms									=50			"default 80, test if needed
-let g:chromatica#enable_log								=1			"temp
+let g:chromatica#delay_ms									=100		"default 80, test if needed
+let g:chromatica#enable_log								=0			"temp
 
-
+" let g:user_emmet_install_global           =0      "no html in other langs
 
 let g:Unicode_ShowPreviewWindow						=1
 
@@ -3096,7 +3130,7 @@ au FileType cpp,ino     nmap	 <Leader>r	:wa<CR>:Nuake<CR><C-P><CR><Esc><Esc><C-w
 au FileType cpp,ino     nmap	 <Leader>ch	"toggle between .cpp and .h files...
 " au FileType cpp,ino     nmap	 <Leader>str	?Exception<CR>me/<<<stack<<</e<CR>y'e:new<CR>P:w! exception<CR>:%!fish -c 'esp_trace d1_mini'<CR>:set syn=cpp<BAR>wincmd p<CR>| 		"hacky fix exception
 au FileType cpp,ino     nmap	 <Leader>str	?Exception<CR>me/<<<stack<<</e<CR>y'e<C-W>k:b exception<CR>P:w ~/Documents/CODE/MICRO/projects/artnet-ESP/exception<CR>:%!fish -c 'esp_trace d1_mini'<CR>:set syn=cpp<BAR>wincmd p<CR>| 		"hacky fix exception
-au FileType c,cpp       nnoremap <buffer>gd     :<C-u>call ncm2_pyclang#goto_declaration()<CR>
+" au FileType c,cpp       nnoremap <buffer>gd     :<C-u>call ncm2_pyclang#goto_declaration()<CR>
 au FileType tmux				nnoremap <buffer><M-w>	:w<BAR>call system('sleep 0.1; tmux source ~/.tmux.conf; tmux display-message reloaded')<CR>| "auto-source tmux.conf when writing to it. sleep bc guess write sometimes doesnt come through properly heh
 
 au FileType vim         vnoremap <CR>           :<C-U>execute join(getline("'<","'>"),'<BAR>')<CR>| "eval current selection vimscript
