@@ -433,10 +433,11 @@ let &colorcolumn=join(range(100,240),',') "fade bg slightly past not 80 but 100 
 
 "}}}
 set ttimeout 		ttimeoutlen	=10					"timeout for keycode sequence. had at 50 earlier, why?
-set timeoutlen           		=400 				"timeout for mapped sequences
-set updatetime							=500 				"time idle before bg shit runs, CursorHold etc
-set redrawtime							=1000				"default 2000. abort hlsearch, inccommand, :match highlighting if takes more than a sec. might help with Colorizer?
-set lazyredraw 													"less crazy glitchy spasms but overall even slower?
+set timeoutlen           		=250 				"timeout for mapped sequences
+set updatetime							=350 				"time idle before bg shit runs, CursorHold etc
+set redrawtime							=3000				"default 2000. abort hlsearch, inccommand, :match highlighting if takes more than a sec. might help with Colorizer?
+" set lazyredraw 													"less crazy glitchy spasms but overall even slower?
+set maxmempattern           =10000      "up from 1000(kb) for big jsons...
 set shiftround
 set tabstop=2 shiftwidth=2
 set expandtab smarttab									"converts tabs to spaces/inser spaces instead of tatebs at SOL
@@ -653,12 +654,15 @@ let g:ale_echo_msg_format                 ='%severity% %code%: %s (%linter%)'
 let g:ale_echo_msg_error_str              =g:ale_sign_error
 let g:ale_echo_msg_warning_str            =g:ale_sign_warning
 let g:ale_echo_msg_info_str               =g:ale_sign_info
-let g:sign_open_lnum =''
-let g:sign_close_lnum =' '
+let g:sign_open_lnum =''
+let g:sign_close_lnum =''
 
-let g:ale_open_list 										 	=0 "auto open loclist. too annoying
-let g:ale_lint_delay 										 	=&timeoutlen
-let g:ale_echo_delay                      =75
+let g:ale_open_list 										 	=0 "auto open loclist. would be good but opens for every fucking window (duh) and bugs out on close
+" let g:ale_open_list 										 	=1 "auto open loclist. too annoying
+" let g:ale_set_quickfix                    =0
+" let g:ale_lint_delay 										 	=&timeoutlen
+let g:ale_lint_delay 										 	=&updatetime
+let g:ale_echo_delay                      =100
 
 "eh below not working, fucking clangtidy still spewing...
 " XXX HOW THROTTLE CPPCHECK?
@@ -681,38 +685,44 @@ let g:ale_python_mypy_options 						='--silent-imports'
 "find reasonable alt for cprintf to touchbar, dump LSP stuff (auto-hover, fancy actions etc) in there...
 "investigate hammerspoons undocumented crap
 let g:airline_powerline_fonts 										=1      "otherwise, if doc is utf8 it uses crappy unicode ones
-let g:airline_left_sep 														='⮀'    "  vs ⮀ '', █ sucks bc no scaling vertically...
-let g:airline_left_alt_sep 												=' '    "'│' 	
+let g:airline_left_sep 														=''   "'⮀'    "  vs ⮀ '', █ sucks bc no scaling vertically...
+let g:airline_left_alt_sep 												=''   "' '    "'│' 	|
 let g:airline_right_sep 													=''     "''
 let g:airline_right_alt_sep 											=''     "'│'
 let g:airline_skip_empty_sections 								=1      "only for active window, so pretty much requires either not having right sep or like making fg=bg otherwise
-let g:airline_exclude_preview                     =0			"(dont) let preview window be
+let g:airline_exclude_preview                     =1			"(dont) let preview window be
 let g:airline_inactive_collapse										=0
 let g:airline_highlighting_cache                  =1
+let g:airline_focuslost_inactive                  =0
 " let g:airline_extensions                          =['tabline']     "test disable extensions for performance
 "{{{3          TABLINE EXTENSION
 let g:airline#extensions#tabline#enabled 					=1
-let g:airline#extensions#tabline#left_sep 				=''      "' ' '  
-let g:airline#extensions#tabline#left_alt_sep 		=''    "'  ' '│'
-let g:airline#extensions#tabline#right_sep 				=' '     "' '
-let g:airline#extensions#tabline#right_alt_sep 		=''       "'  ' '│'
-let g:airline#extensions#tabline#tabs_label 			='' "' '	"'T'
-let g:airline#extensions#tabline#buffers_label 		='' "'B' 	"'' 
+let g:airline#extensions#tabline#left_sep 				=''      "' ' '  
+let g:airline#extensions#tabline#left_alt_sep 		=''    "'  ' '│'
+let g:airline#extensions#tabline#right_sep 				=''     "' '
+let g:airline#extensions#tabline#right_alt_sep 		=''       "'  ' '│'
+" let g:airline#extensions#tabline#left_sep 				=''      "' ' '  
+" let g:airline#extensions#tabline#left_alt_sep 		=' '    "'  ' '│'
+" let g:airline#extensions#tabline#right_sep 				=' '     "' '
+" let g:airline#extensions#tabline#right_alt_sep 		=' '       "'  ' '│'
+let g:airline#extensions#tabline#tabs_label 			="FUCKERJ"
+"'T' "' '	"'T'
+let g:airline#extensions#tabline#buffers_label 		='B' "'B' 	"'' 
 let g:airline#extensions#tabline#overflow_marker  ='…'
 
 let g:airline#extensions#tabline#show_tab_nr      =0      "taboo handles everything
 let g:airline#extensions#tabline#tab_nr_type      =1      "show both tab nr and amount of splits
 let g:airline#extensions#tabline#show_tab_type 		=0			"shows whether is displaying tabs or buffers
-let g:airline#extensions#tabline#show_splits			=1
+let g:airline#extensions#tabline#show_splits			=0
 let g:airline#extensions#tabline#show_close_button=0
 let g:airline#extensions#tabline#fnamecollapse 		=1			"collapse parent dirs (if shown)
 let g:airline#extensions#tabline#fnamemod 				=':t' 	"Just buf/filename no path in tabs
-let g:airline#extensions#tabline#fnametruncate    =10
-" let g:airline#extensions#tabline#formatter 				='unique_tail_improved'
+let g:airline#extensions#tabline#fnametruncate    =7
+let g:airline#extensions#tabline#formatter 				='unique_tail_improved'
 
 let g:airline#extensions#tabline#buffer_idx_format={'0':'⁰', '1':'¹', '2':'²', '3':'³', '4':'⁴',
-                                                \ '5':'⁵', '6':'⁶', '7':'⁷', '8':'⁸', '9':'⁹' }	"is original but stopped working for some reason? Inc now when explicitly def'd
-let g:airline#extensions#tabline#buffer_nr_show 	=1
+                                                  \ '5':'⁵', '6':'⁶', '7':'⁷', '8':'⁸', '9':'⁹' }	"is original but stopped working for some reason? Inc now when explicitly def'd
+let g:airline#extensions#tabline#buffer_nr_show 	=0
 let g:airline#extensions#tabline#buffer_nr_format ='%s '  "'%s '   "'%s  '
 " let g:airline#extensions#tabline#buffer_idx_mode 	=1 			"something about switching buffers not tabs, sux
 
@@ -727,7 +737,7 @@ let g:airline_mode_map 	= { '__': '-', 'n': 'N', 'i': '', 'R': 'R', 'c': 'C',
 													\ 'v': 'v', 'V': 'V  ', '': 'V ▢',
 													\ 's': 's', 'S': 'S  ', '': 'S ▢'}
 
-let g:airline#extensions#cursormode#enabled =1
+let g:airline#extensions#cursormode#enabled =0
 " let g:cursormode_color_map = {
 "     \   "nlight": '#333333',
 "     \   "ndark": '#BBBBBB',
@@ -738,17 +748,16 @@ let g:airline#extensions#cursormode#enabled =1
 "     \   "\<C-V>": g:airline#themes#{g:airline_theme}#palette.visual.airline_a[1],
 "     \ }
 
-" let g:airline#extensions#default#formatter 				='unique_tail_imroved'
-let g:airline#extensions#default#formatter 				='default'
+let g:airline#extensions#default#section_use_groupitems =0 "test if 0 helps colors, yup sure does
+let g:airline#extensions#default#formatter 				='short_path' "'default'	"dont think this affects anything...
 let g:airline#extensions#default#layout=[['a', 'c', 'b', 'gutter'],
 																				\['error', 'warning', 'y', 'x', 'z']]
 																				" \['error', 'warning', 'x', 'z']] "hide section y with filetype bs bc doesnt seem to stick when I try to repurpose it?
 let g:airline#extensions#default#section_truncate_width ={
-    \ 'a': 5, 'c': 40, 'b': 13,
-		\ 'x': 70, 'y': 15, 'z': 60,  'warning': 50, 'error': 40 }
-let g:airline#extensions#default#section_use_groupitems =0  "test if helps colors
+    \ 'a': 6, 'c': 30, 'b': 60,
+		\ 'x': 90, 'y': 72, 'z': 40,  'warning': 70, 'error': 79 }
+
 let g:airline#extensions#whitespace#enabled 			=0
-let g:airline#extensions#tagbar#enabled 					=0
 let g:airline#extensions#ale#warning_symbol 			=g:ale_sign_error
 let g:airline#extensions#ale#error_symbol 				=g:ale_sign_warning
 let g:airline#extensions#ale#open_lnum_symbol     =g:sign_open_lnum
@@ -756,12 +765,27 @@ let g:airline#extensions#ale#close_lnum_symbol    =g:sign_close_lnum "')'
 
 let g:airline#extensions#languageclient#error_symbol    =g:ale_sign_error
 let g:airline#extensions#languageclient#warning_symbol  =g:ale_sign_warning
-let g:airline#extensions#languageclient#open_lnum_symbol=g:sign_open_lnum
-let g:airline#extensions#languageclient#close_lnum_symbol=g:sign_close_lnum "')'
-let g:airline#extensions#gutentags#enabled        =1
+let g:airline#extensions#languageclient#open_lnum_symbol =g:sign_open_lnum
+let g:airline#extensions#languageclient#close_lnum_symbol=g:sign_close_lnum
+
+let g:airline#extensions#coc#error_symbol         =g:ale_sign_error
+let g:airline#extensions#coc#warning_symbol       =g:ale_sign_warning
+" let g:airline#extensions#coc#stl_format_err       =g:sign_open_lnum
+" let g:airline#extensions#coc#stl_format_warn      =g:sign_close_lnum
+
+if !exists('g:airline_symbols') | let g:airline_symbols = {} | endif
+let g:airline_symbols.linenr 				=' '    " 	''
+let g:airline_symbols.maxlinenr 		=''
+let g:airline_symbols.paste         ='ρ'       "curr 'PASTE'
+let g:airline_symbols.spell         ='Ꞩ'       " 'SPELL'
+let g:airline_symbols.modified      ='' "'◈ ' "'+'  "no need right since color differs?   was trying some emoji symbols but they cause bg to bug out so no
+let g:airline_symbols.dirty         =' ✗'           "default emoji travesty fucks with tmux, kitty or whatebver it is... but need change font color ughh
+
+let g:airline#extensions#gutentags#enabled        =0
+let g:airline#extensions#tagbar#enabled 					=0
+let g:airline#extensions#fugitiveline#enabled     =0 "fucks formatting of reg files so uhh
 
 let g:airline#extensions#hunks#non_zero_only      =1
-let g:airline#extensions#branch#enbled						=1			"0 temp test if can avoid git bug until i figure it out
 function! AirlineHunksColored()
 	call airline#parts#define_function('hunk_added',    'AirlineHunkAdded')
 	call airline#parts#define_function('hunk_changed',  'AirlineHunkChanged')
@@ -784,16 +808,9 @@ endfunction
 
 " let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
-if !exists('g:airline_symbols') | let g:airline_symbols = {} | endif
-let g:airline_symbols.linenr 				=' '    " 	''
-let g:airline_symbols.maxlinenr 		=''
-let g:airline_symbols.paste         ='ρ'       "curr 'PASTE'
-let g:airline_symbols.spell         ='Ꞩ'       " 'SPELL'
-let g:airline_symbols.modified      ='' "'◈ ' "'+'  "no need right since color differs?   was trying some emoji symbols but they cause bg to bug out so no
-
-
-let g:airline#extensions#branch#format   =2  "truncate non-tail of branch
-let g:airline#extensions#branch#displayed_head_limit=15
+let g:airline#extensions#branch#enbled						=0			"0 temp test if can avoid git bug until i figure it out
+let g:airline#extensions#branch#format            =2  "truncate non-tail of branch
+let g:airline#extensions#branch#displayed_head_limit=18
 let g:airline#extensions#branch#format   ='AirlineCustomBranchName'
 function! AirlineCustomBranchName(name)
 	if		 a:name == 'master'		| let name = 'm'
@@ -810,18 +827,22 @@ endfunction
 function! AirlineInit()
   call airline#add_statusline_func('AirlineWindowNumber')
   call airline#add_inactive_statusline_func('AirlineWindowNumber')
-	let g:airline_section_z =airline#section#create_right(['%L', '%2v'])
+	let g:airline_section_z =airline#section#create_right(['%L', '%2v']) "lines in file, cursor col...
+  " let g:airline_section_c =expand('%:~:.') "failed try fix default not using ~
+
   "neither of these work...
-	let g:airline_section_y =airline#section#create_right(['%-0.15{getcwd()}'])
-  " let g:airline_section_y = airline#section#create_right('{LanguageClient_serverStatusMessage()}')
-  " let g:airline_section_y ='{LanguageClient_serverStatusMessage()}'
+	" let g:airline_section_y =airline#section#create_right(['%-0.30{getcwd()}'])
 	call AirlineHunksColored() "test whether fucking performance
 
-	" call airline#parts#define_function('cwd', 'AirlineStatusLineCWD') {{{3 testing/examples
-	" call airline#parts#define_condition('cwd', 'getcwd() =~ "work_dir"')
-	" call airline#parts#define_minwidth('cwd', 50)
-	" let g:airline_section_c = airline#section#create_left(['cwd', '%t'])
-	" let g:airline_section_c = airline#section#create_left(['%{getcwd()}', '%t'])
+ call airline#parts#define_minwidth('branch', 90)
+ call airline#parts#define_minwidth('hunks', 80)
+ call airline#parts#define_minwidth('error', 80)
+ call airline#parts#define_minwidth('warning', 100)
+	call airline#parts#define_function('cwd', 'AirlineStatusLineCWD') "{{{3 testing/examples
+	call airline#parts#define_condition('cwd', 'getcwd() =~ "work_dir"')
+	call airline#parts#define_minwidth('cwd', 70)
+	let g:airline_section_y = airline#section#create_right(['cwd', '%t'])
+	let g:airline_section_y = airline#section#create_right(['%{getcwd()}', '%t'])
 	" let g:airline_section_b = airline#section#create_left(['hunks', 'branch'])
 	" let g:airline_section_b 													=expand('%:~:h') "should show just dir
 	":p full path :h head last component removed, :t tail last only, :r root one ext rm, :e extension only
@@ -834,7 +855,8 @@ function! AirlineInit()
 	" 			\%{g:airline_symbols.linenr}%#__restore__#
 	" 			\%3v
 	" 			\%{g:airline_symbols.maxlinenr}'
-" call airline#add_statusline_func('AirlineTolStatusline_Right') }}}
+" call airline#add_statusline_func('AirlineTolStatusline_Right') "}}}
+  AirlineRefresh  "need extra redraw to put my mods in?
 endfunction
 
 
@@ -883,6 +905,7 @@ endfunction
 
 augroup AirlineMods | autocmd!
 	autocmd User AirlineAfterInit call AirlineInit()
+  " autocmd User AirlineAfterInit  AirlineRefresh "need extra redraw to put my mods in
 augroup END
 "}}}
 
@@ -1194,8 +1217,8 @@ let g:gitgutter_override_sign_column_highlight 	=0 	"stupid asshole defaults
 " let g:gitgutter_eager 									=0 					"check how affects perf
 " let g:gitgutter_realtime 								=0
 let g:gitgutter_sign_added 							='✚'
-let g:gitgutter_sign_modified 					='' "'✹'
-let g:gitgutter_sign_removed 						=''
+let g:gitgutter_sign_modified 					='' " my fav but no go atm alignment issues...'✹'
+let g:gitgutter_sign_removed 						=''  
 let g:gitgutter_sign_modified_removed 	='✹'  "'✗'
 " highlight! link GitGutterChangeDelete 	GruvboxYellowSign
 let g:gitgutter_max_signs 							=1200 			"default 500. why do I hit that max when only got like 100 changes tho?
