@@ -149,18 +149,18 @@ Plug 'davidhalter/jedi-vim', 					{'for': 'python'}
 Plug 'chrisbra/unicode.vim'							"unicode char completion
 
 "{{{2  				 --- UTILNTTY																		PLUG
-Plug 'Khouba/indent-detector.vim'
+" Plug 'Khouba/indent-detector.vim'             "always pissing me off
 " Plug 'marcweber/vim-addon-mw-utils'   					"tinyfunc and utils. noneed?
 " Plug 'LucHermitte/vim-refactor' | Plug 'LucHermitte/lh-vim-lib' | Plug 'LucHermitte/lh-tags' | Plug 'LucHermitte/lh-dev' | Plug 'LucHermitte/lh-brackets'
 " ^ welp, fuck this asshole then. plug has four deps, some of which create mappings and yell loudly about it, with no ability to disable? fucking dick.
 Plug 'tomtom/tcomment_vim', {'on': 'TComment'} 	"toggle comments better
+Plug 'tpope/vim-commentary' 	                  "toggle comments with textobjs
 Plug 'tpope/vim-surround' 											"put stuff around stuff
 Plug 'tpope/vim-repeat' 												" . for plugins
 " Plug 'kana/vim-arpeggio'												"key chord support
 Plug 'jiangmiao/auto-pairs' 										"test if works better than gentle ver
 " Plug 'tpope/vim-endwise'												"auto endif endfunc etc
 Plug 'bfredl/nvim-miniyank' 										"pro yank killring like in shell
-" Plug 'svermeulen/vim-easyclip'									"lots of clipboard related stuff, incl killring functionality. stupid and bullshit and evil.
 Plug 'machakann/vim-highlightedyank'						"should be part of default vim
 " Plug 'vim-scripts/highlight.vim' 								"bare fucks shit up. Find alternative 	 hl shit without :hi. toggle mark-highlight current line etc
 Plug 't9md/vim-textmanip' 											"move lines around visually
@@ -168,17 +168,18 @@ Plug 'salsifis/vim-transpose'                   "transpose words n shit
 Plug 'AndrewRadev/splitjoin.vim'								"break up single-line statements into multi-line ones, and vice versa
 Plug 'tommcdo/vim-exchange' 										"easily flip two words/motions
 Plug 'terryma/vim-expand-region' 								"select awesomely
-Plug 'tomtom/tinykeymap_vim' 										"for repeating multikey stuff easier (eg. C-w-+)
+" Plug 'tomtom/tinykeymap_vim' 										"for repeating multikey stuff easier (eg. C-w-+)
 " Plug 'tpope/vim-rsi' 														"readline bindings
 Plug 'vim-utils/vim-husk' 											"less aggro readline bindings?
 Plug 'junegunn/vim-easy-align' 									"easier more better text align than tabular
-Plug 'sbdchd/neoformat' 												"format code
+" Plug 'sbdchd/neoformat' 												"format code
 Plug 'ntpeters/vim-better-whitespace'           "only nazis like white spaces
 " Plug '907th/vim-auto-save', {'for': 'text'} 		"autosave, for my note popup term
-Plug 'MarcWeber/vim-addon-local-vimrc', {'for': 'text'} 	"per folder .localvimrc
+" Plug 'MarcWeber/vim-addon-local-vimrc', {'for': 'text'} 	"per folder .localvimrc
 Plug 'tpope/vim-tbone' 													"tmux stuff
-Plug 'benmills/vimux'  | Plug 'julienr/vimux-pyutils'
+" Plug 'benmills/vimux'  | Plug 'julienr/vimux-pyutils'   "fucking with my mappings, piss off
 Plug 'tpope/vim-eunuch' 		 										"shell tool unix stuff
+Plug 'lambdalisue/suda.vim'                     "nvim sudo edit. requires both pw + touchid heh
 " Plug 'justinmk/vim-dirvish'											"aardKORE rename...dir viewer heuh
 " Plug 'tpope/vim-dispatch', {'on': 'Dispatch'} | Plug 'radenling/vim-dispatch-neovim' 	"async shell jobs etc
 Plug 'tpope/vim-scriptease' 										"do debug a scriptz (+ :Verbose = auto redir to preview window, hell yeah)
@@ -189,7 +190,7 @@ Plug 'jceb/vim-textobj-uri' | Plug 'kana/vim-textobj-syntax' | Plug 'rhysd/vim-t
 " Plug 'vim-scripts/marvim' 											"save macros and shit, maybe when im better with those
 " Plug 'vim-scripts/repeatable-motions.vim' 			"repeat movements/motions
 " Plug 'nathanaelkane/vim-indent-guides'
-Plug 'kopischke/vim-stay' ", {'branch': 'release/1.4.0'}  "auto-persist position, folds etc on :e etc. bugs in nvim, fix
+Plug 'kopischke/vim-stay'                       "auto-persist position, folds etc on :e etc. bugs in nvim, fix
 Plug 'kopischke/vim-fetch'                      "open file to line/col using format from stack traces and similar
 " Plug 'lambdalisue/pinkyless.vim' 								"maybe good w a different config
 Plug 'blueyed/vim-diminactive'                  "dim inactive windows. love it but maybe a perf issue
@@ -202,7 +203,8 @@ Plug 'mhinz/vim-halo'														"helper thing sorta to blink current line on 
 Plug 'gfontenot/vim-xcode'
 
 " Plug 'mhinz/vim-galore'													"not actually a plug, but bunch of good vim infoz
-Plug 'lifepillar/vim-cheat40'										"quick-reference
+" Plug 'lifepillar/vim-cheat40'										"quick-reference
+Plug 'huawenyu/new.vim' | Plug 'huawenyu/new-gdb.vim'   "more better gdb integration
 
 "{{{2					 --- SATNAV YOU A GLONASS															PLUG
 " Plug 'itchyny/vim-cursorword'								"lighter than matchmaker.
@@ -247,21 +249,22 @@ if !has('nvim')
 endif
 
 "{{{2 				 --- FANCY JOAN FREGERT's FORKS and originals					PLUG
-" Plug '~/Documents/CODE/VIM/forks--/vim-manpager'
-" Plug '~/Documents/CODE/VIM/forks--/semantic-highlight.vim', {'on': 'SemanticHighlightToggle'} 		"incl patch for guicolors 'jaxbot/semantic-highlight.vim'
+" Plug '~/CODE/VIM/forks--/vim-manpager'
+Plug '~/CODE/VIM/forks--/semantic-highlight.vim', {'on': 'SemanticHighlightToggle'} 		"incl patch for guicolors 'jaxbot/semantic-highlight.vim'
 " Plug '~/.config/nvim/scripts/ColDevicons' 			"colored devicons in nerdtree, even prettier
-Plug '~/Documents/CODE/VIM/forks--/vim-numbertoggle' 		"forked 'jeffkreeftmeijer/vim-numbertoggle' auto switch on rel numbers for normal and visual?
-Plug '~/Documents/CODE/VIM/forks--/vim-cursorword'
+Plug '~/CODE/VIM/forks--/vim-numbertoggle' 		"forked 'jeffkreeftmeijer/vim-numbertoggle' auto switch on rel numbers for normal and visual?
+Plug '~/CODE/VIM/forks--/vim-cursorword'      "cant remember what i fixed. performance?
+Plug '~/CODE/VIM/forks--/vim-sayonara'        "oh wait bwipeout is too much, kills undo history forever etc. but how else get rid of jump garbage? :|
 
-" Plug '~/Documents/CODE/VIM/forks--/webcomplete.vim'		"quick fix to not auto-launch chrome if not launched, before proper webcomplete implemented...
-Plug '~/Documents/CODE/VIM/COLORS/bruvbox' 			"eventual bruvbox
-" Plug '~/Documents/CODE/VIM/proper-smooth.vim' "super laggy with curr nvim/iterm/tmux etc
-Plug '~/Documents/CODE/VIM/LISTA/metabuffer.nvim'
-" Plug 'tolgraven/metabuffer.nvim'
-Plug '~/Documents/CODE/VIM/proper-vim-tmux-nav'
-Plug 'tolgraven/rainbow_parentheses.vim',    {'on': 'RainbowParentheses'}
-" Plug 'tolgraven/proper-vim-tmux-nav'
-" Plug '~/Documents/CODE/VIM/ale-platformio.vim'
+" Plug '~/CODE/VIM/forks--/webcomplete.vim'		"quick fix to not auto-launch chrome if not launched, before proper webcomplete implemented...
+Plug '~/CODE/VIM/COLORS/bruvbox' 			"eventual bruvbox
+" Plug 'tolgraven/bruvbox' 			"eventual bruvbox
+Plug '~/CODE/VIM/proper-smooth.vim' "super laggy with curr nvim/iterm/tmux etc
+" Plug 'tolgraven/proper-smooth.vim' "super laggy with curr nvim/iterm/tmux etc
+Plug '~/CODE/VIM/LISTA/metabuffer.nvim' " 'tolgraven/metabuffer.nvim'
+Plug '~/CODE/VIM/proper-vim-tmux-nav' " 'tolgraven/proper-vim-tmux-nav'
+Plug 'tolgraven/rainbow_parentheses.vim' ,    {'on': 'RainbowParentheses'}
+" Plug '~/CODE/VIM/ale-platformio.vim'
 "{{{2					 LAST IN ORDER
 Plug 'arakashic/chromatica.nvim',	{'for': ['c', 'cpp', 'ObjC']}		"like color_coded but for nvim
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
@@ -458,10 +461,10 @@ set formatoptions						=jc,ro,ql		"various but vim default =jcroql? py tcqj so n
 " j = rm comment ch on J, l = ignore if already longer, r = put comment ch on enter, o = ditto on o/O, q = format comments with gq (super fucked with or without, for inline comments...)
 
 " set sessionoptions+=globals,localoptions "blank,buffers,curdir,folds,help,tabpages,winsize,globals,localoptions
-" set sessionoptions          +=globals   "blank,buffers,curdir,folds,help,tabpages,winsize,globals
+set sessionoptions          +=globals   "blank,buffers,curdir,folds,help,tabpages,winsize,globals
 set sessionoptions         -=blank	  	"if contains "blank" windows editing a buffer without a name will be restored <-this causing eg nerdtree bs with sessions? lets try
 " set sessionoptions=blank,curdir,folds,help,tabpages,winpos "recommended by startify
-set undofile	undolevels 		=1000 			"cap a bit, seems to make undotree a lil happier
+set undofile	undolevels 		=20000 			"capping a bit seems to make undotree a lil happier. but brings own dangers....
 set noswapfile 													"nope, swap's too annoying. how actally disable the stupid warning?		" what no ofc we want a swap file duh, as long as dir is set
 " set autowriteall                        "auto write on everything including :e :q etc. no good, use confirm instead...
 set autowrite                           "auto write on :b, jumps to other files (<C-I/O>) etc
@@ -470,19 +473,19 @@ set fileformats 					=unix,dos,mac "default is mac first, so sort
 set hidden 															"
 " set verbosefile 		=~/.vim/verbosefile "send messages to a file to tail, but what we ought to to instead us per-session so can keep several running at once...
 
-set synmaxcol								=2000				"default 3000, stop syntax highlighting after x cols... should prob toggle it based on linewrap?
+set synmaxcol								=10000				"default 3000, stop syntax highlighting after x cols... should prob toggle it based on linewrap?
 set conceallevel=2 concealcursor=niv		"for neosnippet, according to readme? hmm shouldn't it be switching that on and off automatically like?
 " set splitbelow													" splits for help etc go below XXX how enable this for everything except preview window? because preview becomes useless when covered by pumenu...
 set splitright													"and to the right... meaning 'back... and to the left' has finally lost its staying power. I blame bee movie
 set switchbuf 							=usetab 		"open prev/next buffer in split if not already visible somewhere?
-set scrolloff=4 sidescrolloff=2 				"autoscrolls before hits end. XXX set smaller bufferlocal vals for preview, quickfix...
+set scrolloff=3 sidescrolloff=2 				"autoscrolls before hits end. XXX set smaller bufferlocal vals for preview, quickfix...
 set sidescroll 							=1 					"dont jump a zillion columns when scrolling sideways. vim default 0 is bizarre, jumping entire screen. nvim default 1... had at 8, also sorta crap
 set winminwidth 						=0 					"fully minimize to side
 set winminheight 						=0 					"fully minimize windows 			=3 "so still see some when maximizing
-set previewheight 					=10 				"regular height of preview window unless otherwise specified
+set previewheight 					=12 				"regular height of preview window unless otherwise specified
 set noequalalways 						 					"dont fuck with window sizes when I open and close others. better this way, then can just equalize w <C-w>= if needed
 set eadirection 						=ver 	      "ver or hor, default 'both'. tells when equalalways should apply
-set cmdwinheight						=10         "default 7
+set cmdwinheight						=12         "default 7
 if executable('ag') " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor
   " set grepprg='ag --vimgrep'
@@ -522,7 +525,16 @@ let g:maximizer_restore_on_winleave		=1					"undo maximizer if switching from ma
 " let g:maximizer_set_mapping_with_bang 		=1    "set default action to restore to pre-maximized state even if changed (not really relevant when vimleave opt set...)
 let g:maximizer_default_mapping_key		='<M-m>'		"shared with tmux through integration. <prefix>z to force tmux zoom from inside vim
 
-let g:colorizer_colornames						=0					"dont hl regular color names, only hex. use below instead to fix regular colors...
+let g:suda_smart_edit                 =1
+
+" let g:colorizer_colornames						=0					"dont hl regular color names, only hex. use below instead to fix regular colors...
+let g:Hexokinase_virtualText          ='■■■■'
+let g:Hexokinase_optInPatterns = [
+      \ 'full_hex',
+      \ 'triple_hex',
+      \ 'rgb',
+      \ 'rgba',
+      \ 'colour_names' ]
 " let g:colorizer_custom_colors = {
 " 			\ 'blue': ''
 " 			\}
@@ -530,17 +542,24 @@ let g:colorizer_colornames						=0					"dont hl regular color names, only hex. u
 
 
 let g:taboo_tabline										=0					"dont fuck with the tabline, just handle tab naming
-let g:taboo_renamed_tab_format        ='%l' "' %l%m'  "default ' [%l]%m'
+let g:taboo_renamed_tab_format        =' %l' "' %l%m'  "default ' [%l]%m'
 let g:taboo_tab_format                ='%N%U%f' "N=tab nr, u=num windows unicode in active tab, f=name of first buffer, default ' %f%m ' (m=mod flag, useless since got colors for that, also default * breaks airline...)
 let g:taboo_modified_tab_flag         =''
 let g:taboo_unnamed_tab_label         ='<>'
 
 let g:autojump_executable							='/usr/local/etc/autojump.sh'
 
-let g:better_whitespace_enabled       =1
+" let g:better_whitespace_enabled       =1
 let g:strip_whitespace_on_save        =1
+let g:strip_only_modified_lines       =1
+let g:strip_whitespace_confirm        =0  "safe since only self-induced is auto stripped
+let g:current_line_whitespace_disabled_soft=1
 let g:better_whitespace_operator      ='_s'
-hi ExtraWhitespace NONE
+nmap <silent><Leader>ws :ToggleWhitespace<CR>|  "careful, w s is swap windows...
+" let g:better_whitespace_guicolor      ='assholes'
+hi! link ExtraWhitespace BruvboxRedBg
+let g:better_whitespace_filetypes_blacklist= [
+      \'diff', 'gitcommit', 'unite', 'qf', 'help', 'markdown', 'startity']
 
 let g:choosewin_label									='123456789'
 let g:choosewin_tablabel							='ABCDEFGHI'
