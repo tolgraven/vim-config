@@ -3119,7 +3119,6 @@ nnoremap <Leader>md 	ciw<C-R>=<C-R>"/2<CR><Esc>| 			"math: /2
 nnoremap <Leader>++ 	<C-A>| 														"math: increment
 nnoremap <Leader>-- 	<C-X>| 														"math: decrement
 
-2 21 7
 " {{{2 				 UNUSED
 " nnoremap <Leader>d 		:let g:col=virtcol(".")<CR>"""r"dyy"dP"r"":TComment<CR>j:call cursor(0, g:col)<CR>| "old comment+duplicate line, retain cursor pos
 " nnoremap <expr><silent> <Leader>x len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1 ? ':bd<CR>' : ':bp<CR>:bd #<CR>'|	"close buffer, leave window/split.
